@@ -1,0 +1,6 @@
+policy_module(spotify)
+
+type spotify_t;
+type spotify_home_t;
+type spotify_exec_t;
+init_daemon_domain(spotify_home_t, spotify_t)

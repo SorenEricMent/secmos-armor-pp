@@ -2,5 +2,8 @@ auditadm_r:auditadm_t
 secadm_r:secadm_t
 sysadm_r:sysadm_t
 staff_r:staff_t
+dbadm_r:dbadm_t
+certadm_r:certadm_t
+webadm_r:webadm_t
 unconfined_r:unconfined_t
 user_r:user_t

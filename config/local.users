@@ -19,3 +19,4 @@
 
 # sample for regular user
 #user jdoe roles { user_r };
+user secadm roles { staff_r secadm_r };

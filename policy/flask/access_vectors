@@ -1073,7 +1073,9 @@ class io_uring
 	sqpoll
 }
 
-class user_namespace
-{
-	create
+class user_namespace {
+        create
+        destroy
+        setattr
+        associate
 }

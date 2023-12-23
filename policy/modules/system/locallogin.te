@@ -1,5 +1,13 @@
 policy_module(locallogin)
 
+require {
+	type init_t;
+	type kernel_t;
+	type shadow_t;	
+	type systemd_homed_runtime_t;
+	type systemd_homed_t;
+}
+
 ########################################
 #
 # Declarations
@@ -54,6 +62,17 @@ files_lock_filetrans(local_login_t, local_login_lock_t, file)
 allow local_login_t local_login_tmp_t:dir manage_dir_perms;
 allow local_login_t local_login_tmp_t:file manage_file_perms;
 files_tmp_filetrans(local_login_t, local_login_tmp_t, { file dir })
+# secmos-armor-pp patch for Arch Linux 
+allow local_login_t init_t:fd { use };
+allow local_login_t kernel_t:unix_stream_socket { connectto };
+allow local_login_t self:capability { net_admin };
+allow local_login_t shadow_t:file { open read };
+allow local_login_t systemd_homed_runtime_t:fifo_file { write };
+allow local_login_t systemd_homed_runtime_t:sock_file { write };
+allow local_login_t systemd_homed_t:fd { use };
+allow local_login_t systemd_homed_t:unix_stream_socket { connectto };
+
+# End of patch
 
 fs_getattr_cgroup(local_login_t)
 fs_search_cgroup_dirs(local_login_t)

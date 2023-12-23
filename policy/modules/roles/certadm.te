@@ -1,0 +1,62 @@
+policy_module(certadm)
+
+## <desc>
+## <p>
+## Allow certadm to read files in the user home directory
+## </p>
+## </desc>
+gen_tunable(certadm_read_user_files, false)
+
+## <desc>
+## <p>
+## Allow certadm to manage files in the user home directory
+## </p>
+## </desc>
+gen_tunable(certadm_manage_user_files, false)
+
+########################################
+#
+# Declarations
+#
+role certadm_r;
+
+userdom_base_user_template(certadm)
+
+########################################
+#
+# certadm local policy
+#
+
+
+domain_use_interactive_fds(certadm_t)
+
+files_read_etc_files(certadm_t)
+
+miscfiles_read_localization(certadm_t)
+
+allow certadm_t self:capability { dac_override dac_read_search kill sys_ptrace };
+files_dontaudit_search_all_dirs(certadm_t)
+
+selinux_get_enforce_mode(certadm_t)
+seutil_domtrans_setfiles(certadm_t)
+seutil_search_default_contexts(certadm_t)
+
+logging_send_syslog_msg(certadm_t)
+
+kernel_read_system_state(certadm_t)
+
+domain_dontaudit_search_all_domains_state(certadm_t)
+domain_dontaudit_ptrace_all_domains(certadm_t)
+
+
+tunable_policy(`certadm_read_user_files',`
+        userdom_read_user_home_content_files(certadm_t)
+        userdom_read_user_tmp_files(certadm_t)
+')
+
+tunable_policy(`certadm_manage_user_files',`
+	userdom_manage_user_home_content_dirs(certadm_t)
+	userdom_manage_user_home_content_files(certadm_t)
+	userdom_manage_user_home_content_symlinks(certadm_t)
+        userdom_manage_user_tmp_files(certadm_t)
+')

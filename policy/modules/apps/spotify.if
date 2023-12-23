@@ -1,0 +1,117 @@
+## <summary>Spotify</summary>
+
+#######################################
+## <summary>
+##      Execute a domain transition to the spotify domain (spotify_t)
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access
+##      </summary>
+## </param>
+#
+
+interface(`spotify_domtrans',`
+        gen_require(`
+                type spotify_t;
+                type spotify_exec_t;
+                class dbus send_msg;
+        ')
+
+        corecmd_search_bin($1)
+        domtrans_pattern($1, spotify_exec_t, spotify_t)
+')
+
+#######################################
+## <summary>
+##      Execute spotify in the spotify domain and allow the specified role to access the spotify domain
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access
+##      </summary>
+## </param>
+## <param name="role">
+##      <summary>
+##      Role allowed access
+##      </summary>
+## </param>
+#
+interface(`spotify_run',`
+        gen_require(`
+                type spotify_t;
+        ')
+
+        spotify_domtrans($1)
+        role $2 types spotify_t;
+')
+
+#######################################
+## <summary>
+##      Role access for spotify
+## </summary>
+## <param name="role_prefix">
+##      <summary>
+##      The prefix of the user role (e.g., user
+##      is the prefix for user_r).
+##      </summary>
+## </param>
+## <param name="user_domain">
+##      <summary>
+##      User domain for the role.
+##      </summary>
+## </param>
+## <param name="user_exec_domain">
+##      <summary>
+##      User exec domain for execute and transition access.
+##      </summary>
+## </param>
+## <param name="role">
+##      <summary>
+##      Role allowed access
+##      </summary>
+## </param>
+#
+
+interface(`spotify_read_home_content',`
+	gen_require(`
+		type spotify_home_t;
+	')
+
+	allow $1 spotify_home_t:dir read_dir_perms;
+	allow $1 spotify_home_t:file read_file_perms;
+')
+#######################################
+## <summary>
+##      Role access for spotify
+## </summary>
+## <param name="role_prefix">
+##      <summary>
+##      The prefix of the user role (e.g., user
+##      is the prefix for user_r).
+##      </summary>
+## </param>
+## <param name="user_domain">
+##      <summary>
+##      User domain for the role.
+##      </summary>
+## </param>
+## <param name="user_exec_domain">
+##      <summary>
+##      User exec domain for execute and transition access.
+##      </summary>
+## </param>
+## <param name="role">
+##      <summary>
+##      Role allowed access
+##      </summary>
+## </param>
+#
+
+interface(`spotify_stream_audio',`
+	gen_require(`
+		type audio_device_t;
+	')
+
+	allow spotify_t audio_device_t:chr_file { read write getattr ioctl };
+')

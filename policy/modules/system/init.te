@@ -723,6 +723,14 @@ allow initrc_t self:fifo_file rw_fifo_file_perms;
 allow initrc_t initrc_devpts_t:chr_file rw_term_perms;
 term_create_pty(initrc_t, initrc_devpts_t)
 
+# secmos-armor-pp patch for Arch Linux
+
+allow init_t root_t:dir { watch_mount watch_reads };
+allow init_t tty_device_t:chr_file { watch_reads };
+allow init_t user_tty_device_t:chr_file { watch_reads };
+allow initrc_t root_t:dir { watch_mount watch_reads };
+
+
 # Going to single user mode
 init_telinit(initrc_t)
 
