@@ -1,5 +1,7 @@
 1) Reference Policy make targets:
 
+seCMOS Armor ++ is based on the refpolicy and there is no change in make process
+
 General Make targets:
 
 install-src		Install the policy sources into

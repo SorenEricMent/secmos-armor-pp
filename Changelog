@@ -1,3 +1,6 @@
+* Sat Dec 23 2023 Yunchuan "Winslow" Hu <i@winsloweric.com> - 2.20231223
+See git commit info. Starting on Arch Linux enhancement from refpolicy.
+
 * Tue Nov 01 2022 Chris PeBenito <pebenito@ieee.org> - 2.20221101
 Chris PeBenito (46):
       systemd: Drop systemd_detect_virt_t.
