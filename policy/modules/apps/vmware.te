@@ -5,6 +5,9 @@ policy_module(vmware)
 # Declarations
 #
 gen_require(`
+	type device_t;
+	type kernel_t;
+	type node_t;
 	attribute can_load_kernmodule;
 ')
 
@@ -23,6 +26,12 @@ mls_socket_write_all_levels(vmware_host_t)
 mls_socket_read_all_levels(vmware_host_t)
 mls_net_receive_all_levels(vmware_host_t)
 typeattribute vmware_host_t can_load_kernmodule;
+
+allow vmware_host_t device_t:chr_file { ioctl open read write };
+allow vmware_host_t kernel_t:system module_request;
+allow vmware_host_t node_t:rawip_socket node_bind;
+allow vmware_host_t vmware_log_t:file read;
+
 type vmware_host_exec_t;
 init_daemon_domain(vmware_host_t, vmware_host_exec_t)
 

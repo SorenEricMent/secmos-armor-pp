@@ -35,6 +35,9 @@ type auditd_t;
 type auditd_exec_t;
 init_daemon_domain(auditd_t, auditd_exec_t)
 
+mls_net_write_within_range(auditd_t)
+mls_socket_read_to_clearance(auditd_t)
+mls_socket_write_to_clearance(auditd_t)
 type auditd_initrc_exec_t;
 init_script_file(auditd_initrc_exec_t)
 

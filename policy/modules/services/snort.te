@@ -1,5 +1,9 @@
 policy_module(snort)
 
+gen_require(`
+	type cgroup_t;
+')
+
 ########################################
 #
 # Declarations
@@ -30,12 +34,12 @@ files_tmp_file(snort_tmp_t)
 # Local policy
 #
 
-allow snort_t self:capability { dac_override net_admin net_raw setgid setuid };
+allow snort_t self:capability { dac_override net_admin net_raw setgid setuid dac_read_search };
 dontaudit snort_t self:capability sys_tty_config;
-allow snort_t self:process signal_perms;
+allow snort_t self:process { signal_perms getsched setsched };
 allow snort_t self:netlink_socket create_socket_perms;
 allow snort_t self:tcp_socket { accept listen };
-allow snort_t self:packet_socket create_socket_perms;
+allow snort_t self:packet_socket { create_socket_perms map };
 allow snort_t self:socket create_socket_perms;
 
 allow snort_t snort_etc_t:dir list_dir_perms;
@@ -107,3 +111,4 @@ optional_policy(`
 	seutil_sigchld_newrole(snort_t)
 ')
 
+allow snort_t cgroup_t:file { open read };
