@@ -4,6 +4,9 @@ policy_module(vmware)
 #
 # Declarations
 #
+gen_require(`
+	attribute can_load_kernmodule;
+')
 
 type vmware_t;
 type vmware_exec_t;
@@ -16,6 +19,10 @@ type vmware_file_t;
 userdom_user_home_content(vmware_file_t)
 
 type vmware_host_t;
+mls_socket_write_all_levels(vmware_host_t)
+mls_socket_read_all_levels(vmware_host_t)
+mls_net_receive_all_levels(vmware_host_t)
+typeattribute vmware_host_t can_load_kernmodule;
 type vmware_host_exec_t;
 init_daemon_domain(vmware_host_t, vmware_host_exec_t)
 
@@ -51,7 +58,7 @@ optional_policy(`
 # Host local policy
 #
 
-allow vmware_host_t self:capability { dac_override kill net_raw setgid setuid sys_nice sys_ptrace sys_time };
+allow vmware_host_t self:capability { dac_override kill net_raw setgid setuid sys_nice sys_ptrace sys_time net_admin sys_module };
 dontaudit vmware_host_t self:capability sys_tty_config;
 allow vmware_host_t self:process { execstack execmem signal_perms };
 allow vmware_host_t self:fifo_file rw_fifo_file_perms;

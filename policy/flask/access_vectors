@@ -1069,6 +1069,7 @@ inherits file
 
 class io_uring
 {
+	cmd
 	override_creds
 	sqpoll
 }

@@ -173,6 +173,7 @@ fs_associate_tmpfs(xconsole_device_t)
 files_associate_tmp(xconsole_device_t)
 
 type xdm_t;
+mls_trusted_object(xdm_t);
 role xdm_r types xdm_t;
 type xdm_exec_t;
 auth_login_pgm_domain(xdm_t)

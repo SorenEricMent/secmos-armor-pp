@@ -31,8 +31,6 @@ attribute sysctl_type;
 role system_r;
 role sysadm_r;
 role certadm_r;
-role webadm_r;
-role dbadm_r;
 role staff_r;
 role user_r;
 
@@ -49,6 +47,7 @@ ifdef(`enable_mls',`
 # It is also the target type when checking permissions in the system class.
 #
 type kernel_t, can_load_kernmodule;
+mls_trusted_object(kernel_t)
 domain_base_type(kernel_t)
 role system_r types kernel_t;
 sid kernel gen_context(system_u:system_r:kernel_t,mls_systemhigh)

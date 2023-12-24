@@ -34,7 +34,7 @@ gen_tunable(systemd_nspawn_labeled_namespace, false)
 ## BootLoaderEntries, etc.)
 ## </p>
 ## </desc>
-gen_tunable(systemd_logind_get_bootloader, false)
+gen_tunable(systemd_logind_get_bootloader, true)
 
 ## <desc>
 ## <p>
@@ -161,6 +161,9 @@ type systemd_locale_exec_t;
 init_system_domain(systemd_locale_t, systemd_locale_exec_t)
 
 type systemd_logind_t;
+mls_file_read_all_levels(systemd_logind_t)
+mls_file_write_all_levels(systemd_logind_t)
+
 type systemd_logind_exec_t;
 init_daemon_domain(systemd_logind_t, systemd_logind_exec_t)
 init_named_socket_activation(systemd_logind_t, systemd_logind_runtime_t)
@@ -328,6 +331,9 @@ userdom_user_tmpfs_file(systemd_user_tmpfs_t)
 
 type systemd_userdbd_t;
 type systemd_userdbd_exec_t;
+
+mls_net_write_within_range(systemd_userdbd_t)
+
 init_daemon_domain(systemd_userdbd_t, systemd_userdbd_exec_t)
 
 type systemd_userdbd_runtime_t alias systemd_userdb_runtime_t;
@@ -1954,7 +1960,7 @@ seutil_libselinux_linked(systemd_user_session_type)
 
 allow systemd_userdbd_t self:capability { dac_read_search sys_resource };
 allow systemd_userdbd_t self:process { getcap signal };
-allow systemd_userdbd_t self:unix_stream_socket create_stream_socket_perms;
+allow systemd_userdbd_t self:unix_stream_socket { read write create_stream_socket_perms};
 
 stream_connect_pattern(systemd_userdbd_t, systemd_homed_runtime_t, systemd_homed_runtime_t, systemd_homed_t)
 

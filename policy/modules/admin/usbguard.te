@@ -17,7 +17,7 @@ gen_tunable(usbguard_user_modify_rule_files, false)
 type usbguard_t;
 type usbguard_daemon_exec_t;
 init_daemon_domain(usbguard_t, usbguard_daemon_exec_t)
-
+mls_socket_write_all_levels(usbguard_t)
 type usbguard_conf_t;
 files_config_file(usbguard_conf_t)
 

@@ -73,6 +73,7 @@ type syslog_conf_t;
 files_config_file(syslog_conf_t)
 
 type syslogd_t;
+mls_net_write_within_range(syslogd_t)
 type syslogd_exec_t;
 init_daemon_domain(syslogd_t, syslogd_exec_t)
 init_named_socket_activation(syslogd_t, syslogd_runtime_t)
@@ -82,6 +83,7 @@ type syslogd_initrc_exec_t;
 init_script_file(syslogd_initrc_exec_t)
 
 type syslogd_runtime_t alias syslogd_var_run_t;
+mls_trusted_object(syslogd_runtime_t)
 files_runtime_file(syslogd_runtime_t)
 
 type syslogd_tmp_t;

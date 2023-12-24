@@ -1,13 +1,5 @@
 policy_module(locallogin)
 
-require {
-	type init_t;
-	type kernel_t;
-	type shadow_t;	
-	type systemd_homed_runtime_t;
-	type systemd_homed_t;
-}
-
 ########################################
 #
 # Declarations
@@ -41,7 +33,6 @@ role system_r types sulogin_t;
 #
 
 allow local_login_t self:capability { chown dac_read_search dac_override fowner fsetid kill setgid setuid sys_nice sys_resource sys_tty_config };
-dontaudit local_login_t self:capability net_admin;
 allow local_login_t self:process { getcap setcap setexec setrlimit setsched };
 allow local_login_t self:fd use;
 allow local_login_t self:fifo_file rw_fifo_file_perms;
@@ -67,10 +58,6 @@ allow local_login_t init_t:fd { use };
 allow local_login_t kernel_t:unix_stream_socket { connectto };
 allow local_login_t self:capability { net_admin };
 allow local_login_t shadow_t:file { open read };
-allow local_login_t systemd_homed_runtime_t:fifo_file { write };
-allow local_login_t systemd_homed_runtime_t:sock_file { write };
-allow local_login_t systemd_homed_t:fd { use };
-allow local_login_t systemd_homed_t:unix_stream_socket { connectto };
 
 # End of patch
 

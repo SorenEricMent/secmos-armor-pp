@@ -18,7 +18,7 @@ gen_tunable(certadm_manage_user_files, false)
 #
 # Declarations
 #
-role certadm_r;
+# role certadm_r;
 
 userdom_base_user_template(certadm)
 

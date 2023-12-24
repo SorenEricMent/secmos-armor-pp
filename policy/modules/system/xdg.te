@@ -36,3 +36,27 @@ userdom_user_home_content(xdg_pictures_t)
 
 type xdg_videos_t; # customizable
 userdom_user_home_content(xdg_videos_t)
+
+
+# secmos-armor-pp enhancements: added more categories under xdg_documents_t
+
+type xdg_documents_private_t;
+userdom_user_home_content(xdg_documents_private_t)
+
+type xdg_documents_archive_t;
+userdom_user_home_content(xdg_documents_archive_t)
+
+type xdg_documents_school_t;
+userdom_user_home_content(xdg_documents_school_t)
+
+type xdg_documents_work_t;
+userdom_user_home_content(xdg_documents_work_t)
+
+type xdg_documents_secret_t;
+userdom_user_home_content(xdg_documents_secret_t)
+
+type xdg_documents_tmp_t;
+userdom_user_home_content(xdg_documents_tmp_t)
+
+type xdg_documents_wechat_t;
+userdom_user_home_content(xdg_documents_wechat_t);
