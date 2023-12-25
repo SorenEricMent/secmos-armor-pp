@@ -40,6 +40,9 @@ template(`systemd_role_template',`
 	domain_user_exemption_target($1_systemd_t)
 	userdom_application_exec_domain($1_systemd_t, $1)
 	ubac_constrained($1_systemd_t)
+	ifdef(`enable_mls', `
+		mls_file_read_all_levels($1_systemd_t)
+	')
 	role $2 types $1_systemd_t;
 
 	#################################
