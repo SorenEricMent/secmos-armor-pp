@@ -29,8 +29,6 @@ template(`systemd_role_template',`
 		type systemd_user_runtime_t, systemd_user_runtime_notify_t;
 		type systemd_user_unit_t;
 		type systemd_user_runtime_unit_t, systemd_user_transient_unit_t;
-		type systemd_logind_inhibit_runtime_t;
-		type systemd_userdbd_t, systemd_userdbd_runtime_t;
 	')
 
 	#################################
@@ -42,7 +40,6 @@ template(`systemd_role_template',`
 	domain_user_exemption_target($1_systemd_t)
 	userdom_application_exec_domain($1_systemd_t, $1)
 	ubac_constrained($1_systemd_t)
-	mls_file_read_all_levels($1_systemd_t)
 	role $2 types $1_systemd_t;
 
 	#################################
@@ -53,22 +50,10 @@ template(`systemd_role_template',`
 	# This domain is per-role because of the below transitions.
 	# See the systemd --user section of systemd.te for the
 	# remainder of the rules.
-	gen_require(`
-		type $1_sudo_t;
-	')
-	allow $1_systemd_t self:process { setsched getsched signal };
+	allow $1_systemd_t self:process { getsched signal };
 	allow $1_systemd_t self:netlink_kobject_uevent_socket create_socket_perms;
 	allow $1_systemd_t self:unix_stream_socket create_stream_socket_perms;
 	allow $1_systemd_t $3:process { setsched rlimitinh signal_perms };
-	allow $1_systemd_t $3:process2 nnp_transition;
-        allow $1_systemd_t $3:unix_stream_socket { bind create listen setopt connectto };
-        allow $1_systemd_t self:netlink_route_socket { bind create getattr getopt nlmsg_read read setopt write };
-        allow $1_systemd_t self:unix_dgram_socket sendto;
-        allow $1_systemd_t $1_sudo_t:dir search;
-        allow $1_systemd_t $1_sudo_t:file { getattr ioctl open read };
-        allow $1_systemd_t $3:fd use;
-        allow $1_systemd_t $3:fifo_file write;
-
 	corecmd_shell_domtrans($1_systemd_t, $3)
 	corecmd_bin_domtrans($1_systemd_t, $3)
 
@@ -96,77 +81,7 @@ template(`systemd_role_template',`
 	allow $1_systemd_t $3:dir search_dir_perms;
 	allow $1_systemd_t $3:file read_file_perms;
 	allow $1_systemd_t $3:lnk_file read_lnk_file_perms;
-	
-	allow $1_systemd_t systemd_homed_runtime_t:sock_file write;
-	allow $1_systemd_t systemd_homed_t:unix_stream_socket connectto;
-	allow $1_systemd_t systemd_logind_inhibit_runtime_t:fifo_file write;
-	allow $1_systemd_t systemd_logind_runtime_t:dir search;
-	allow $1_systemd_t systemd_logind_runtime_t:file { getattr open read };
-	allow $1_systemd_t systemd_logind_t:fd use;
-	allow $1_systemd_t systemd_machined_runtime_t:dir search;
-	allow $1_systemd_t systemd_sessions_runtime_t:dir { read search watch };
-	allow $1_systemd_t systemd_sessions_runtime_t:file { getattr open read };
-	allow $1_systemd_t systemd_user_runtime_notify_t:sock_file write;
-	allow $1_systemd_t systemd_user_runtime_t:dir mounton;
-	allow $1_systemd_t systemd_user_tmpfs_t:file map;
-	allow $1_systemd_t systemd_userdbd_runtime_t:dir { getattr open read search };
-	allow $1_systemd_t systemd_userdbd_runtime_t:lnk_file read;
-	allow $1_systemd_t systemd_userdbd_runtime_t:sock_file write;
-	allow $1_systemd_t systemd_userdbd_t:unix_stream_socket connectto;
 
-	ifdef(`distro_arch', `
-		gen_require(`
-			type dirmngr_t, dirmngr_tmp_t;
-			type $1_gkeyringd_t, gnome_keyring_tmp_t;
-			type gpg_t, gpg_runtime_t, gpg_agent_t, gpg_agent_tmp_t;
-			type proc_net_t;
-			type proc_psi_t;
-			type pulseaudio_tmp_t;
-			type restorecond_exec_t;
-			type sound_device_t;
-			type xdm_t, xdm_var_lib_t;
-		')
-	        allow $1_systemd_t dirmngr_t:unix_stream_socket { bind create listen setopt };
-	        allow $1_systemd_t dirmngr_tmp_t:sock_file { create getattr write };
-	        allow $1_systemd_t gnome_keyring_tmp_t:dir { add_name create write };
-	        allow $1_systemd_t gnome_keyring_tmp_t:sock_file create;
-	        allow $1_systemd_t $1_gkeyringd_t:unix_stream_socket { bind create listen setopt };
-	        allow $1_systemd_t gpg_agent_t:unix_stream_socket { bind create listen setopt };
-	        allow $1_systemd_t gpg_agent_tmp_t:sock_file create;
-	        allow $1_systemd_t gpg_runtime_t:dir { add_name create write };
-	        allow $1_systemd_t gpg_runtime_t:sock_file { create getattr write };
-	        allow $1_systemd_t gpg_t:unix_stream_socket { bind create listen setopt };
-	        allow $1_systemd_t proc_net_t:lnk_file read;
-	        allow $1_systemd_t proc_psi_t:dir search;
-	        allow $1_systemd_t proc_psi_t:file { getattr open read };
-	        allow $1_systemd_t pulseaudio_tmp_t:dir { add_name create getattr search write };
-	        allow $1_systemd_t pulseaudio_tmp_t:sock_file { create getattr write };
-	        allow $1_systemd_t restorecond_exec_t:file execute;
-	        allow $1_systemd_t sound_device_t:chr_file getattr;
-        	allow $1_systemd_t xdm_t:dir search;
-	        allow $1_systemd_t xdm_t:file { getattr ioctl open read };
-	        allow $1_systemd_t xdm_var_lib_t:dir { getattr search };
-		
-		gen_require(`
-			type user_cert_t;
-			type user_fonts_cache_t, user_fonts_config_t;
-			type user_home_t, user_home_dir_t;
-			type user_runtime_t;
-		')
-
-	        allow $1_systemd_t user_cert_t:dir getattr;
-	        allow $1_systemd_t user_fonts_cache_t:dir search;
-	        allow $1_systemd_t user_fonts_cache_t:file { getattr map open read };
-	        allow $1_systemd_t user_fonts_config_t:file { getattr open read };
-	        allow $1_systemd_t user_home_dir_t:dir { ioctl read watch write };
-	        allow $1_systemd_t user_home_t:dir { getattr open read search watch write };
-	        allow $1_systemd_t user_home_t:file { getattr map open read };
-	        allow $1_systemd_t user_home_t:lnk_file { getattr read };
-	        allow $1_systemd_t user_runtime_t:dir watch;
-        	allow $1_systemd_t user_runtime_t:file { create getattr link open read unlink write };
-	        allow $1_systemd_t user_runtime_t:sock_file { create getattr write };
-
-	')
 	dev_read_urand($1_systemd_t)
 
 	files_search_home($1_systemd_t)
@@ -275,13 +190,6 @@ template(`systemd_role_template',`
 	systemd_stop_user_transient_units($3)
 
 	systemd_watch_passwd_runtime_dirs($3)
-	
-	# systemd-homed template
-	gen_require(`
-		type systemd_logind_t;
-	')
-	allow systemd_logind_t $1_systemd_t:dir search;
-	allow systemd_logind_t $1_systemd_t:file { getattr ioctl open read };
 
 	optional_policy(`
 		xdg_config_filetrans($1_systemd_t, systemd_conf_home_t, dir, "systemd")
