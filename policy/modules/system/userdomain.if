@@ -26,6 +26,7 @@ template(`userdom_base_user_template',`
 	gen_require(`
 		attribute userdomain;
 		type user_devpts_t, user_tty_device_t;
+		type kernel_t;
 		class context contains;
 		role $1_r;
 	')
@@ -57,6 +58,28 @@ template(`userdom_base_user_template',`
 	allow $1_t self:msgq create_msgq_perms;
 	allow $1_t self:msg { send receive };
 	allow $1_t self:context contains;
+	allow $1_t self:bluetooth_socket { bind create listen setopt shutdown };
+
+	ifdef(`init_systemd', `
+                gen_require(`
+                        type systemd_homed_t, systemd_homed_runtime_t;
+			type systemd_logind_runtime_t;
+	                type systemd_machined_runtime_t;
+        		type systemd_sessions_runtime_t;
+               		type systemd_user_tmpfs_t;
+                ')
+                allow $1_t systemd_homed_runtime_t:sock_file write;
+                allow $1_t systemd_homed_t:unix_stream_socket connectto;
+		allow $1_t systemd_logind_runtime_t:dir watch;
+ 	        allow $1_t systemd_logind_runtime_t:file { open read };
+       		allow $1_t systemd_machined_runtime_t:dir watch;
+	        allow $1_t systemd_sessions_runtime_t:dir watch;
+	        allow $1_t systemd_user_tmpfs_t:file { read write };
+
+	')
+
+	allow $1_t kernel_t:system module_request;
+
 	dontaudit $1_t self:socket create;
 
 	allow $1_t user_devpts_t:chr_file { setattr rw_chr_file_perms };

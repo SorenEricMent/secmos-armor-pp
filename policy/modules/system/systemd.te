@@ -92,6 +92,20 @@ type systemd_binfmt_t;
 type systemd_binfmt_exec_t;
 init_system_domain(systemd_binfmt_t, systemd_binfmt_exec_t)
 
+gen_require(`
+	type binfmt_misc_fs_t;
+	type cgroup_t;
+	type proc_t;
+	type selinux_config_t;
+')
+
+allow systemd_binfmt_t binfmt_misc_fs_t:dir write;
+allow systemd_binfmt_t binfmt_misc_fs_t:filesystem getattr;
+allow systemd_binfmt_t cgroup_t:dir search;
+allow systemd_binfmt_t cgroup_t:filesystem getattr;
+allow systemd_binfmt_t proc_t:filesystem getattr;
+allow systemd_binfmt_t selinux_config_t:lnk_file read;
+
 type systemd_binfmt_unit_t;
 init_unit_file(systemd_binfmt_unit_t)
 
@@ -116,6 +130,27 @@ type systemd_coredump_t;
 type systemd_coredump_exec_t;
 init_system_domain(systemd_coredump_t, systemd_coredump_exec_t)
 
+ifdef(`enable_mls', `
+       mls_socket_read_all_levels(systemd_coredump_t)
+       mls_socket_read_to_clearance(systemd_coredump_t)
+       mls_socket_write_to_clearance(systemd_coredump_t)
+       mls_net_write_within_range(systemd_coredump_t)
+       mls_file_write_to_clearance(systemd_coredump_t)
+       mls_fd_share_all_levels(systemd_coredump_t)
+       mls_file_write_within_range(systemd_coredump_t)
+')
+
+allow systemd_coredump_t self:unix_stream_socket { connectto getattr read write };
+allow systemd_coredump_t self:capability dac_read_search;
+
+gen_require(`
+       type kernel_t;
+       type proc_t;
+')
+allow systemd_coredump_t kernel_t:fd use;
+allow systemd_coredump_t proc_t:filesystem getattr;
+
+
 type systemd_coredump_var_lib_t;
 files_type(systemd_coredump_var_lib_t)
 
@@ -137,6 +172,15 @@ ifdef(`enable_mls', `
 init_daemon_domain(systemd_homed_t, systemd_homed_exec_t)
 
 allow systemd_homed_t self:unix_stream_socket { getopt read write };
+allow systemd_homed_t self:capability { dac_override dac_read_search };
+allow systemd_homed_t self:capability { dac_override dac_read_search };
+
+allow systemd_homed_t systemd_homed_runtime_t:fifo_file { open write };
+gen_require(`
+	type locale_t;
+')
+allow systemd_homed_t locale_t:dir search;
+allow systemd_homed_t locale_t:file { getattr map open read };
 
 type systemd_homework_t;
 type systemd_homework_exec_t;
@@ -172,6 +216,10 @@ files_type(systemd_homed_var_lib_t)
 type systemd_hostnamed_t;
 type systemd_hostnamed_exec_t;
 init_daemon_domain(systemd_hostnamed_t, systemd_hostnamed_exec_t)
+
+allow systemd_hostnamed_t locale_t:dir search;
+allow systemd_hostnamed_t locale_t:file { getattr open read };
+
 
 type systemd_hw_t;
 type systemd_hw_exec_t;
@@ -363,11 +411,21 @@ type systemd_user_runtime_dir_t;
 type systemd_user_runtime_dir_exec_t;
 init_system_domain(systemd_user_runtime_dir_t, systemd_user_runtime_dir_exec_t)
 
+allow systemd_user_runtime_dir_t systemd_homed_runtime_t:sock_file write;
+allow systemd_user_runtime_dir_t systemd_homed_t:unix_stream_socket connectto;
+allow systemd_user_runtime_dir_t systemd_userdbd_runtime_t:dir { getattr open read search };
+allow systemd_user_runtime_dir_t systemd_userdbd_runtime_t:lnk_file read;
+allow systemd_user_runtime_dir_t systemd_userdbd_runtime_t:sock_file write;
+allow systemd_user_runtime_dir_t systemd_userdbd_t:unix_stream_socket connectto;
+
+
 type systemd_user_tmpfs_t;
 userdom_user_tmpfs_file(systemd_user_tmpfs_t)
 
 type systemd_userdbd_t;
 type systemd_userdbd_exec_t;
+
+allow systemd_userdbd_t self:unix_stream_socket { read write };
 
 ifdef(`enable_mls', `
 	mls_socket_read_to_clearance(systemd_userdbd_t)
