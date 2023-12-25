@@ -57,7 +57,7 @@ template(`sudo_role_template',`
 	#
 
 	# Use capabilities.
-	allow $1_sudo_t self:capability { chown dac_override fowner kill setgid setuid sys_nice sys_resource };
+	allow $1_sudo_t self:capability { chown dac_override fowner kill setgid setuid sys_nice sys_resource net_admin };
 	allow $1_sudo_t self:process { signal_perms getsched setsched getsession getpgid setpgid getcap setcap share getattr getrlimit rlimitinh siginh transition setsockcreate dyntransition noatsecure setkeycreate };
 	allow $1_sudo_t self:process { setexec setrlimit };
 	allow $1_sudo_t self:fd use;
@@ -85,6 +85,10 @@ template(`sudo_role_template',`
 	# By default, revert to the calling domain when a shell is executed.
 	corecmd_shell_domtrans($1_sudo_t, $2)
 	corecmd_bin_domtrans($1_sudo_t, $2)
+	
+	ifdef(`enable_mls', `
+		mls_socket_write_to_clearance($1_sudo_t)
+	')
 
 	kernel_read_kernel_sysctls($1_sudo_t)
 	kernel_read_system_state($1_sudo_t)

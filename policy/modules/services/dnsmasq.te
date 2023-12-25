@@ -1,5 +1,8 @@
 policy_module(dnsmasq)
 
+gen_require(`
+	type lo_netif_t;
+')
 ########################################
 #
 # Declarations
@@ -42,6 +45,8 @@ allow dnsmasq_t self:rawip_socket create_socket_perms;
 
 allow dnsmasq_t dnsmasq_etc_t:dir list_dir_perms;
 allow dnsmasq_t dnsmasq_etc_t:file read_file_perms;
+
+allow dnsmasq_t lo_netif_t:netif egress;
 
 manage_files_pattern(dnsmasq_t, dnsmasq_lease_t, dnsmasq_lease_t)
 files_var_lib_filetrans(dnsmasq_t, dnsmasq_lease_t, file)

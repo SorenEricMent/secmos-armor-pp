@@ -18,6 +18,7 @@ roleattribute system_r mount_roles;
 type mount_t;
 type mount_exec_t;
 init_system_domain(mount_t, mount_exec_t)
+mls_process_write_to_clearance(mount_t)
 role mount_roles types mount_t;
 
 type mount_loopback_t; # customizable
@@ -47,6 +48,8 @@ dontaudit mount_t self:process setrlimit;
 
 allow mount_t mount_tmp_t:file manage_file_perms;
 allow mount_t mount_tmp_t:dir manage_dir_perms;
+
+allow mount_t kernel_t:process setsched;
 
 can_exec(mount_t, mount_exec_t)
 

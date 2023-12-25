@@ -1,5 +1,9 @@
 policy_module(ntp)
 
+gen_require(`
+        type lo_netif_t;
+')
+
 ########################################
 #
 # Declarations
@@ -18,6 +22,8 @@ type ntpd_t;
 type ntpd_exec_t;
 init_daemon_domain(ntpd_t, ntpd_exec_t)
 role ntpd_roles types ntpd_t;
+
+allow ntpd_t lo_netif_t:netif egress;
 
 type ntpd_initrc_exec_t;
 init_script_file(ntpd_initrc_exec_t)

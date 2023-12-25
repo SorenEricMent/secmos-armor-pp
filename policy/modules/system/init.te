@@ -104,9 +104,15 @@ ifdef(`enable_mcs', `
 
 ifdef(`enable_mls', `
 	init_ranged_daemon_domain(initrc_t, initrc_exec_t, s0 - mls_systemhigh)
-	mls_net_inbound_all_levels(initrc_t)
-	mls_net_outbound_all_levels(initrc_t)
+	mls_socket_read_all_levels(initrc_t)
+	mls_socket_write_all_levels(initrc_t)
 ')
+
+gen_require(`
+	type dirmngr_t;
+')
+
+allow initrc_t dirmngr_t:process2 nnp_transition;
 
 init_named_socket_activation(initrc_t, init_runtime_t)
 # should be part of the true block

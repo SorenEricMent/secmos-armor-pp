@@ -77,7 +77,9 @@ template(`dbus_role_template',`
 	ubac_constrained($1_dbusd_t)
 
 	role $2 types $1_dbusd_t;
-
+	ifdef(`init_systemd', `
+		dbus_systemd($1)
+	')
 	##############################
 	#
 	# Local policy
@@ -87,10 +89,28 @@ template(`dbus_role_template',`
 	allow $3 $1_dbusd_t:dbus { send_msg acquire_svc };
 	allow $3 $1_dbusd_t:fd use;
 
+	gen_require(`
+		type system_dbusd_t, system_dbusd_runtime_t;
+	')
+
+	allow $1_dbusd_t system_dbusd_runtime_t:dir search;
+	allow $1_dbusd_t system_dbusd_runtime_t:sock_file write;
+	allow $1_dbusd_t system_dbusd_t:unix_stream_socket connectto;
+
 	dontaudit $1_dbusd_t self:process getcap;
 	dontaudit $1_dbusd_t self:cap_userns sys_ptrace;
-
+	allow $1_dbusd_t self:process { getsched setsched };
+	allow $1_dbusd_t self:unix_stream_socket connectto;
+	
 	allow $3 system_dbusd_t:dbus { send_msg acquire_svc };
+
+	gen_require(`
+		type $1_wm_t;
+	')
+
+	allow $1_dbusd_t $1_wm_t:fd use;
+	allow $1_dbusd_t $1_wm_t:unix_stream_socket connectto;
+
         dontaudit $3 $1_dbusd_t:netlink_selinux_socket { read write };
 
 	allow $3 { session_dbusd_home_t session_dbusd_tmp_t }:dir { manage_dir_perms relabel_dir_perms };
@@ -107,6 +127,8 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t session_dbusd_tmp_t:sock_file manage_sock_file_perms;
 
 	kernel_getattr_proc($1_dbusd_t)
+	
+	fs_read_cgroup_files($1_dbusd_t)
 
 	corecmd_bin_domtrans($1_dbusd_t, $3)
 	corecmd_shell_domtrans($1_dbusd_t, $3)
@@ -769,4 +791,32 @@ interface(`dbus_unconfined',`
 	')
 
 	typeattribute $1 dbusd_unconfined;
+')
+
+########################################
+## <summary>
+##      Patch for user systemd
+## </summary>
+## <param name="role_prefix">
+##      <summary>
+##      The prefix of the user role (e.g., user
+##      is the prefix for user_r).
+##      </summary>
+## </param>
+
+template(`dbus_systemd', `
+	gen_require(`
+		type systemd_homed_runtime_t;
+		type systemd_homed_t;
+		type systemd_user_runtime_notify_t;
+		type systemd_user_runtime_t;
+		type $1_systemd_t;
+		type xdm_var_lib_t;
+	')
+	allow $1_dbusd_t systemd_homed_runtime_t:sock_file write;
+	allow $1_dbusd_t systemd_homed_t:unix_stream_socket connectto;
+	allow $1_dbusd_t systemd_user_runtime_notify_t:sock_file write;
+	allow $1_dbusd_t systemd_user_runtime_t:dir search;
+	allow $1_dbusd_t $1_systemd_t:unix_dgram_socket sendto;
+	allow $1_dbusd_t xdm_var_lib_t:dir search;
 ')

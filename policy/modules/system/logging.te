@@ -35,9 +35,12 @@ type auditd_t;
 type auditd_exec_t;
 init_daemon_domain(auditd_t, auditd_exec_t)
 
-mls_net_write_within_range(auditd_t)
-mls_socket_read_to_clearance(auditd_t)
-mls_socket_write_to_clearance(auditd_t)
+ifdef(`enable_mls', `
+	mls_net_write_within_range(auditd_t)
+	mls_socket_read_to_clearance(auditd_t)
+	mls_socket_write_to_clearance(auditd_t)
+')
+
 type auditd_initrc_exec_t;
 init_script_file(auditd_initrc_exec_t)
 
@@ -80,7 +83,9 @@ mls_net_write_within_range(syslogd_t)
 type syslogd_exec_t;
 init_daemon_domain(syslogd_t, syslogd_exec_t)
 init_named_socket_activation(syslogd_t, syslogd_runtime_t)
-mls_trusted_socket(syslogd_t)
+mls_socket_write_to_clearance(syslogd_t)
+mls_socket_read_to_clearance(syslogd_t)
+mls_socket_write_all_levels(syslogd_t)
 
 type syslogd_initrc_exec_t;
 init_script_file(syslogd_initrc_exec_t)

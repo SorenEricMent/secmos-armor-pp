@@ -6,10 +6,9 @@ require {
 	type sysctl_fs_t;
 	type sysctl_vm_t;
 	type sysctl_kernel_t;
-	type systemd_homed_t;
-	type systemd_homed_runtime_t;
 	type xdm_tmp_t;
 	type var_run_t;
+	type sysctl_fs_t;
 }
 ########################################
 #
@@ -65,6 +64,7 @@ allow udev_t self:unix_stream_socket connectto;
 allow udev_t self:netlink_kobject_uevent_socket create_socket_perms;
 allow udev_t self:netlink_generic_socket create_socket_perms;
 allow udev_t self:rawip_socket create_socket_perms;
+allow udev_t self:cap_userns { sys_ptrace };
 # rdma_rename
 allow udev_t self:netlink_rdma_socket create_socket_perms;
 
@@ -72,25 +72,30 @@ allow udev_t self:netlink_rdma_socket create_socket_perms;
 allow udev_t cgroup_t:file { write };
 allow udev_t initrc_lock_t:file { write };
 allow udev_t kernel_t:unix_stream_socket { connectto };
-allow udev_t self:cap_userns { sys_ptrace };
 allow udev_t sysctl_fs_t:dir { search };
 allow udev_t sysctl_fs_t:file { open read };
 allow udev_t sysctl_kernel_t:file { write };
 allow udev_t sysctl_vm_t:dir { search };
 allow udev_t sysctl_vm_t:file { getattr open write };
-allow udev_t systemd_homed_runtime_t:sock_file { write };
-allow udev_t systemd_homed_t:unix_stream_socket { connectto };
 allow udev_t tmp_t:dir { search };
 allow udev_t usr_t:file { execute };
 allow udev_t var_lock_t:file { lock open write };
 allow udev_t var_run_t:file { create getattr ioctl open read write };
 allow udev_t xdm_tmp_t:dir { getattr open read search };
 allow udev_t xdm_tmp_t:sock_file { getattr };
+allow udev_t sysctl_fs_t:file { getattr ioctl };
 
 #
 ifdef(`init_systemd',`
 	# systemd-vconsole-setup will be called by udev during virtual terminal initialization
 	allow udev_t self:capability sys_tty_config;
+	gen_require(`
+		type systemd_homed_t;
+	        type systemd_homed_runtime_t;
+	')
+	allow udev_t systemd_homed_runtime_t:sock_file { write };
+	allow udev_t systemd_homed_t:unix_stream_socket { connectto };
+
 ',`
 	dontaudit udev_t self:capability sys_tty_config;
 ')

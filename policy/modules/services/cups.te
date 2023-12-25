@@ -100,6 +100,14 @@ ifdef(`enable_mls',`
 	init_ranged_daemon_domain(cupsd_t, cupsd_exec_t, mls_systemhigh)
 ')
 
+ifdef(`init_systemd', `
+	gen_require(`
+		type systemd_homed_t, systemd_homed_runtime_t;
+	')
+	allow cupsd_t systemd_homed_runtime_t:sock_file write;
+	allow cupsd_t systemd_homed_t:unix_stream_socket connectto;
+')
+
 ########################################
 #
 # Cups local policy
