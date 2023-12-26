@@ -98,6 +98,7 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t system_dbusd_runtime_t:dir search;
 	allow $1_dbusd_t system_dbusd_runtime_t:sock_file write;
 	allow $1_dbusd_t system_dbusd_t:unix_stream_socket connectto;
+	systemd_create_user_runtime_socket($1_dbusd_t)
 
 	dontaudit $1_dbusd_t self:process getcap;
 	dontaudit $1_dbusd_t self:cap_userns sys_ptrace;
@@ -110,6 +111,10 @@ template(`dbus_role_template',`
 	gen_require(`type var_lib_t;')
 	allow $1_dbusd_t var_lib_t:dir search;
 	allow $1_dbusd_t var_lib_t:lnk_file read;
+	
+	gen_require(`type system_dbusd_var_lib_t;')
+	allow $1_dbusd_t system_dbusd_var_lib_t:dir search;
+	allow $1_dbusd_t system_dbusd_var_lib_t:lnk_file read;
 
 	allow $1_dbusd_t $1_systemd_t:system reload;
 
@@ -133,6 +138,7 @@ template(`dbus_role_template',`
 	net_dns_packet($1_dbusd_t)	
 	
 	gen_require(`
+		type $1_t;
 		type device_t;
 		type dri_device_t;
 		type etc_t, etc_runtime_t;
@@ -156,8 +162,13 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t mesa_shader_cache_t:dir { getattr search };
 	allow $1_dbusd_t mesa_shader_cache_t:file { getattr map open read write };
 
+	allow $1_dbusd_t $1_t:unix_stream_socket connectto;
+
 	gnome_xdg_config_dir_search($1_dbusd_t)
 	gnome_xdg_config_read($1_dbusd_t)
+
+	xdg_manage_cache($1_dbusd_t)
+	xdg_manage_config($1_dbusd_t)
 
 	gen_require(`
 		type $1_wm_t;
@@ -165,6 +176,7 @@ template(`dbus_role_template',`
 
 	allow $1_dbusd_t $1_wm_t:fd use;
 	allow $1_dbusd_t $1_wm_t:unix_stream_socket connectto;
+        allow $1_dbusd_t $1_wm_t:unix_stream_socket { read write };
 
         dontaudit $3 $1_dbusd_t:netlink_selinux_socket { read write };
 
@@ -182,7 +194,8 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t session_dbusd_tmp_t:sock_file manage_sock_file_perms;
 
 	kernel_getattr_proc($1_dbusd_t)
-	
+	kernel_search_network_sysctl($1_dbusd_t)
+
 	fs_read_cgroup_files($1_dbusd_t)
 
 	corecmd_bin_domtrans($1_dbusd_t, $3)

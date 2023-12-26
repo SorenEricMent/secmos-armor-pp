@@ -3538,3 +3538,22 @@ interface(`net_dns_packet',`
         allow $1 domain_packet_t:packet { send recv };
 ')
 
+########################################
+## <summary>
+##	HTTPS Packet
+## </summary>
+## <desc>
+##      </desc>
+## <param name="domain">
+##      <summary>
+##      From domain
+##      </summary>
+## </param>
+#
+interface(`net_https_packet',`
+        gen_require(`
+                type https_packet_t;
+
+        ')
+        allow $1 https_packet_t:packet { send recv };
+')

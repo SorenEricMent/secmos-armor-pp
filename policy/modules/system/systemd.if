@@ -59,16 +59,18 @@ template(`systemd_role_template',`
 	# This domain is per-role because of the below transitions.
 	# See the systemd --user section of systemd.te for the
 	# remainder of the rules.
-	allow $1_systemd_t self:process { setsched getsched signal };
+	allow $1_systemd_t self:process { setsched getsched signal getpgid};
 	allow $1_systemd_t self:netlink_kobject_uevent_socket create_socket_perms;
 	allow $1_systemd_t self:unix_stream_socket create_stream_socket_perms;
 	allow $1_systemd_t self:unix_dgram_socket sendto;
         allow $1_systemd_t self:netlink_route_socket { bind create getattr getopt nlmsg_read read setopt write };
-	allow $1_systemd_t self:tcp_socket { bind create getattr getopt read setopt write };
-	allow $1_systemd_t $3:process { setsched rlimitinh signal_perms };
+	allow $1_systemd_t self:tcp_socket { connect bind create getattr getopt read setopt write };
+	allow $1_systemd_t $3:process { setsched rlimitinh signal_perms getpgid };
 	allow $1_systemd_t self:system { reload start };
 	corecmd_shell_domtrans($1_systemd_t, $3)
 	corecmd_bin_domtrans($1_systemd_t, $3)
+	
+	net_dns_packet($1_systemd_t)
 
 	# systemctl --user rules
 	allow $1_systemd_t systemd_user_unix_stream_activated_socket_type:unix_stream_socket { create_socket_perms listen };
@@ -146,7 +148,9 @@ template(`systemd_role_template',`
 			type cupsd_t, cupsd_runtime_t;
 			type boot_t;
 			type wireless_device_t;
+			type $1_wm_t;
 		')
+		mount_exec($1_systemd_t)
 		xserver_read_xkb_libs($1_systemd_t)
 		xserver_rw_mesa_shader_cache($1_systemd_t)
 	        allow $1_systemd_t dirmngr_t:unix_stream_socket { bind create listen setopt };
@@ -189,7 +193,19 @@ template(`systemd_role_template',`
 		allow $1_systemd_t fuse_device_t:chr_file { open read write };
 		allow $1_systemd_t fusefs_t:dir { getattr read search watch };
 		allow $1_systemd_t fusefs_t:filesystem mount;
-		allow $1_systemd_t wireless_device_t:chr_file read;
+		allow $1_systemd_t wireless_device_t:chr_file { read getattr ioctl open write };
+		allow $1_systemd_t $1_wm_t:unix_stream_socket { read write };
+		
+		gen_require(`
+			type pulseaudio_home_t, pulseaudio_tmp_t, pulseaudio_xdg_config_t;
+		')
+	
+		allow $1_systemd_t pulseaudio_home_t:file getattr;
+		allow $1_systemd_t pulseaudio_tmp_t:dir { open read };
+		allow $1_systemd_t pulseaudio_xdg_config_t:dir search;
+		allow $1_systemd_t pulseaudio_xdg_config_t:file { lock open read };
+		
+		allow $1_t $1_systemd_t:unix_dgram_socket sendto;
 
 		gnome_xdg_config_dir_rw($1_systemd_t)
 		gnome_xdg_config_rw($1_systemd_t)
@@ -822,6 +838,25 @@ interface(`systemd_write_user_runtime_socket',`
 	')
 
 	allow $1 systemd_user_runtime_t:sock_file write;
+')
+
+######################################
+## <summary>
+##      Allow the specified domain to write to
+##      the systemd user runtime named socket.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`systemd_create_user_runtime_socket',`
+        gen_require(`
+                type systemd_user_runtime_t;
+        ')
+
+        allow $1 systemd_user_runtime_t:sock_file { create getattr setattr unlink };
 ')
 
 ######################################

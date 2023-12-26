@@ -66,6 +66,10 @@ corenet_sendrecv_howl_server_packets(avahi_t)
 corenet_tcp_bind_howl_port(avahi_t)
 corenet_udp_bind_howl_port(avahi_t)
 
+ifdef(`enable_mls', `
+	mls_socket_read_to_clearance(avahi_t)
+')
+
 dev_read_sysfs(avahi_t)
 dev_read_urand(avahi_t)
 

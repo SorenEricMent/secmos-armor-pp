@@ -58,6 +58,8 @@ template(`wm_role_template',`
 			type $1_t;
                 ')
                 xdg_manage_all_cache($1_wm_t)
+		gnome_xdg_config_read($1_wm_t)
+		fs_watch_tmpfs_dirs($1_wm_t)
                 allow $1_wm_t xdg_data_t:dir search;
 		allow $1_wm_t $1_systemd_t:unix_dgram_socket sendto;
 		allow $1_wm_t $1_t:dir search;
@@ -96,6 +98,7 @@ template(`wm_role_template',`
 	allow $1_t $1_wm_t:shm { associate getattr read unix_read unix_write write };
 	allow $1_t $1_wm_t:unix_stream_socket { read write accept getopt ioctl shutdown };
 
+	net_dns_packet($1_wm_t)
 	########################################
 	#
 	# Policy
@@ -150,6 +153,8 @@ template(`wm_role_template',`
 		dbus_connect_spec_session_bus($1, $1_wm_t)
 		dbus_spec_session_bus_client($1, $1_wm_t)
 		dbus_system_bus_client($1_wm_t)
+		gen_require(`type session_dbusd_runtime_t;')
+		allow $1_wm_t session_dbusd_runtime_t:sock_file write;
 
 		optional_policy(`
 			wm_dbus_chat($1, $3)
