@@ -54,7 +54,7 @@ gen_tunable(allow_polyinstantiation,false)
 ## Allow system to run with NIS
 ## </p>
 ## </desc>
-gen_tunable(allow_ypbind,false)
+gen_tunable(allow_ypbind,true)
 
 ## <desc>
 ## <p>
@@ -74,7 +74,7 @@ gen_tunable(console_login,true)
 ## be allowed to read from /dev/urandom.
 ## </p>
 ## </desc>
-gen_tunable(global_ssp,false)
+gen_tunable(global_ssp,true)
 
 ## <desc>
 ## <p>

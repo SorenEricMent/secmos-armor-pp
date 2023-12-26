@@ -71,6 +71,16 @@ allow devicekit_disk_t self:process { getsched setsched signal_perms };
 allow devicekit_disk_t self:fifo_file rw_fifo_file_perms;
 allow devicekit_disk_t self:netlink_kobject_uevent_socket create_socket_perms;
 
+ifdef(`distro_arch',`
+	gen_require(`
+		type mount_runtime_t;
+		type tmpfs_t;
+	')
+	allow devicekit_disk_t mount_runtime_t:dir watch;
+	allow devicekit_disk_t tmpfs_t:dir { add_name remove_name write };
+	allow devicekit_disk_t tmpfs_t:file { create lock open read unlink write };
+')
+
 manage_dirs_pattern(devicekit_disk_t, devicekit_tmp_t, devicekit_tmp_t)
 manage_files_pattern(devicekit_disk_t, devicekit_tmp_t, devicekit_tmp_t)
 files_tmp_filetrans(devicekit_disk_t, devicekit_tmp_t, { dir file })

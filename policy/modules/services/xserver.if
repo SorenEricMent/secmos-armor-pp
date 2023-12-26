@@ -83,6 +83,8 @@ template(`xserver_restricted_role',`
 	allow $2 xdm_t:fifo_file rw_inherited_fifo_file_perms;
 	allow $2 xdm_tmp_t:dir search;
 	allow $2 xdm_tmp_t:sock_file { read write };
+	allow $2 xdm_t:unix_stream_socket { ioctl read write };
+
 	dontaudit $2 xdm_t:tcp_socket { read write };
 
 	# Read /tmp/.X0-lock

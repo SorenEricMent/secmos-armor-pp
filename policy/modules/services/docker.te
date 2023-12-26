@@ -27,7 +27,12 @@ application_domain(dockerc_t, dockerc_exec_t)
 container_engine_domain_template(dockerd_user)
 container_user_engine(dockerd_user_t)
 application_domain(dockerd_user_t, dockerd_exec_t)
-mls_trusted_object(dockerd_user_t)
+ifdef(`enable_mls' ,`
+	mls_trusted_object(dockerd_user_t)
+')
+ifdef(`init_systemd', `
+        systemd_homed_connect(dockerd_t)
+')
 
 type dockerc_user_t;
 application_domain(dockerc_user_t, dockerc_exec_t)

@@ -54,6 +54,8 @@ template(`wm_role_template',`
                 ')
                 allow $1_wm_t xdg_cache_t:file { create getattr open read rename setattr unlink write };
                 allow $1_wm_t xdg_data_t:dir search;
+		fs_read_cgroup_files($1_wm_t)
+		fs_search_cgroup_dirs($1_wm_t)
         ')
         ifdef(`init_systemd', `
                 gen_require(`
@@ -97,12 +99,16 @@ template(`wm_role_template',`
 
 	corecmd_bin_domtrans($1_wm_t, $2)
 	corecmd_shell_domtrans($1_wm_t, $2)
+	
+	corenet_all_recvfrom_unlabeled($1_wm_t)
 
-	mls_file_read_all_levels($1_wm_t)
-	mls_file_write_all_levels($1_wm_t)
-	mls_xwin_read_all_levels($1_wm_t)
-	mls_xwin_write_all_levels($1_wm_t)
-	mls_fd_use_all_levels($1_wm_t)
+	ifdef(`enable_mls',`
+		mls_file_read_all_levels($1_wm_t)
+		mls_file_write_all_levels($1_wm_t)
+		mls_xwin_read_all_levels($1_wm_t)
+		mls_xwin_write_all_levels($1_wm_t)
+		mls_fd_use_all_levels($1_wm_t)
+	')
 
 	auth_use_nsswitch($1_wm_t)
 
@@ -112,6 +118,17 @@ template(`wm_role_template',`
 	xserver_manage_core_devices($1_wm_t)
 
 	wm_write_pipes($1, $3)
+	
+	# XDG	
+	gen_require(`
+		type xdg_cache_t, xdg_config_t, xdg_data_t;
+	')
+	allow $1_wm_t xdg_cache_t:sock_file write;
+	allow $1_wm_t xdg_config_t:dir { rmdir watch };
+	allow $1_wm_t xdg_config_t:file { create getattr open read rename unlink write };
+	allow $1_wm_t xdg_data_t:dir { add_name getattr open read remove_name watch write };
+	allow $1_wm_t xdg_data_t:file { create getattr map open read rename setattr unlink write };
+	allow $1_wm_t xdg_data_t:lnk_file read;
 
 	optional_policy(`
 		dbus_connect_spec_session_bus($1, $1_wm_t)

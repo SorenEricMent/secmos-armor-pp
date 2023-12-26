@@ -3516,3 +3516,25 @@ interface(`corenet_unconfined',`
 
 	typeattribute $1 corenet_unconfined_type;
 ')
+
+
+########################################
+## <summary>
+##      DNS Packet
+## </summary>
+## <desc>
+##      </desc>
+## <param name="domain">
+##      <summary>
+##      From domain
+##      </summary>
+## </param>
+#
+interface(`net_dns_packet',`
+        gen_require(`
+                type domain_packet_t;
+
+        ')
+        allow $1 domain_packet_t:packet { send recv };
+')
+

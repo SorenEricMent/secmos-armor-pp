@@ -173,11 +173,15 @@ fs_associate_tmpfs(xconsole_device_t)
 files_associate_tmp(xconsole_device_t)
 
 type xdm_t;
-mls_trusted_object(xdm_t);
-mls_net_inbound_all_levels(xdm_t);
-mls_net_outbound_all_levels(xdm_t);
-mls_net_receive_all_levels(xdm_t);
-mls_socket_read_all_levels(xdm_t);
+ifdef(`enable_mls', `
+	mls_trusted_object(xdm_t);
+	mls_net_inbound_all_levels(xdm_t);
+	mls_net_outbound_all_levels(xdm_t);
+	mls_net_receive_all_levels(xdm_t);
+	mls_socket_read_all_levels(xdm_t);
+')
+gen_require(`type init_t;')
+allow xdm_t init_t:system status;
 
 role xdm_r types xdm_t;
 type xdm_exec_t;
@@ -186,6 +190,8 @@ init_domain(xdm_t, xdm_exec_t)
 init_daemon_domain(xdm_t, xdm_exec_t)
 xserver_object_types_template(xdm)
 xserver_common_x_domain_template(xdm, xdm_t)
+
+corenet_all_recvfrom_unlabeled(xdm_t)
 
 type xdm_lock_t;
 files_lock_file(xdm_lock_t)

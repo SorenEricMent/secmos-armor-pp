@@ -48,6 +48,8 @@ allow dnsmasq_t dnsmasq_etc_t:file read_file_perms;
 
 allow dnsmasq_t lo_netif_t:netif egress;
 
+systemd_homed_connect(dnsmasq_t)
+
 manage_files_pattern(dnsmasq_t, dnsmasq_lease_t, dnsmasq_lease_t)
 files_var_lib_filetrans(dnsmasq_t, dnsmasq_lease_t, file)
 

@@ -20,7 +20,7 @@ gen_require(`
 ## Enable support for systemd-tmpfiles to manage all non-security files.
 ## </p>
 ## </desc>
-gen_tunable(systemd_tmpfiles_manage_all, false)
+gen_tunable(systemd_tmpfiles_manage_all, true)
 
 ## <desc>
 ## <p>
@@ -131,13 +131,15 @@ type systemd_coredump_exec_t;
 init_system_domain(systemd_coredump_t, systemd_coredump_exec_t)
 
 ifdef(`enable_mls', `
-       mls_socket_read_all_levels(systemd_coredump_t)
-       mls_socket_read_to_clearance(systemd_coredump_t)
-       mls_socket_write_to_clearance(systemd_coredump_t)
-       mls_net_write_within_range(systemd_coredump_t)
-       mls_file_write_to_clearance(systemd_coredump_t)
-       mls_fd_share_all_levels(systemd_coredump_t)
-       mls_file_write_within_range(systemd_coredump_t)
+        mls_socket_read_all_levels(systemd_coredump_t)
+        mls_socket_read_to_clearance(systemd_coredump_t)
+        mls_socket_write_to_clearance(systemd_coredump_t)
+        mls_net_write_within_range(systemd_coredump_t)
+	mls_file_write_to_clearance(systemd_coredump_t)
+	mls_fd_use_all_levels(systemd_coredump_t)
+        mls_fd_share_all_levels(systemd_coredump_t)
+	mls_file_write_all_levels(systemd_coredump_t)
+        mls_file_write_within_range(systemd_coredump_t)
 ')
 
 allow systemd_coredump_t self:unix_stream_socket { connectto getattr read write };
@@ -173,9 +175,27 @@ init_daemon_domain(systemd_homed_t, systemd_homed_exec_t)
 
 allow systemd_homed_t self:unix_stream_socket { getopt read write };
 allow systemd_homed_t self:capability { dac_override dac_read_search };
-allow systemd_homed_t self:capability { dac_override dac_read_search };
+allow systemd_homed_t self:process getcap;
+fs_read_cgroup_files(systemd_homed_t)
 
 allow systemd_homed_t systemd_homed_runtime_t:fifo_file { open write };
+allow systemd_homed_t systemd_homed_runtime_t:fifo_file { create read };
+
+allow systemd_homed_t user_home_dir_t:dir { getattr ioctl open read };
+
+gen_require(`
+	type cert_t;
+	type cgroup_t;
+	type default_t;
+	type etc_runtime_t;
+')
+
+allow systemd_homed_t cert_t:dir search;
+allow systemd_homed_t cert_t:file { getattr open read };
+allow systemd_homed_t cgroup_t:file write;
+allow systemd_homed_t default_t:file { getattr read };
+allow systemd_homed_t etc_runtime_t:file { open read };
+
 gen_require(`
 	type locale_t;
 ')
@@ -188,7 +208,7 @@ domain_type(systemd_homework_t)
 domain_entry_file(systemd_homework_t, systemd_homework_exec_t)
 
 allow systemd_homework_t self:cap_userns { sys_admin sys_ptrace dac_read_search };
-allow systemd_homework_t self:capability { setfcap setgid setuid };
+allow systemd_homework_t self:capability { setfcap setgid setuid dac_read_search };
 allow systemd_homework_t self:process { getcap sigkill };
 allow systemd_homework_t self:user_namespace create;
 allow systemd_homework_t etc_runtime_t:file { open read };
@@ -239,9 +259,13 @@ type systemd_locale_t;
 type systemd_locale_exec_t;
 init_system_domain(systemd_locale_t, systemd_locale_exec_t)
 
+fs_read_cgroup_files(systemd_locale_t)
+
 type systemd_logind_t;
-mls_file_read_all_levels(systemd_logind_t)
-mls_file_write_all_levels(systemd_logind_t)
+ifdef(`enable_mls', `
+	mls_file_read_all_levels(systemd_logind_t)
+	mls_file_write_all_levels(systemd_logind_t)
+')
 
 type systemd_logind_exec_t;
 init_daemon_domain(systemd_logind_t, systemd_logind_exec_t)
@@ -377,6 +401,7 @@ ifdef(`enable_mls', `
 	mls_file_read_to_clearance(systemd_tmpfiles_t);
 	mls_file_write_to_clearance(systemd_tmpfiles_t);
 ')
+systemd_homed_connect(systemd_tmpfiles_t)
 
 type systemd_tmpfiles_conf_t;
 files_config_file(systemd_tmpfiles_conf_t)
@@ -411,13 +436,15 @@ type systemd_user_runtime_dir_t;
 type systemd_user_runtime_dir_exec_t;
 init_system_domain(systemd_user_runtime_dir_t, systemd_user_runtime_dir_exec_t)
 
+gen_require(`type user_tmp_t;')
 allow systemd_user_runtime_dir_t systemd_homed_runtime_t:sock_file write;
 allow systemd_user_runtime_dir_t systemd_homed_t:unix_stream_socket connectto;
 allow systemd_user_runtime_dir_t systemd_userdbd_runtime_t:dir { getattr open read search };
 allow systemd_user_runtime_dir_t systemd_userdbd_runtime_t:lnk_file read;
 allow systemd_user_runtime_dir_t systemd_userdbd_runtime_t:sock_file write;
 allow systemd_user_runtime_dir_t systemd_userdbd_t:unix_stream_socket connectto;
-
+allow systemd_user_runtime_dir_t user_tmp_t:fifo_file unlink;
+allow systemd_user_runtime_dir_t user_tmp_t:sock_file unlink;
 
 type systemd_user_tmpfs_t;
 userdom_user_tmpfs_file(systemd_user_tmpfs_t)
@@ -916,6 +943,8 @@ miscfiles_read_localization(systemd_journal_init_t)
 #
 
 kernel_read_kernel_sysctls(systemd_locale_t)
+
+xserver_read_xkb_libs(systemd_locale_t)
 
 files_read_etc_files(systemd_locale_t)
 

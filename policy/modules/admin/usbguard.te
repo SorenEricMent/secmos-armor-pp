@@ -2,7 +2,6 @@ policy_module(usbguard)
 
 gen_require(`
 	type etc_runtime_t;
-	type sysctl_vm_overcommit_t;
 	type sysctl_vm_t;
 	type systemd_homed_runtime_t;
 	type systemd_homed_t;
@@ -92,12 +91,15 @@ tunable_policy(`usbguard_user_modify_rule_files',`
 ')
 
 
+kernel_read_vm_overcommit_sysctl(usbguard_t)
+
 allow usbguard_t etc_runtime_t:file { open read };
-allow usbguard_t sysctl_vm_overcommit_t:file { open read };
 allow usbguard_t sysctl_vm_t:dir search;
-allow usbguard_t systemd_homed_runtime_t:sock_file write;
-allow usbguard_t systemd_homed_t:unix_stream_socket connectto;
-allow usbguard_t systemd_userdbd_runtime_t:dir { getattr open read search };
-allow usbguard_t systemd_userdbd_runtime_t:lnk_file read;
-allow usbguard_t systemd_userdbd_runtime_t:sock_file write;
-allow usbguard_t systemd_userdbd_t:unix_stream_socket connectto;
+ifdef(`init_systemd',`
+	allow usbguard_t systemd_homed_runtime_t:sock_file write;
+	allow usbguard_t systemd_homed_t:unix_stream_socket connectto;
+	allow usbguard_t systemd_userdbd_runtime_t:dir { getattr open read search };
+	allow usbguard_t systemd_userdbd_runtime_t:lnk_file read;
+	allow usbguard_t systemd_userdbd_runtime_t:sock_file write;
+	allow usbguard_t systemd_userdbd_t:unix_stream_socket connectto;
+')

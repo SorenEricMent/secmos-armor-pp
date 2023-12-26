@@ -466,7 +466,7 @@ ifdef(`distro_arch',`
 		type session_dbusd_runtime_t;
 		type systemd_logind_inhibit_runtime_t;
 		type systemd_logind_t;
-		type usr_t;
+		type user_runtime_t, user_runtime_root_t, user_tmp_t;
 		type xdg_config_t;
         ')      
 	allow telepathy_mission_control_t gnome_xdg_config_t:dir search;
@@ -476,4 +476,9 @@ ifdef(`distro_arch',`
 	allow telepathy_mission_control_t systemd_logind_t:fd use;
 	allow telepathy_mission_control_t usr_t:file map;
 	allow telepathy_mission_control_t xdg_config_t:dir search;
+	allow telepathy_mission_control_t user_runtime_root_t:dir search;
+	allow telepathy_mission_control_t user_runtime_t:dir search;
+	allow telepathy_mission_control_t user_tmp_t:dir { getattr search };
+	allow telepathy_mission_control_t user_tmp_t:file { map open read write };
+
 ')

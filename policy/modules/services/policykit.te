@@ -16,12 +16,9 @@ init_daemon_domain(policykit_t, policykit_exec_t)
 
 gen_require(`
 	type etc_runtime_t;
-	type systemd_homed_runtime_t;
-	type systemd_homed_t;
 ')
 allow policykit_t etc_runtime_t:file { open read };
-allow policykit_t systemd_homed_runtime_t:sock_file write;
-allow policykit_t systemd_homed_t:unix_stream_socket connectto;
+systemd_homed_connect(policykit_t)
 
 type policykit_auth_t, policykit_domain;
 type policykit_auth_exec_t;

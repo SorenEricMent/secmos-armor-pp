@@ -41,6 +41,8 @@ ifdef(`enable_mls', `
 	mls_socket_write_to_clearance(auditd_t)
 ')
 
+systemd_homed_connect(auditd_t)
+
 type auditd_initrc_exec_t;
 init_script_file(auditd_initrc_exec_t)
 

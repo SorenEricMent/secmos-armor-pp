@@ -79,6 +79,7 @@ template(`dbus_role_template',`
 	role $2 types $1_dbusd_t;
 	ifdef(`init_systemd', `
 		dbus_systemd($1)
+		systemd_homed_connect($1_dbusd_t)
 	')
 	##############################
 	#
@@ -103,6 +104,58 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t self:unix_stream_socket connectto;
 	
 	allow $3 system_dbusd_t:dbus { send_msg acquire_svc };
+
+	gen_require(`type var_lib_t;')
+	allow $1_dbusd_t var_lib_t:dir search;
+	allow $1_dbusd_t var_lib_t:lnk_file read;
+
+	allow $1_dbusd_t $1_systemd_t:system reload;
+
+	gen_require(`
+		type user_fonts_cache_t, user_fonts_config_t;
+		type user_home_t;
+		type user_tmp_t;
+	')
+	
+	allow $1_dbusd_t user_fonts_cache_t:dir search;
+	allow $1_dbusd_t user_fonts_cache_t:file { getattr map open read };
+	allow $1_dbusd_t user_fonts_config_t:file { getattr open read };
+	allow $1_dbusd_t user_home_t:dir { getattr open read search };
+	allow $1_dbusd_t user_home_t:file { getattr map open read };
+	allow $1_dbusd_t user_home_t:lnk_file read;
+	allow $1_dbusd_t user_tmp_t:dir { getattr search };
+	allow $1_dbusd_t user_tmp_t:file { map open read write };
+	allow $1_dbusd_t user_tmp_t:sock_file write;
+
+	# Accepted packets
+	net_dns_packet($1_dbusd_t)	
+	
+	gen_require(`
+		type device_t;
+		type dri_device_t;
+		type etc_t, etc_runtime_t;
+		type evolution_xdg_config_t;
+		type fonts_t, fonts_cache_t;
+		type gnome_xdg_config_t;
+		type lib_t;
+		type lo_netif_t;
+		type mesa_shader_cache_t;
+	')
+	allow $1_dbusd_t device_t:chr_file getattr;
+	allow $1_dbusd_t dri_device_t:chr_file { getattr ioctl map open read write };
+	allow $1_dbusd_t etc_runtime_t:file { getattr open read };
+	allow $1_dbusd_t etc_t:dir watch;
+	allow $1_dbusd_t evolution_xdg_config_t:dir search;
+	allow $1_dbusd_t fonts_cache_t:dir search;
+	allow $1_dbusd_t fonts_cache_t:file { getattr map open read };
+	allow $1_dbusd_t fonts_t:dir { getattr open read search };
+	allow $1_dbusd_t fonts_t:file { getattr map open read };
+	allow $1_dbusd_t gnome_xdg_config_t:dir search;
+	allow $1_dbusd_t gnome_xdg_config_t:file { getattr map open read };
+	allow $1_dbusd_t lib_t:file execute_no_trans;
+	allow $1_dbusd_t lo_netif_t:netif egress;
+	allow $1_dbusd_t mesa_shader_cache_t:dir { getattr search };
+	allow $1_dbusd_t mesa_shader_cache_t:file { getattr map open read write };
 
 	gen_require(`
 		type $1_wm_t;
@@ -806,15 +859,11 @@ interface(`dbus_unconfined',`
 
 template(`dbus_systemd', `
 	gen_require(`
-		type systemd_homed_runtime_t;
-		type systemd_homed_t;
 		type systemd_user_runtime_notify_t;
 		type systemd_user_runtime_t;
 		type $1_systemd_t;
 		type xdm_var_lib_t;
 	')
-	allow $1_dbusd_t systemd_homed_runtime_t:sock_file write;
-	allow $1_dbusd_t systemd_homed_t:unix_stream_socket connectto;
 	allow $1_dbusd_t systemd_user_runtime_notify_t:sock_file write;
 	allow $1_dbusd_t systemd_user_runtime_t:dir search;
 	allow $1_dbusd_t $1_systemd_t:unix_dgram_socket sendto;

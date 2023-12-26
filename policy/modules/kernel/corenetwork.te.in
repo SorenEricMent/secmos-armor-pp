@@ -12813,4 +12813,3 @@ portcon tcp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s
 portcon udp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s0)
 portcon sctp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s0)
 portcon dccp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s0)
-
