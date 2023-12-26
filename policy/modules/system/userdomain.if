@@ -61,17 +61,24 @@ template(`userdom_base_user_template',`
 
 	ifdef(`init_systemd', `
                 gen_require(`
+			type $1_systemd_t;
 			type systemd_logind_runtime_t;
 	                type systemd_machined_runtime_t;
         		type systemd_sessions_runtime_t;
                		type systemd_user_tmpfs_t;
+			type systemd_homed_t;
+			type systemd_homed_runtime_t;
                 ')
 		systemd_homed_connect($1_t)
+		allow $1_t systemd_homed_runtime_t:fifo_file write;
+		allow $1_t systemd_homed_t:fd use;
+		allow $1_t systemd_sessions_runtime_t:file { open read };
 		allow $1_t systemd_logind_runtime_t:dir watch;
  	        allow $1_t systemd_logind_runtime_t:file { open read };
        		allow $1_t systemd_machined_runtime_t:dir watch;
 	        allow $1_t systemd_sessions_runtime_t:dir watch;
 	        allow $1_t systemd_user_tmpfs_t:file { read write };
+		allow $1_t $1_systemd_t:unix_dgram_socket sendto;
 	')
 
 	allow $1_t kernel_t:system module_request;

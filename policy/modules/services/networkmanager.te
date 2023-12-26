@@ -1,16 +1,5 @@
 policy_module(networkmanager)
 
-require {
-	type lib_t;
-	type nsfs_t;
-	type systemd_homed_runtime_t;
-	type systemd_homed_t;
-	type systemd_logind_runtime_t;
-	type systemd_machined_runtime_t;
-	type systemd_sessions_runtime_t;
-	type xdg_cache_t;
-}
-
 ########################################
 #
 # Declarations
@@ -19,6 +8,8 @@ require {
 type NetworkManager_t;
 type NetworkManager_exec_t;
 init_daemon_domain(NetworkManager_t, NetworkManager_exec_t)
+
+corenet_all_recvfrom_unlabeled(NetworkManager_t)
 
 type NetworkManager_etc_t;
 files_config_file(NetworkManager_etc_t)
@@ -69,18 +60,34 @@ allow NetworkManager_t self:tun_socket { create_socket_perms relabelfrom relabel
 allow NetworkManager_t self:packet_socket create_socket_perms;
 allow NetworkManager_t self:socket create_socket_perms;
 allow NetworkManager_t self:alg_socket { accept bind create read setopt write };
+allow NetworkManager_t self:bpf { map_create };
 
 # secmos-armor-pp patch for ArchLinux
+gen_require(`
+	type kernel_t;
+        type lib_t;
+        type nsfs_t;
+')
+
 allow NetworkManager_t kernel_t:unix_stream_socket { connectto };
 allow NetworkManager_t lib_t:dir { watch };
 allow NetworkManager_t nsfs_t:file { open read };
-allow NetworkManager_t self:bpf { map_create };
-allow NetworkManager_t systemd_homed_runtime_t:sock_file { write };
-allow NetworkManager_t systemd_homed_t:unix_stream_socket { connectto };
-allow NetworkManager_t systemd_logind_runtime_t:dir { watch };
-allow NetworkManager_t systemd_machined_runtime_t:dir { watch };
-allow NetworkManager_t systemd_sessions_runtime_t:dir { watch };
-allow NetworkManager_t xdg_cache_t:dir { search };
+ifdef(`init_systemd', `
+	gen_require(`        
+		type systemd_homed_runtime_t;
+	        type systemd_homed_t;
+	        type systemd_logind_runtime_t;
+	        type systemd_machined_runtime_t;
+	        type systemd_sessions_runtime_t;
+	')
+	allow NetworkManager_t systemd_homed_runtime_t:sock_file { write };
+	allow NetworkManager_t systemd_homed_t:unix_stream_socket { connectto };
+	allow NetworkManager_t systemd_logind_runtime_t:dir { watch };
+	allow NetworkManager_t systemd_machined_runtime_t:dir { watch };
+	allow NetworkManager_t systemd_sessions_runtime_t:dir { watch };
+')
+
+xdg_search_cache_dirs(NetworkManager_t)
 #
 
 # ICMPv6 router solicitation/advertisement
@@ -178,7 +185,11 @@ fs_search_auto_mountpoints(NetworkManager_t)
 fs_search_tmpfs(NetworkManager_t)
 fs_list_inotifyfs(NetworkManager_t)
 
-mls_file_read_all_levels(NetworkManager_t)
+ifdef(`enable_mls',`
+	mls_file_read_all_levels(NetworkManager_t)
+	mls_socket_read_all_levels(NetworkManager_t)
+	mls_socket_write_all_levels(NetworkManager_t)
+')
 
 selinux_dontaudit_search_fs(NetworkManager_t)
 

@@ -814,3 +814,71 @@ interface(`gnome_mmap_gstreamer_orcexec',`
 
 	allow $1 gstreamer_orcexec_t:file mmap_exec_file_perms;
 ')
+
+
+########################################
+## <summary>
+##      Allow search on XDG-Gnome config
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`gnome_xdg_config_dir_search', `
+	gen_require(`
+                type gnome_xdg_config_t;
+        ')
+	allow $1 gnome_xdg_config_t:dir search;
+')
+
+########################################
+## <summary>
+##      Allow read on XDG-Gnome config
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`gnome_xdg_config_read', `
+	gen_require(`
+                type gnome_xdg_config_t;
+        ')
+	allow $1 gnome_xdg_config_t:file { getattr map open read };
+')
+########################################
+## <summary>
+##      Allow rw on XDG-Gnome config dir
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`gnome_xdg_config_dir_rw', `
+        gen_require(`
+                type gnome_xdg_config_t;
+        ')
+        allow $1 gnome_xdg_config_t:dir { add_name getattr open read remove_name search write };
+')
+
+########################################
+## <summary>
+##      Allow rw on XDG-Gnome config
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`gnome_xdg_config_rw', `
+	gen_require(`
+		type gnome_xdg_config_t;
+	')
+        allow $1 gnome_xdg_config_t:file { create getattr map open read rename unlink write };
+')

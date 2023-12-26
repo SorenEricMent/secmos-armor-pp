@@ -54,6 +54,10 @@ allow logrotate_t self:msg { send receive };
 allow logrotate_t logrotate_lock_t:file manage_file_perms;
 files_lock_filetrans(logrotate_t, logrotate_lock_t, file)
 
+ifdef(`init_systemd', `
+	systemd_homed_connect(logrotate_t)
+')
+
 manage_dirs_pattern(logrotate_t, logrotate_tmp_t, logrotate_tmp_t)
 manage_files_pattern(logrotate_t, logrotate_tmp_t, logrotate_tmp_t)
 files_tmp_filetrans(logrotate_t, logrotate_tmp_t, { file dir })

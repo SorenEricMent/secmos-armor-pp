@@ -64,6 +64,7 @@ template(`systemd_role_template',`
 	allow $1_systemd_t self:unix_stream_socket create_stream_socket_perms;
 	allow $1_systemd_t self:unix_dgram_socket sendto;
         allow $1_systemd_t self:netlink_route_socket { bind create getattr getopt nlmsg_read read setopt write };
+	allow $1_systemd_t self:tcp_socket { bind create getattr getopt read setopt write };
 	allow $1_systemd_t $3:process { setsched rlimitinh signal_perms };
 	allow $1_systemd_t self:system { reload start };
 	corecmd_shell_domtrans($1_systemd_t, $3)
@@ -123,7 +124,9 @@ template(`systemd_role_template',`
         allow $1_systemd_t systemd_userdbd_runtime_t:sock_file write;
         allow $1_systemd_t systemd_userdbd_t:unix_stream_socket connectto;
 	
-		ifdef(`distro_arch', `
+	xdg_manage_cache($1_systemd_t)
+	
+	ifdef(`distro_arch', `
 		gen_require(`
 			type adjtime_t;
 			type dirmngr_t, dirmngr_tmp_t;
@@ -134,8 +137,7 @@ template(`systemd_role_template',`
 			type pulseaudio_tmp_t;
 			type restorecond_exec_t;
 			type sound_device_t;
-			type xdm_t, xdm_var_lib_t;
-			type gnome_xdg_config_t;
+			type xdm_t;
 			type etc_t, etc_runtime_t;
 			type fuse_device_t, fusefs_t;
 			type evolution_xdg_config_t;
@@ -143,7 +145,10 @@ template(`systemd_role_template',`
 			type dri_device_t;
 			type cupsd_t, cupsd_runtime_t;
 			type boot_t;
+			type wireless_device_t;
 		')
+		xserver_read_xkb_libs($1_systemd_t)
+		xserver_rw_mesa_shader_cache($1_systemd_t)
 	        allow $1_systemd_t dirmngr_t:unix_stream_socket { bind create listen setopt };
 	        allow $1_systemd_t dirmngr_tmp_t:sock_file { create getattr write };
 	        allow $1_systemd_t gnome_keyring_tmp_t:dir { add_name create write };
@@ -163,7 +168,6 @@ template(`systemd_role_template',`
 	        allow $1_systemd_t sound_device_t:chr_file getattr;
         	allow $1_systemd_t xdm_t:dir search;
 	        allow $1_systemd_t xdm_t:file { getattr ioctl open read };
-	        allow $1_systemd_t xdm_var_lib_t:dir { getattr search };
 		allow $1_systemd_t adjtime_t:file { getattr ioctl open read };
 		allow $1_systemd_t boot_t:dir search;
 		allow $1_systemd_t cupsd_runtime_t:dir search;
@@ -185,9 +189,10 @@ template(`systemd_role_template',`
 		allow $1_systemd_t fuse_device_t:chr_file { open read write };
 		allow $1_systemd_t fusefs_t:dir { getattr read search watch };
 		allow $1_systemd_t fusefs_t:filesystem mount;
-		allow $1_systemd_t gnome_xdg_config_t:dir { add_name getattr open read remove_name search write };
-		allow $1_systemd_t gnome_xdg_config_t:file { create getattr map open read rename unlink write };
+		allow $1_systemd_t wireless_device_t:chr_file read;
 
+		gnome_xdg_config_dir_rw($1_systemd_t)
+		gnome_xdg_config_rw($1_systemd_t)
 		
 		gen_require(`
 			type user_cert_t;

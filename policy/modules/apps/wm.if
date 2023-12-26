@@ -49,26 +49,39 @@ template(`wm_role_template',`
 	role $4 types $1_wm_t;
         ifdef(`distro_arch',`
                 gen_require(`
-                        type xdg_cache_t;
+			type kernel_t;
                         type xdg_data_t;
+			type lib_t;
+			type lo_netif_t;
+			type proc_net_t;
+			type $1_systemd_t;
+			type $1_t;
                 ')
-                allow $1_wm_t xdg_cache_t:file { create getattr open read rename setattr unlink write };
+                xdg_manage_all_cache($1_wm_t)
                 allow $1_wm_t xdg_data_t:dir search;
+		allow $1_wm_t $1_systemd_t:unix_dgram_socket sendto;
+		allow $1_wm_t $1_t:dir search;
+		allow $1_wm_t $1_t:file { getattr open read };
+		allow $1_wm_t $1_t:lnk_file read;
+		allow $1_wm_t $1_t:process getattr;
+		allow $1_wm_t kernel_t:unix_stream_socket connectto;
+		allow $1_wm_t lib_t:file execute_no_trans;
+		allow $1_wm_t lo_netif_t:netif egress;
+		allow $1_wm_t proc_net_t:lnk_file read;
+
 		fs_read_cgroup_files($1_wm_t)
 		fs_search_cgroup_dirs($1_wm_t)
         ')
         ifdef(`init_systemd', `
                 gen_require(`
                         type systemd_logind_t, systemd_logind_runtime_t, systemd_logind_inhibit_runtime_t;
-                        type systemd_homed_t, systemd_homed_runtime_t;
                         type systemd_sessions_runtime_t;
                         type systemd_user_runtime_notify_t;
                         type systemd_user_runtime_t;
                         type systemd_user_tmpfs_t;
                 ')
                 allow $1_wm_t systemd_logind_t:fd use;
-                allow $1_wm_t systemd_homed_runtime_t:sock_file write;
-                allow $1_wm_t systemd_homed_t:unix_stream_socket connectto;
+                systemd_homed_connect($1_wm_t)
                 allow $1_wm_t systemd_logind_inhibit_runtime_t:fifo_file write;
                 allow $1_wm_t systemd_logind_runtime_t:dir search;
                 allow $1_wm_t systemd_logind_runtime_t:file { getattr open read };
@@ -79,6 +92,9 @@ template(`wm_role_template',`
                 allow $1_wm_t systemd_user_runtime_t:sock_file write;
                 allow $1_wm_t systemd_user_tmpfs_t:file { getattr map read write };
         ')
+	
+	allow $1_t $1_wm_t:shm { associate getattr read unix_read unix_write write };
+	allow $1_t $1_wm_t:unix_stream_socket { read write accept getopt ioctl shutdown };
 
 	########################################
 	#

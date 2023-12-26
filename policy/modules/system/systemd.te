@@ -178,8 +178,7 @@ allow systemd_homed_t self:capability { dac_override dac_read_search };
 allow systemd_homed_t self:process getcap;
 fs_read_cgroup_files(systemd_homed_t)
 
-allow systemd_homed_t systemd_homed_runtime_t:fifo_file { open write };
-allow systemd_homed_t systemd_homed_runtime_t:fifo_file { create read };
+allow systemd_homed_t systemd_homed_runtime_t:fifo_file { create read open write };
 
 allow systemd_homed_t user_home_dir_t:dir { getattr ioctl open read };
 

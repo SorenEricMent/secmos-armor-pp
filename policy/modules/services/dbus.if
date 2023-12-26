@@ -64,6 +64,7 @@ template(`dbus_role_template',`
 		type system_dbusd_t, dbusd_exec_t;
 		type session_dbusd_tmp_t, session_dbusd_home_t;
 		type session_dbusd_runtime_t;
+		type systemd_user_runtime_t;
 	')
 
 	##############################
@@ -104,6 +105,7 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t self:unix_stream_socket connectto;
 	
 	allow $3 system_dbusd_t:dbus { send_msg acquire_svc };
+	allow $1_dbusd_t systemd_user_runtime_t:sock_file write;
 
 	gen_require(`type var_lib_t;')
 	allow $1_dbusd_t var_lib_t:dir search;
@@ -136,7 +138,6 @@ template(`dbus_role_template',`
 		type etc_t, etc_runtime_t;
 		type evolution_xdg_config_t;
 		type fonts_t, fonts_cache_t;
-		type gnome_xdg_config_t;
 		type lib_t;
 		type lo_netif_t;
 		type mesa_shader_cache_t;
@@ -150,12 +151,13 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t fonts_cache_t:file { getattr map open read };
 	allow $1_dbusd_t fonts_t:dir { getattr open read search };
 	allow $1_dbusd_t fonts_t:file { getattr map open read };
-	allow $1_dbusd_t gnome_xdg_config_t:dir search;
-	allow $1_dbusd_t gnome_xdg_config_t:file { getattr map open read };
 	allow $1_dbusd_t lib_t:file execute_no_trans;
 	allow $1_dbusd_t lo_netif_t:netif egress;
 	allow $1_dbusd_t mesa_shader_cache_t:dir { getattr search };
 	allow $1_dbusd_t mesa_shader_cache_t:file { getattr map open read write };
+
+	gnome_xdg_config_dir_search($1_dbusd_t)
+	gnome_xdg_config_read($1_dbusd_t)
 
 	gen_require(`
 		type $1_wm_t;
