@@ -9,6 +9,9 @@ system_r:xdm_t:s0		user_r:user_t:s0 staff_r:staff_t:s0 sysadm_r:sysadm_t:s0 unco
 staff_r:staff_su_t:s0		user_r:user_t:s0 staff_r:staff_t:s0 sysadm_r:sysadm_t:s0
 staff_r:staff_sudo_t:s0		sysadm_r:sysadm_t:s0 staff_r:staff_t:s0
 
+secadm_r:secadm_su_t:s0           user_r:user_t:s0 staff_r:staff_t:s0 secadm_r:secadm_t:s0
+secadm_r:secadm_sudo_t:s0         secadm_r:secadm_t:s0 staff_r:staff_t:s0
+
 sysadm_r:sysadm_su_t:s0		user_r:user_t:s0 staff_r:staff_t:s0 sysadm_r:sysadm_t:s0
 sysadm_r:sysadm_sudo_t:s0	sysadm_r:sysadm_t:s0
 

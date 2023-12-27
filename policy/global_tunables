@@ -47,7 +47,7 @@ gen_tunable(allow_raw_memory_access,false)
 ## Enable polyinstantiated directory support.
 ## </p>
 ## </desc>
-gen_tunable(allow_polyinstantiation,false)
+gen_tunable(allow_polyinstantiation,true)
 
 ## <desc>
 ## <p>

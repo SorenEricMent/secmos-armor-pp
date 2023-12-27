@@ -46,7 +46,7 @@ ifdef(`direct_sysadm_daemon',`
 # not in the sysadm_r.
 #
 ifdef(`direct_sysadm_daemon',`
-	gen_user(root, sysadm, sysadm_r staff_r ifdef(`enable_mls',`secadm_r auditadm_r') system_r, s0, s0 - mls_systemhigh, mcs_allcats)
+	gen_user(root, sysadm, sysadm_r staff_r secadm_r ifdef(`enable_mls',`auditadm_r') system_r, s0, s0 - mls_systemhigh, mcs_allcats)
 ',`
-	gen_user(root, sysadm, sysadm_r staff_r ifdef(`enable_mls',`secadm_r auditadm_r'), s0, s0 - mls_systemhigh, mcs_allcats)
+	gen_user(root, sysadm, sysadm_r staff_r secadm_r ifdef(`enable_mls',`auditadm_r'), s0, s0 - mls_systemhigh, mcs_allcats)
 ')
