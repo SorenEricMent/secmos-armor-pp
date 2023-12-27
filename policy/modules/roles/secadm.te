@@ -9,7 +9,6 @@ role secadm_r;
 
 userdom_unpriv_user_template(secadm)
 userdom_security_admin_template(secadm_t, secadm_r)
-
 ########################################
 #
 # Local policy
@@ -42,7 +41,9 @@ logging_watch_audit_log(secadm_t)
 
 seutil_get_semanage_trans_lock(secadm_t)
 seutil_exec_loadpolicy(secadm_t)
-
+seutil_exec_checkpolicy(secadm_t)
+seutil_manage_config(secadm_t)
+seutil_manage_config_dirs(secadm_t)
 optional_policy(`
 	aide_run(secadm_t, secadm_r)
 ')

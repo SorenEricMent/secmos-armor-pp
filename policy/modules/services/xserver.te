@@ -356,6 +356,10 @@ allow xdm_t self:key { search link write };
 
 allow xdm_t xconsole_device_t:fifo_file { read_fifo_file_perms setattr_fifo_file_perms };
 
+ifdef(`init_systemd', `
+	gen_require(`type user_systemd_t;')
+	allow xdm_t user_systemd_t:system status;
+')
 # Allow gdm to run gdm-binary
 can_exec(xdm_t, xdm_exec_t)
 

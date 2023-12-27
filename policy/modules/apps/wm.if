@@ -46,6 +46,7 @@ template(`wm_role_template',`
 	type $1_wm_t, wm_domain;
 	userdom_application_exec_domain($1_wm_t, $1)
 	userdom_user_application_domain($1_wm_t, wm_exec_t)
+	userdom_manage_user_runtime_files($1_wm_t)
 	role $4 types $1_wm_t;
         ifdef(`distro_arch',`
                 gen_require(`
@@ -54,12 +55,37 @@ template(`wm_role_template',`
 			type lib_t;
 			type lo_netif_t;
 			type proc_net_t;
+			type user_home_t;
+			type user_tmpfs_t;
+			type devlog_t;
+			type syslogd_runtime_t;
+			type init_t;
+			type cgroup_t;
+			type user_tmp_t;
+			type evolution_xdg_config_t;
+			type gnome_xdg_config_t;
+			type event_device_t;
+			type udev_runtime_t;
 			type $1_systemd_t;
 			type $1_t;
                 ')
                 xdg_manage_all_cache($1_wm_t)
 		gnome_xdg_config_read($1_wm_t)
 		fs_watch_tmpfs_dirs($1_wm_t)
+		fs_rw_cgroup_files($1_wm_t)
+		term_use_generic_ptys($1_wm_t)
+		userdom_manage_user_runtime_dirs($1_wm_t)
+		userdom_manage_user_tmp_files($1_wm_t)
+		allow $1_wm_t user_home_t:lnk_file read;
+		allow $1_wm_t user_tmpfs_t:file { map write };
+		allow $1_wm_t devlog_t:sock_file write;
+		allow $1_wm_t syslogd_runtime_t:dir search;
+		allow $1_wm_t event_device_t:chr_file write;
+		allow $1_wm_t user_home_t:dir watch;
+
+		files_watch_usr_dirs($1_wm_t)
+		files_exec_usr_files($1_wm_t)
+
                 allow $1_wm_t xdg_data_t:dir search;
 		allow $1_wm_t $1_systemd_t:unix_dgram_socket sendto;
 		allow $1_wm_t $1_t:dir search;
@@ -70,6 +96,15 @@ template(`wm_role_template',`
 		allow $1_wm_t lib_t:file execute_no_trans;
 		allow $1_wm_t lo_netif_t:netif egress;
 		allow $1_wm_t proc_net_t:lnk_file read;
+		allow $1_wm_t evolution_xdg_config_t:dir search;
+		allow $1_wm_t gnome_xdg_config_t:dir search;
+		allow $1_wm_t cgroup_t:dir write;
+		allow $1_wm_t init_t:dir search;
+		allow $1_wm_t user_tmp_t:file map;
+		allow $1_wm_t udev_runtime_t:dir read;
+		
+		kernel_read_net_sysctls($1_wm_t)
+		kernel_read_unix_sysctls($1_wm_t)
 
 		fs_read_cgroup_files($1_wm_t)
 		fs_search_cgroup_dirs($1_wm_t)
@@ -81,6 +116,9 @@ template(`wm_role_template',`
                         type systemd_user_runtime_notify_t;
                         type systemd_user_runtime_t;
                         type systemd_user_tmpfs_t;
+			type systemd_user_unit_t;
+			type $1_systemd_t;
+			class service { start status };
                 ')
                 allow $1_wm_t systemd_logind_t:fd use;
                 systemd_homed_connect($1_wm_t)
@@ -93,6 +131,8 @@ template(`wm_role_template',`
                 allow $1_wm_t systemd_user_runtime_t:dir { getattr search write };
                 allow $1_wm_t systemd_user_runtime_t:sock_file write;
                 allow $1_wm_t systemd_user_tmpfs_t:file { getattr map read write };
+		allow $1_wm_t $1_systemd_t:system { start status };
+		allow $1_wm_t systemd_user_unit_t:service { start status };
         ')
 	
 	allow $1_t $1_wm_t:shm { associate getattr read unix_read unix_write write };

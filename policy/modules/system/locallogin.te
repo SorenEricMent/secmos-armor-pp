@@ -33,7 +33,7 @@ role system_r types sulogin_t;
 #
 
 allow local_login_t self:capability { chown dac_read_search dac_override fowner fsetid kill setgid setuid sys_nice sys_resource sys_tty_config };
-allow local_login_t self:process { getcap setcap setexec setrlimit setsched };
+allow local_login_t self:process { getcap setcap setexec setrlimit setsched signal };
 allow local_login_t self:fd use;
 allow local_login_t self:fifo_file rw_fifo_file_perms;
 allow local_login_t self:sock_file read_sock_file_perms;
@@ -47,6 +47,18 @@ allow local_login_t self:msgq create_msgq_perms;
 allow local_login_t self:msg { send receive };
 allow local_login_t self:key { search write link };
 
+gen_require(`type pam_motd_runtime_t;')
+allow local_login_t pam_motd_runtime_t:dir { getattr open read search };
+
+ifdef(`init_systemd', `
+	gen_require(`
+		type systemd_homed_t, systemd_homed_runtime_t;
+	')
+	allow local_login_t systemd_homed_runtime_t:fifo_file write;
+	allow local_login_t systemd_homed_runtime_t:sock_file write;
+	allow local_login_t systemd_homed_t:fd use;
+	allow local_login_t systemd_homed_t:unix_stream_socket connectto;
+')
 allow local_login_t local_login_lock_t:file manage_file_perms;
 files_lock_filetrans(local_login_t, local_login_lock_t, file)
 
@@ -232,6 +244,8 @@ optional_policy(`
 	xserver_rw_xdm_tmp_files(local_login_t)
 	xserver_rw_xdm_keys(local_login_t)
 ')
+gen_require(`type xdm_t;')
+allow local_login_t xdm_t:key search;
 
 #################################
 #

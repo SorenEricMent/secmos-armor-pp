@@ -5,7 +5,6 @@ gen_require(`
 	type device_t;
 	type etc_runtime_t;
 	type fs_t;
-	type selinux_config_t;
 	type user_home_dir_t;
 	type user_home_t;
 ')
@@ -96,7 +95,6 @@ gen_require(`
 	type binfmt_misc_fs_t;
 	type cgroup_t;
 	type proc_t;
-	type selinux_config_t;
 ')
 
 allow systemd_binfmt_t binfmt_misc_fs_t:dir write;
@@ -104,7 +102,7 @@ allow systemd_binfmt_t binfmt_misc_fs_t:filesystem getattr;
 allow systemd_binfmt_t cgroup_t:dir search;
 allow systemd_binfmt_t cgroup_t:filesystem getattr;
 allow systemd_binfmt_t proc_t:filesystem getattr;
-allow systemd_binfmt_t selinux_config_t:lnk_file read;
+seutil_read_config(systemd_binfmt_t)
 
 type systemd_binfmt_unit_t;
 init_unit_file(systemd_binfmt_unit_t)
@@ -129,6 +127,8 @@ init_daemon_domain(systemd_cgtop_t, systemd_cgtop_exec_t)
 type systemd_coredump_t;
 type systemd_coredump_exec_t;
 init_system_domain(systemd_coredump_t, systemd_coredump_exec_t)
+
+seutil_read_config(systemd_coredump_t)
 
 ifdef(`enable_mls', `
         mls_socket_read_all_levels(systemd_coredump_t)
@@ -176,7 +176,9 @@ init_daemon_domain(systemd_homed_t, systemd_homed_exec_t)
 allow systemd_homed_t self:unix_stream_socket { getopt read write };
 allow systemd_homed_t self:capability { dac_override dac_read_search };
 allow systemd_homed_t self:process getcap;
+
 fs_read_cgroup_files(systemd_homed_t)
+seutil_read_config(systemd_homed_t)
 
 allow systemd_homed_t systemd_homed_runtime_t:fifo_file { create read open write };
 
@@ -192,31 +194,70 @@ gen_require(`
 allow systemd_homed_t cert_t:dir search;
 allow systemd_homed_t cert_t:file { getattr open read };
 allow systemd_homed_t cgroup_t:file write;
-allow systemd_homed_t default_t:file { getattr read };
+allow systemd_homed_t default_t:file { getattr read write };
 allow systemd_homed_t etc_runtime_t:file { open read };
 
 gen_require(`
+	type init_t;
 	type locale_t;
+	type init_runtime_t;
 ')
 allow systemd_homed_t locale_t:dir search;
 allow systemd_homed_t locale_t:file { getattr map open read };
 
 type systemd_homework_t;
 type systemd_homework_exec_t;
+
+allow systemd_homed_t systemd_homework_t:fd use;
+
+storage_raw_rw_fixed_disk(systemd_homework_t)
+allow systemd_homework_t init_runtime_t:dir mounton;
+
+allow systemd_homework_t self:netlink_kobject_uevent_socket create;
+allow systemd_homework_t default_t:file { getattr lock open setattr };
+allow systemd_homework_t init_t:key write;
+
 domain_type(systemd_homework_t)
 domain_entry_file(systemd_homework_t, systemd_homework_exec_t)
 
+gen_require(`
+	type etc_runtime_t;
+	type fs_t;
+	type nsfs_t;
+	type sysctl_fs_t;
+	type tmpfs_t;
+	type user_home_t, user_home_dir_t;
+')
 allow systemd_homework_t self:cap_userns { sys_admin sys_ptrace dac_read_search };
 allow systemd_homework_t self:capability { setfcap setgid setuid dac_read_search };
 allow systemd_homework_t self:process { getcap sigkill };
 allow systemd_homework_t self:user_namespace create;
+allow systemd_homework_t self:key read;
 allow systemd_homework_t etc_runtime_t:file { open read };
 allow systemd_homework_t fs_t:filesystem remount;
-allow systemd_homework_t selinux_config_t:lnk_file read;
+allow systemd_homework_t nsfs_t:file { open read };
+allow systemd_homework_t default_t:file { read write };
+
+allow systemd_homework_t locale_t:dir search;
+allow systemd_homework_t locale_t:file { getattr map open read };
+allow systemd_homework_t tmpfs_t:dir search;
+allow systemd_homework_t tmpfs_t:file { create unlink };
+
+allow systemd_homework_t sysctl_fs_t:dir search;
+allow systemd_homework_t sysctl_fs_t:file { getattr ioctl open read };
+
+seutil_read_config(systemd_homework_t)
+ifdef(`enable_mls', `
+	mls_file_write_to_clearance(systemd_homework_t)
+	mls_key_write_to_clearance(systemd_homework_t)
+')
 allow systemd_homework_t systemd_homed_runtime_t:sock_file write;
 allow systemd_homework_t systemd_homed_t:unix_dgram_socket sendto;
 allow systemd_homework_t user_home_dir_t:dir { getattr mounton open read search };
 allow systemd_homework_t user_home_t:file { getattr open read };
+
+fs_rw_tmpfs_files(systemd_homework_t)
+fs_search_tmpfs(systemd_homework_t)
 
 role system_r types systemd_homework_t;
 
@@ -258,7 +299,20 @@ type systemd_locale_t;
 type systemd_locale_exec_t;
 init_system_domain(systemd_locale_t, systemd_locale_exec_t)
 
+seutil_read_config(systemd_locale_t)
 fs_read_cgroup_files(systemd_locale_t)
+
+allow systemd_locale_t systemd_runtime_notify_t:sock_file write;
+
+gen_require(`
+	type cgroup_t;	
+	type proc_t;
+	type usr_t;
+')
+
+allow systemd_locale_t cgroup_t:filesystem getattr;
+allow systemd_locale_t proc_t:filesystem getattr;
+allow systemd_locale_t usr_t:dir read;
 
 type systemd_logind_t;
 ifdef(`enable_mls', `
@@ -399,6 +453,7 @@ init_daemon_domain(systemd_tmpfiles_t, systemd_tmpfiles_exec_t)
 ifdef(`enable_mls', `
 	mls_file_read_to_clearance(systemd_tmpfiles_t);
 	mls_file_write_to_clearance(systemd_tmpfiles_t);
+	mls_file_upgrade(systemd_tmpfiles_t) 
 ')
 systemd_homed_connect(systemd_tmpfiles_t)
 
@@ -435,6 +490,15 @@ type systemd_user_runtime_dir_t;
 type systemd_user_runtime_dir_exec_t;
 init_system_domain(systemd_user_runtime_dir_t, systemd_user_runtime_dir_exec_t)
 
+gen_require(`
+	type etc_runtime_t;
+	type fusefs_t;
+	type gconf_tmp_t;
+')
+allow systemd_user_runtime_dir_t etc_runtime_t:file { open read };
+allow systemd_user_runtime_dir_t fusefs_t:dir getattr;
+allow systemd_user_runtime_dir_t gconf_tmp_t:dir { getattr read };
+
 gen_require(`type user_tmp_t;')
 allow systemd_user_runtime_dir_t systemd_homed_runtime_t:sock_file write;
 allow systemd_user_runtime_dir_t systemd_homed_t:unix_stream_socket connectto;
@@ -452,6 +516,8 @@ type systemd_userdbd_t;
 type systemd_userdbd_exec_t;
 
 allow systemd_userdbd_t self:unix_stream_socket { read write };
+
+seutil_read_config(systemd_userdbd_t)
 
 ifdef(`enable_mls', `
 	mls_socket_read_to_clearance(systemd_userdbd_t)

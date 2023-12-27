@@ -10,6 +10,8 @@ type NetworkManager_exec_t;
 init_daemon_domain(NetworkManager_t, NetworkManager_exec_t)
 
 corenet_all_recvfrom_unlabeled(NetworkManager_t)
+net_dns_packet(NetworkManager_t)
+net_http_packet(NetworkManager_t)
 
 type NetworkManager_etc_t;
 files_config_file(NetworkManager_etc_t)

@@ -23,7 +23,7 @@ gen_tunable(sysadm_allow_rw_inherited_fifo, false)
 #role sysadm_r;
 
 userdom_admin_user_template(sysadm)
-
+userdom_operator(sysadm)
 ifndef(`enable_mls',`
 	userdom_security_admin_template(sysadm_t, sysadm_r)
 ')

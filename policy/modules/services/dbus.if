@@ -80,8 +80,8 @@ template(`dbus_role_template',`
 	role $2 types $1_dbusd_t;
 	ifdef(`init_systemd', `
 		dbus_systemd($1)
-		systemd_homed_connect($1_dbusd_t)
 	')
+	xserver_read_xkb_libs($1_dbusd_t)
 	##############################
 	#
 	# Local policy
@@ -93,11 +93,15 @@ template(`dbus_role_template',`
 
 	gen_require(`
 		type system_dbusd_t, system_dbusd_runtime_t;
+		type systemd_user_runtime_t;
 	')
 
+	systemd_homed_connect($1_dbusd_t)
 	allow $1_dbusd_t system_dbusd_runtime_t:dir search;
 	allow $1_dbusd_t system_dbusd_runtime_t:sock_file write;
 	allow $1_dbusd_t system_dbusd_t:unix_stream_socket connectto;
+        allow $1_dbusd_t systemd_user_runtime_t:dir { manage_dir_perms relabel_dir_perms };
+
 	systemd_create_user_runtime_socket($1_dbusd_t)
 
 	dontaudit $1_dbusd_t self:process getcap;
@@ -109,9 +113,10 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t systemd_user_runtime_t:sock_file write;
 
 	gen_require(`type var_lib_t;')
-	allow $1_dbusd_t var_lib_t:dir search;
+	allow $1_dbusd_t var_lib_t:dir { search watch };
 	allow $1_dbusd_t var_lib_t:lnk_file read;
-	
+	allow $1_dbusd_t var_lib_t:file map;
+
 	gen_require(`type system_dbusd_var_lib_t;')
 	allow $1_dbusd_t system_dbusd_var_lib_t:dir search;
 	allow $1_dbusd_t system_dbusd_var_lib_t:lnk_file read;
@@ -122,6 +127,7 @@ template(`dbus_role_template',`
 		type user_fonts_cache_t, user_fonts_config_t;
 		type user_home_t;
 		type user_tmp_t;
+		type wm_tmpfs_t;
 	')
 	
 	allow $1_dbusd_t user_fonts_cache_t:dir search;
@@ -133,6 +139,11 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t user_tmp_t:dir { getattr search };
 	allow $1_dbusd_t user_tmp_t:file { map open read write };
 	allow $1_dbusd_t user_tmp_t:sock_file write;
+	allow $1_dbusd_t wm_tmpfs_t:file { map read write };
+	
+	gen_require(`type tmp_t, tmpfs_t;')
+	allow $1_dbusd_t tmp_t:dir watch;
+	allow $1_dbusd_t tmpfs_t:file { execute map read write };
 
 	# Accepted packets
 	net_dns_packet($1_dbusd_t)	
@@ -147,6 +158,7 @@ template(`dbus_role_template',`
 		type lib_t;
 		type lo_netif_t;
 		type mesa_shader_cache_t;
+		type $1_t;
 	')
 	allow $1_dbusd_t device_t:chr_file getattr;
 	allow $1_dbusd_t dri_device_t:chr_file { getattr ioctl map open read write };
@@ -161,6 +173,8 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t lo_netif_t:netif egress;
 	allow $1_dbusd_t mesa_shader_cache_t:dir { getattr search };
 	allow $1_dbusd_t mesa_shader_cache_t:file { getattr map open read write };
+	allow $1_dbusd_t usr_t:file { execute execute_no_trans map };
+	allow $1_dbusd_t $1_t:process signull;
 
 	allow $1_dbusd_t $1_t:unix_stream_socket connectto;
 
@@ -169,6 +183,13 @@ template(`dbus_role_template',`
 
 	xdg_manage_cache($1_dbusd_t)
 	xdg_manage_config($1_dbusd_t)
+	xdg_manage_data($1_dbusd_t)
+	xdg_watch_cache_dirs($1_dbusd_t)
+	xdg_watch_config_dirs($1_dbusd_t)
+	xdg_watch_data_dirs($1_dbusd_t)
+
+	dev_read_sysfs($1_dbusd_t)
+	dev_getattr_video_dev($1_dbusd_t)
 
 	gen_require(`
 		type $1_wm_t;
@@ -177,6 +198,7 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t $1_wm_t:fd use;
 	allow $1_dbusd_t $1_wm_t:unix_stream_socket connectto;
         allow $1_dbusd_t $1_wm_t:unix_stream_socket { read write };
+	allow system_dbusd_t $1_wm_t:fd use;
 
         dontaudit $3 $1_dbusd_t:netlink_selinux_socket { read write };
 
@@ -195,8 +217,11 @@ template(`dbus_role_template',`
 
 	kernel_getattr_proc($1_dbusd_t)
 	kernel_search_network_sysctl($1_dbusd_t)
+	kernel_read_net_sysctls($1_dbusd_t)
+	kernel_read_network_state($1_dbusd_t)
 
 	fs_read_cgroup_files($1_dbusd_t)
+	files_read_var_lib_files($1_dbusd_t)
 
 	corecmd_bin_domtrans($1_dbusd_t, $3)
 	corecmd_shell_domtrans($1_dbusd_t, $3)
@@ -877,10 +902,8 @@ template(`dbus_systemd', `
 		type systemd_user_runtime_notify_t;
 		type systemd_user_runtime_t;
 		type $1_systemd_t;
-		type xdm_var_lib_t;
 	')
 	allow $1_dbusd_t systemd_user_runtime_notify_t:sock_file write;
 	allow $1_dbusd_t systemd_user_runtime_t:dir search;
 	allow $1_dbusd_t $1_systemd_t:unix_dgram_socket sendto;
-	allow $1_dbusd_t xdm_var_lib_t:dir search;
 ')

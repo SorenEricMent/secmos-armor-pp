@@ -34,7 +34,6 @@
 ## </param>
 #
 template(`sudo_role_template',`
-
 	gen_require(`
 		type sudo_exec_t;
 		attribute sudodomain;
@@ -74,6 +73,8 @@ template(`sudo_role_template',`
 	allow $1_sudo_t self:key manage_key_perms;
 	dontaudit $1_sudo_t self:capability { dac_read_search sys_ptrace };
 
+	init_read_state($1_sudo_t)
+
 	# allow getting the process group of the parent process
 	allow $1_sudo_t $2:process getpgid;
 	
@@ -107,6 +108,7 @@ template(`sudo_role_template',`
 	domain_getattr_all_entry_files($1_sudo_t)
 
 	files_read_etc_files($1_sudo_t)
+	files_read_etc_runtime_files($1_sudo_t)
 	files_read_var_files($1_sudo_t)
 	files_read_usr_symlinks($1_sudo_t)
 	files_getattr_usr_files($1_sudo_t)
@@ -121,6 +123,7 @@ template(`sudo_role_template',`
 	selinux_compute_relabel_context($1_sudo_t)
 
 	term_getattr_pty_fs($1_sudo_t)
+	term_use_generic_ptys($1_sudo_t)
 	term_dontaudit_getattr_unallocated_ttys($1_sudo_t)
 	term_relabel_all_ttys($1_sudo_t)
 	term_relabel_all_ptys($1_sudo_t)
@@ -208,6 +211,13 @@ template(`sudo_role_template',`
 		ifdef(`init_systemd',`
 			init_dbus_chat($1_sudo_t)
 			systemd_homed_connect($1_sudo_t)
+			gen_require(`
+				type $1_systemd_t;
+				type systemd_homed_t, systemd_homed_runtime_t;
+			')
+			allow $1_sudo_t $1_systemd_t:fd use;
+			allow $1_sudo_t systemd_homed_runtime_t:fifo_file write;
+			allow $1_sudo_t systemd_homed_t:fd use;
 		')
 	')
 

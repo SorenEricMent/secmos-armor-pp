@@ -33,6 +33,7 @@ template(`gnome_role_template',`
 		type gkeyringd_exec_t, gnome_keyring_home_t, gnome_keyring_tmp_t;
 		type gconfd_t, gconfd_exec_t, gconf_tmp_t;
 		type gconf_home_t, gnome_home_t;
+		type session_dbusd_runtime_t;
 	')
 
 	########################################
@@ -89,6 +90,7 @@ template(`gnome_role_template',`
 	gnome_home_filetrans($2, gnome_keyring_home_t, dir, "keyrings")
 
 	allow $2 gnome_keyring_tmp_t:sock_file { relabel_sock_file_perms manage_sock_file_perms };
+	allow $1_gkeyringd_t session_dbusd_runtime_t:sock_file write;
 
 	ps_process_pattern($3, $1_gkeyringd_t)
 	allow $3 $1_gkeyringd_t:process { ptrace signal_perms };

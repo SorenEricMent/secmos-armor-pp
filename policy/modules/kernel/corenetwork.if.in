@@ -3537,6 +3537,25 @@ interface(`net_dns_packet',`
         ')
         allow $1 domain_packet_t:packet { send recv };
 ')
+########################################
+## <summary>
+##      HTTP Packet
+## </summary>
+## <desc>
+##      </desc>
+## <param name="domain">
+##      <summary>
+##      From domain
+##      </summary>
+## </param>
+#
+interface(`net_http_packet',`
+        gen_require(`
+                type www_http_packet_t;
+
+        ')
+        allow $1 www_http_packet_t:packet { send recv };
+')
 
 ########################################
 ## <summary>

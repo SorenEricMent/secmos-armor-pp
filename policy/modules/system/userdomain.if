@@ -26,6 +26,8 @@ template(`userdom_base_user_template',`
 		attribute userdomain;
 		type user_devpts_t, user_tty_device_t;
 		type kernel_t;
+		type user_tmpfs_t;
+		type user_runtime_t;
 		class context contains;
 		role $1_r;
 	')
@@ -80,6 +82,9 @@ template(`userdom_base_user_template',`
 	')
 
 	allow $1_t kernel_t:system module_request;
+	allow $1_t user_runtime_t:file { open read };
+	allow $1_t user_runtime_t:sock_file write;
+	allow $1_t user_tmpfs_t:file execute;
 
 	dontaudit $1_t self:socket create;
 
@@ -107,7 +112,7 @@ template(`userdom_base_user_template',`
 	dev_dontaudit_getattr_all_blk_files($1_t)
 	dev_dontaudit_getattr_all_chr_files($1_t)
 	dev_dontaudit_setattr_null_dev($1_t)
-
+	dev_read_video_dev($1_t)
 	# for X session unlock
 	allow $1_t self:netlink_audit_socket { create_socket_perms nlmsg_relay };
 
@@ -3637,6 +3642,24 @@ interface(`userdom_manage_user_runtime_dirs',`
 	allow $1 user_runtime_t:dir manage_dir_perms;
 	userdom_search_user_runtime_root($1)
 ')
+########################################
+## <summary>
+##      Create, read, write, and delete user
+##      runtime files.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`userdom_manage_user_runtime_files',`
+        gen_require(`
+                type user_runtime_t;
+        ')
+
+        manage_files_pattern($1, user_runtime_t, user_runtime_t)
+')
 
 ########################################
 ## <summary>
@@ -5011,4 +5034,20 @@ interface(`userdom_dontaudit_rw_all_users_stream_sockets',`
 	')
 
 	dontaudit $1 userdomain:unix_stream_socket rw_socket_perms;
+')
+
+########################################
+## <summary>
+##     seCMOS operator
+## </summary>
+## <param name="type">
+##      <summary>
+##      Type to be applied
+##      </summary>
+## </param>
+#
+
+interface(`userdom_operator', `
+	userdom_use_user_ptys($1_t)
+	term_use_all_terms($1_t)
 ')

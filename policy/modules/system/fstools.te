@@ -69,6 +69,9 @@ logging_log_filetrans(fsadm_t, fsadm_log_t, file)
 # Enable swapping to files
 allow fsadm_t swapfile_t:file rw_file_perms;
 
+gen_require(`type var_lock_t;')
+allow fsadm_t var_lock_t:file write;
+
 kernel_read_system_state(fsadm_t)
 kernel_read_kernel_sysctls(fsadm_t)
 kernel_request_load_module(fsadm_t)
