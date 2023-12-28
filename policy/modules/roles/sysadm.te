@@ -23,7 +23,7 @@ gen_tunable(sysadm_allow_rw_inherited_fifo, false)
 #role sysadm_r;
 
 userdom_admin_user_template(sysadm)
-userdom_operator(sysadm)
+
 ifndef(`enable_mls',`
 	userdom_security_admin_template(sysadm_t, sysadm_r)
 ')
@@ -39,14 +39,11 @@ corenet_ib_access_unlabeled_pkeys(sysadm_t)
 corenet_ib_manage_subnet_unlabeled_endports(sysadm_t)
 
 dev_read_kmsg(sysadm_t)
-dev_rw_ipmi_dev(sysadm_t)
 
 logging_watch_all_logs(sysadm_t)
 logging_watch_audit_log(sysadm_t)
 
 mls_process_read_all_levels(sysadm_t)
-
-selinux_read_policy(sysadm_t)
 
 ubac_process_exempt(sysadm_t)
 ubac_file_exempt(sysadm_t)
@@ -82,12 +79,6 @@ ifndef(`enable_mls',`
 ')
 
 ifdef(`init_systemd',`
-	# Allow managing runtime units, for example mount units generated
-	# from /etc/fstab.
-	init_get_runtime_units_status(sysadm_t)
-	init_start_runtime_units(sysadm_t)
-	init_stop_runtime_units(sysadm_t)
-
 	# Allow sysadm to resolve the username of dynamic users by calling
 	# LookupDynamicUserByUID on org.freedesktop.systemd1.
 	init_dbus_chat(sysadm_t)
@@ -406,10 +397,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	fapolicyd_admin(sysadm_t, sysadm_r)
-')
-
-optional_policy(`
 	fcoe_admin(sysadm_t, sysadm_r)
 ')
 
@@ -554,10 +541,6 @@ optional_policy(`
 
 optional_policy(`
 	ksmtuned_admin(sysadm_t, sysadm_r)
-')
-
-optional_policy(`
-	kubernetes_admin(sysadm_t, sysadm_r)
 ')
 
 optional_policy(`
@@ -744,10 +727,6 @@ optional_policy(`
 
 optional_policy(`
 	openhpi_admin(sysadm_t, sysadm_r)
-')
-
-optional_policy(`
-	opensm_admin(sysadm_t, sysadm_r)
 ')
 
 optional_policy(`
@@ -1233,10 +1212,6 @@ optional_policy(`
 	zebra_admin(sysadm_t, sysadm_r)
 ')
 
-optional_policy(`
-	zfs_admin(sysadm_t, sysadm_r)
-')
-
 ifndef(`distro_redhat',`
 	optional_policy(`
 		auth_role(sysadm, sysadm_t, sysadm_application_exec_domain, sysadm_r)
@@ -1254,10 +1229,6 @@ ifndef(`distro_redhat',`
 	optional_policy(`
 		chromium_role(sysadm, sysadm_t, sysadm_application_exec_domain, sysadm_r)
 	')
-
-        optional_policy(`
-                spotify_role(sysadm, sysadm_t, sysadm_application_exec_domain, sysadm_r)
-        ')
 
 	optional_policy(`
 		cron_admin_role(sysadm, sysadm_t, sysadm_application_exec_domain, sysadm_r)

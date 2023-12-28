@@ -2370,78 +2370,6 @@ interface(`dev_rw_framebuffer',`
 
 ########################################
 ## <summary>
-##	Allow read/write the hypervkvp device
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`dev_rw_hyperv_kvp',`
-	gen_require(`
-		type device_t, hyperv_kvp_device_t;
-	')
-
-	rw_chr_files_pattern($1, device_t, hyperv_kvp_device_t)
-')
-
-########################################
-## <summary>
-##	Allow read/write the hypervvssd device
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`dev_rw_hyperv_vss',`
-	gen_require(`
-		type device_t, hyperv_vss_device_t;
-	')
-
-	rw_chr_files_pattern($1, device_t, hyperv_vss_device_t)
-')
-
-########################################
-## <summary>
-##	Allow read/write access to InfiniBand devices.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`dev_read_iio',`
-	gen_require(`
-		type device_t, iio_device_t;
-	')
-
-	read_chr_files_pattern($1, device_t, iio_device_t)
-')
-
-########################################
-## <summary>
-##	Allow read/write access to InfiniBand devices.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`dev_rw_infiniband',`
-	gen_require(`
-		type device_t, infiniband_device_t;
-	')
-
-	rw_chr_files_pattern($1, device_t, infiniband_device_t)
-')
-
-########################################
-## <summary>
 ##	Read the kernel messages
 ## </summary>
 ## <param name="domain">
@@ -3398,6 +3326,51 @@ interface(`dev_rw_mtrr',`
 
 	rw_files_pattern($1, device_t, mtrr_device_t)
 	rw_chr_files_pattern($1, device_t, mtrr_device_t)
+')
+
+########################################
+## <summary>
+##	Get the attributes of the network control device  (Deprecated)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_getattr_netcontrol_dev',`
+	refpolicywarn(`$0() has been deprecated, use dev_getattr_pmqos_dev() instead.')
+	dev_getattr_pmqos_dev($1)
+')
+
+########################################
+## <summary>
+##	Read the network control identity.  (Deprecated)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_read_netcontrol',`
+	refpolicywarn(`$0() has been deprecated, use dev_read_pmqos() instead.')
+	dev_read_pmqos($1)
+')
+
+########################################
+## <summary>
+##	Read and write the the network control device.  (Deprecated)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_rw_netcontrol',`
+	refpolicywarn(`$0() has been deprecated, use dev_rw_pmqos() instead.')
+	dev_rw_pmqos($1)
 ')
 
 ########################################
@@ -4388,24 +4361,6 @@ interface(`dev_remount_sysfs',`
 
 ########################################
 ## <summary>
-##     unmount a sysfs filesystem
-## </summary>
-## <param name="domain">
-##     <summary>
-##     Domain allowed access.
-##     </summary>
-## </param>
-#
-interface(`dev_unmount_sysfs',`
-	gen_require(`
-		type sysfs_t;
-	')
-
-	allow $1 sysfs_t:filesystem unmount;
-')
-
-########################################
-## <summary>
 ##	Do not audit getting the attributes of sysfs filesystem
 ## </summary>
 ## <param name="domain">
@@ -4854,24 +4809,6 @@ interface(`dev_create_urand_dev',`
 	')
 
 	create_chr_files_pattern($1, device_t, urandom_device_t)
-')
-
-########################################
-## <summary>
-##  Set attributes on the urandom device (/dev/urandom).
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`dev_setattr_urand_dev',`
-	gen_require(`
-		type device_t, urandom_device_t;
-	')
-
-	setattr_chr_files_pattern($1, device_t, urandom_device_t)
 ')
 
 ########################################
@@ -5711,24 +5648,6 @@ interface(`dev_read_cpu_online',`
 	allow $1 cpu_online_t:file read_file_perms;
 
 	dev_search_sysfs($1)
-')
-
-########################################
-## <summary>
-##	Read and write to the gpiochip device, /dev/gpiochip[0-9]
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`dev_rw_gpiochip',`
-	gen_require(`
-		type device_t, gpiochip_device_t;
-	')
-
-	rw_chr_files_pattern($1, device_t, gpiochip_device_t)
 ')
 
 ########################################

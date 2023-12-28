@@ -159,24 +159,6 @@ interface(`selinux_unmount_fs',`
 
 ########################################
 ## <summary>
-##	Mount on the selinuxfs filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`selinux_mounton_fs',`
-	gen_require(`
-		type security_t;
-	')
-
-	allow $1 security_t:dir mounton_dir_perms;
-')
-
-########################################
-## <summary>
 ##	Get the attributes of the selinuxfs filesystem
 ## </summary>
 ## <param name="domain">
@@ -216,25 +198,6 @@ interface(`selinux_dontaudit_getattr_fs',`
 
 	dev_dontaudit_getattr_sysfs($1)
 	dev_dontaudit_search_sysfs($1)
-')
-
-########################################
-## <summary>
-##	Get the attributes of the selinuxfs
-##	directory.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain to not audit.
-##	</summary>
-## </param>
-#
-interface(`selinux_getattr_dirs',`
-	gen_require(`
-		type security_t;
-	')
-
-	allow $1 security_t:dir getattr;
 ')
 
 ########################################
@@ -311,24 +274,6 @@ interface(`selinux_dontaudit_read_fs',`
 
 	dontaudit $1 security_t:dir search_dir_perms;
 	dontaudit $1 security_t:file read_file_perms;
-')
-
-########################################
-## <summary>
-##	Mount on the selinuxfs directory.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`selinux_mounton_dirs',`
-	gen_require(`
-		type security_t;
-	')
-
-	allow $1 security_t:dir mounton;
 ')
 
 ########################################
@@ -750,6 +695,28 @@ interface(`selinux_use_status_page',`
 	dev_search_sysfs($1)
 	allow $1 security_t:dir list_dir_perms;
 	allow $1 security_t:file mmap_read_file_perms;
+')
+
+########################################
+## <summary>
+##	Allows caller to map secuirty_t files. (Deprecated)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+
+interface(`selinux_map_security_files',`
+	gen_require(`
+		type security_t;
+	')
+
+	refpolicywarn(`$0() has been deprecated, use selinux_use_status_page() instead.')
+
+	dev_search_sysfs($1)
+	allow $1 security_t:file map;
 ')
 
 ########################################

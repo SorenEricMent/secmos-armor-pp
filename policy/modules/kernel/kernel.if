@@ -111,25 +111,6 @@ interface(`kernel_rootfs_mountpoint',`
 
 ########################################
 ## <summary>
-##	Read the process state (/proc/pid)
-##	of kernel threads.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`kernel_read_state',`
-	gen_require(`
-		type kernel_t;
-	')
-
-	ps_process_pattern($1, kernel_t)
-')
-
-########################################
-## <summary>
 ##	Set the process group of kernel threads.
 ## </summary>
 ## <param name="domain">
@@ -1440,7 +1421,7 @@ interface(`kernel_mounton_message_if',`
 	')
 
 	allow $1 proc_t:dir list_dir_perms;
-	allow $1 proc_kmsg_t:file mounton_file_perms;
+	allow $1 proc_kmsg_t:file { getattr mounton };
 ')
 
 ########################################
@@ -1533,51 +1514,6 @@ interface(`kernel_read_network_state_symlinks',`
 	read_lnk_files_pattern($1, { proc_t proc_net_t }, proc_net_t)
 
 	list_dirs_pattern($1, proc_t, proc_net_t)
-')
-
-########################################
-## <summary>
-##	Allow caller to receive pressure stall information (PSI).
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`kernel_read_psi',`
-	gen_require(`
-		type proc_t, proc_psi_t;
-	')
-
-	read_files_pattern($1, { proc_t proc_psi_t }, proc_psi_t)
-	read_lnk_files_pattern($1, { proc_t proc_psi_t }, proc_psi_t)
-	list_dirs_pattern($1, { proc_t proc_psi_t }, proc_psi_t)
-')
-
-########################################
-## <summary>
-##	Allow caller to set up pressure stall information (PSI).
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`kernel_rw_psi',`
-	gen_require(`
-		type proc_t, proc_psi_t;
-	')
-
-	rw_files_pattern($1, { proc_t proc_psi_t }, proc_psi_t)
-	read_lnk_files_pattern($1, { proc_t proc_psi_t }, proc_psi_t)
-	list_dirs_pattern($1, { proc_t proc_psi_t }, proc_psi_t)
-
-	# kernel requires writers to have CAP_SYS_RESOURCE
-	allow $1 self:capability sys_resource;
 ')
 
 ########################################
@@ -1721,42 +1657,6 @@ interface(`kernel_dontaudit_list_all_proc',`
 
 ########################################
 ## <summary>
-##	Write systemd mountpoint files except proc entries.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`kernel_write_non_proc_init_mountpoint_files',`
-	gen_require(`
-		attribute proc_type;
-	')
-
-	init_write_mountpoint_files($1, -proc_type)
-')
-
-########################################
-## <summary>
-##	Create systemd mountpoint files except proc entries.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`kernel_create_non_proc_init_mountpoint_files',`
-	gen_require(`
-		attribute proc_type;
-	')
-
-	init_create_mountpoint_files($1, -proc_type)
-')
-
-########################################
-## <summary>
 ##	Do not audit attempts by caller to search
 ##	the base directory of sysctls.
 ## </summary>
@@ -1792,7 +1692,7 @@ interface(`kernel_mounton_sysctl_dirs',`
 	')
 
 	allow $1 proc_t:dir list_dir_perms;
-	allow $1 sysctl_t:dir mounton_dir_perms;
+	allow $1 sysctl_t:dir { getattr mounton };
 ')
 
 ########################################
@@ -1832,7 +1732,7 @@ interface(`kernel_mounton_sysctl_files',`
 	')
 
 	allow $1 { proc_t sysctl_t }:dir list_dir_perms;
-	allow $1 sysctl_t:file mounton_file_perms;
+	allow $1 sysctl_t:file { getattr mounton };
 ')
 
 ########################################
@@ -2298,7 +2198,7 @@ interface(`kernel_mounton_kernel_sysctl_files',`
 	')
 
 	allow $1 { proc_t sysctl_t sysctl_kernel_t }:dir list_dir_perms;
-	allow $1 sysctl_kernel_t:file mounton_file_perms;
+	allow $1 sysctl_kernel_t:file { getattr mounton };
 ')
 
 ########################################

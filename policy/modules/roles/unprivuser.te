@@ -58,10 +58,6 @@ ifndef(`distro_redhat',`
 		chromium_role(user, user_t, user_application_exec_domain, user_r)
 	')
 
-        optional_policy(`
-                spotify_role(user, user_t, user_application_exec_domain, user_r)
-        ')
-
 	optional_policy(`
 		cron_role(user, user_t, user_application_exec_domain, user_r)
 	')
@@ -198,5 +194,3 @@ ifndef(`distro_redhat',`
 		wm_role_template(user, user_t, user_application_exec_domain, user_r)
 	')
 ')
-
-unprivuser_systemd(user)

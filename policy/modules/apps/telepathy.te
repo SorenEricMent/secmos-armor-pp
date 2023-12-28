@@ -456,29 +456,3 @@ optional_policy(`
 optional_policy(`
 	xserver_rw_xdm_pipes(telepathy_domain)
 ')
-
-ubac_file_exempt(telepathy_mission_control_t)
-
-ifdef(`distro_arch',`
-        gen_require(`
-	        type gnome_xdg_config_t;
-		type usr_t;
-		type session_dbusd_runtime_t;
-		type systemd_logind_inhibit_runtime_t;
-		type systemd_logind_t;
-		type user_runtime_t, user_runtime_root_t, user_tmp_t;
-		type xdg_config_t;
-        ')      
-	allow telepathy_mission_control_t gnome_xdg_config_t:dir search;
-	allow telepathy_mission_control_t gnome_xdg_config_t:file { getattr map open read };
-	allow telepathy_mission_control_t session_dbusd_runtime_t:sock_file write;
-	allow telepathy_mission_control_t systemd_logind_inhibit_runtime_t:fifo_file write;
-	allow telepathy_mission_control_t systemd_logind_t:fd use;
-	allow telepathy_mission_control_t usr_t:file map;
-	allow telepathy_mission_control_t xdg_config_t:dir search;
-	allow telepathy_mission_control_t user_runtime_root_t:dir search;
-	allow telepathy_mission_control_t user_runtime_t:dir search;
-	allow telepathy_mission_control_t user_tmp_t:dir { getattr search };
-	allow telepathy_mission_control_t user_tmp_t:file { map open read write };
-
-')

@@ -1,4 +1,4 @@
-%define distro arch
+%define distro redhat
 %define direct_initrc y
 %define monolithic n
 %define polname1 targeted
@@ -7,7 +7,7 @@
 %define type2 strict-mcs
 Summary: SELinux policy configuration
 Name: selinux-policy
-Version: 2.20231224
+Version: 2.20151208
 Release: 1
 License: GPLv2
 Group: System Environment/Base

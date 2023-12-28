@@ -47,14 +47,14 @@ gen_tunable(allow_raw_memory_access,false)
 ## Enable polyinstantiated directory support.
 ## </p>
 ## </desc>
-gen_tunable(allow_polyinstantiation,true)
+gen_tunable(allow_polyinstantiation,false)
 
 ## <desc>
 ## <p>
 ## Allow system to run with NIS
 ## </p>
 ## </desc>
-gen_tunable(allow_ypbind,true)
+gen_tunable(allow_ypbind,false)
 
 ## <desc>
 ## <p>
@@ -74,7 +74,7 @@ gen_tunable(console_login,true)
 ## be allowed to read from /dev/urandom.
 ## </p>
 ## </desc>
-gen_tunable(global_ssp,true)
+gen_tunable(global_ssp,false)
 
 ## <desc>
 ## <p>

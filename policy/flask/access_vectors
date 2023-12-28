@@ -1069,14 +1069,14 @@ inherits file
 
 class io_uring
 {
-	cmd
 	override_creds
 	sqpoll
+	cmd
 }
 
 class user_namespace {
-        create
-        destroy
-        setattr
-        associate
+	create
+	destroy
+	setattr
+	associate
 }

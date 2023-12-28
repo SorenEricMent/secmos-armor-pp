@@ -59,14 +59,12 @@ dev_write_sound(wm_domain)
 files_read_etc_runtime_files(wm_domain)
 files_map_usr_files(wm_domain)
 files_read_usr_files(wm_domain)
-files_read_var_lib_files(wm_domain)
 
 fs_getattr_all_fs(wm_domain)
 
 kernel_read_fs_sysctls(wm_domain)
 kernel_read_proc_symlinks(wm_domain)
 kernel_read_sysctl(wm_domain)
-kernel_dgram_send(wm_domain)
 
 locallogin_dontaudit_use_fds(wm_domain)
 

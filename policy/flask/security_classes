@@ -203,6 +203,7 @@ class anon_inode
 
 class io_uring
 
-class user_namespace
-
 # FLASK
+
+# Kernel namespace
+class user_namespace

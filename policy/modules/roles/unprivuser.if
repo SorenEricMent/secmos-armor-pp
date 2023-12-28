@@ -48,27 +48,3 @@ interface(`unprivuser_role_change_to',`
 
 	allow user_r $1;
 ')
-
-########################################
-## <summary>
-##      Patch for MLS
-## </summary>
-## <desc>
-##      <p>
-##      secMOS
-##      </p>
-## </desc>
-## <param name="role">
-##      <summary>
-##      Role allowed access.
-##      </summary>
-## </param>
-## <rolecap/>
-#
-interface(`unprivuser_systemd',`
-        gen_require(`
-                type user_systemd_t;
-        ')
-
-	mls_file_write_to_clearance($1_systemd_t)
-')

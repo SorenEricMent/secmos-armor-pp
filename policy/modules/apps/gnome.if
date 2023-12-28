@@ -33,7 +33,6 @@ template(`gnome_role_template',`
 		type gkeyringd_exec_t, gnome_keyring_home_t, gnome_keyring_tmp_t;
 		type gconfd_t, gconfd_exec_t, gconf_tmp_t;
 		type gconf_home_t, gnome_home_t;
-		type session_dbusd_runtime_t;
 	')
 
 	########################################
@@ -90,7 +89,6 @@ template(`gnome_role_template',`
 	gnome_home_filetrans($2, gnome_keyring_home_t, dir, "keyrings")
 
 	allow $2 gnome_keyring_tmp_t:sock_file { relabel_sock_file_perms manage_sock_file_perms };
-	allow $1_gkeyringd_t session_dbusd_runtime_t:sock_file write;
 
 	ps_process_pattern($3, $1_gkeyringd_t)
 	allow $3 $1_gkeyringd_t:process { ptrace signal_perms };
@@ -815,72 +813,4 @@ interface(`gnome_mmap_gstreamer_orcexec',`
 	')
 
 	allow $1 gstreamer_orcexec_t:file mmap_exec_file_perms;
-')
-
-
-########################################
-## <summary>
-##      Allow search on XDG-Gnome config
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`gnome_xdg_config_dir_search', `
-	gen_require(`
-                type gnome_xdg_config_t;
-        ')
-	allow $1 gnome_xdg_config_t:dir search;
-')
-
-########################################
-## <summary>
-##      Allow read on XDG-Gnome config
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`gnome_xdg_config_read', `
-	gen_require(`
-                type gnome_xdg_config_t;
-        ')
-	allow $1 gnome_xdg_config_t:file { getattr map open read };
-')
-########################################
-## <summary>
-##      Allow rw on XDG-Gnome config dir
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`gnome_xdg_config_dir_rw', `
-        gen_require(`
-                type gnome_xdg_config_t;
-        ')
-        allow $1 gnome_xdg_config_t:dir { add_name getattr open read remove_name search write };
-')
-
-########################################
-## <summary>
-##      Allow rw on XDG-Gnome config
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`gnome_xdg_config_rw', `
-	gen_require(`
-		type gnome_xdg_config_t;
-	')
-        allow $1 gnome_xdg_config_t:file { create getattr map open read rename unlink write };
 ')

@@ -115,9 +115,8 @@ template(`telepathy_role_template',`
 	userdom_user_home_dir_filetrans($2, telepathy_mission_control_home_t, dir, ".mission-control")
 	filetrans_pattern($2, telepathy_xdg_data_t, telepathy_mission_control_xdg_data_t, dir, "mission-control")
 	# gnome_cache_filetrans($2, telepathy_mission_control_cache_home_t, file, ".mc_connections")
+
 	userdom_user_home_dir_filetrans($2, telepathy_sunshine_home_t, dir, ".telepathy-sunshine")
-	
-	allow telepathy_mission_control_t $1_dbusd_t:unix_stream_socket { read write };
 
 	# gnome_cache_filetrans($2, telepathy_cache_home_t, dir, "telepathy")
 	# gnome_data_filetrans($2, telepathy_data_home_t, dir, "telepathy")

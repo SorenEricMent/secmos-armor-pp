@@ -661,60 +661,6 @@ interface(`fs_register_binary_executable_type',`
 
 ########################################
 ## <summary>
-##	Mount a bpf filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_mount_bpf',`
-	gen_require(`
-		type bpf_t;
-	')
-
-	allow $1 bpf_t:filesystem mount;
-')
-
-########################################
-## <summary>
-##	Create bpf directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_create_bpf_dirs',`
-	gen_require(`
-		type bpf_t;
-	')
-
-	create_dirs_pattern($1, bpf_t, bpf_t)
-')
-
-########################################
-## <summary>
-##	Manage bpf files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_manage_bpf_files',`
-	gen_require(`
-		type bpf_t;
-	')
-
-	manage_files_pattern($1, bpf_t, bpf_t)
-')
-
-########################################
-## <summary>
 ##	Mount cgroup filesystems.
 ## </summary>
 ## <param name="domain">
@@ -725,10 +671,10 @@ interface(`fs_manage_bpf_files',`
 #
 interface(`fs_mount_cgroup', `
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	allow $1 cgroup_types:filesystem mount;
+	allow $1 cgroup_t:filesystem mount;
 ')
 
 ########################################
@@ -743,10 +689,10 @@ interface(`fs_mount_cgroup', `
 #
 interface(`fs_remount_cgroup', `
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	allow $1 cgroup_types:filesystem remount;
+	allow $1 cgroup_t:filesystem remount;
 ')
 
 ########################################
@@ -761,10 +707,10 @@ interface(`fs_remount_cgroup', `
 #
 interface(`fs_unmount_cgroup', `
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	allow $1 cgroup_types:filesystem unmount;
+	allow $1 cgroup_t:filesystem unmount;
 ')
 
 ########################################
@@ -779,10 +725,10 @@ interface(`fs_unmount_cgroup', `
 #
 interface(`fs_getattr_cgroup',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	allow $1 cgroup_types:filesystem getattr;
+	allow $1 cgroup_t:filesystem getattr;
 ')
 
 ########################################
@@ -797,10 +743,11 @@ interface(`fs_getattr_cgroup',`
 #
 interface(`fs_search_cgroup_dirs',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
+
 	')
 
-	search_dirs_pattern($1, cgroup_types, cgroup_types)
+	search_dirs_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -816,48 +763,10 @@ interface(`fs_search_cgroup_dirs',`
 #
 interface(`fs_list_cgroup_dirs', `
 	gen_require(`
-		attribute cgroup_types;
-	')
-
-	list_dirs_pattern($1, cgroup_types, cgroup_types)
-	dev_search_sysfs($1)
-')
-
-########################################
-## <summary>
-##	Ioctl cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_ioctl_cgroup_dirs', `
-	gen_require(`
 		type cgroup_t;
 	')
 
-	allow $1 cgroup_t:dir ioctl;
-	dev_search_sysfs($1)
-')
-
-########################################
-## <summary>
-##	Create cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_create_cgroup_dirs',`
-	gen_require(`
-		type cgroup_t;
-	')
-
-	create_dirs_pattern($1, cgroup_t, cgroup_t)
+	list_dirs_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -873,10 +782,10 @@ interface(`fs_create_cgroup_dirs',`
 #
 interface(`fs_delete_cgroup_dirs', `
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	delete_dirs_pattern($1, cgroup_types, cgroup_types)
+	delete_dirs_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -892,11 +801,11 @@ interface(`fs_delete_cgroup_dirs', `
 #
 interface(`fs_manage_cgroup_dirs',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 
 	')
 
-	manage_dirs_pattern($1, cgroup_types, cgroup_types)
+	manage_dirs_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -912,10 +821,10 @@ interface(`fs_manage_cgroup_dirs',`
 #
 interface(`fs_relabel_cgroup_dirs',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	relabel_dirs_pattern($1, cgroup_types, cgroup_types)
+	relabel_dirs_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
@@ -930,10 +839,10 @@ interface(`fs_relabel_cgroup_dirs',`
 #
 interface(`fs_getattr_cgroup_files',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	getattr_files_pattern($1, cgroup_types, cgroup_types)
+	getattr_files_pattern($1, cgroup_t, cgroup_t)
 	fs_search_tmpfs($1)
 	dev_search_sysfs($1)
 ')
@@ -950,32 +859,12 @@ interface(`fs_getattr_cgroup_files',`
 #
 interface(`fs_read_cgroup_files',`
 	gen_require(`
-		attribute cgroup_types;
-
-	')
-
-	read_files_pattern($1, cgroup_types, cgroup_types)
-	read_lnk_files_pattern($1, cgroup_types, cgroup_types)
-	dev_search_sysfs($1)
-')
-
-########################################
-## <summary>
-##	Create cgroup files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_create_cgroup_files',`
-	gen_require(`
 		type cgroup_t;
 
 	')
 
-	create_files_pattern($1, cgroup_t, cgroup_t)
+	read_files_pattern($1, cgroup_t, cgroup_t)
+	read_lnk_files_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -991,11 +880,11 @@ interface(`fs_create_cgroup_files',`
 #
 interface(`fs_watch_cgroup_files',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 
 	')
 
-	allow $1 cgroup_types:file watch;
+	allow $1 cgroup_t:file watch;
 ')
 
 ########################################
@@ -1010,11 +899,11 @@ interface(`fs_watch_cgroup_files',`
 #
 interface(`fs_create_cgroup_links',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	create_lnk_files_pattern($1, cgroup_types, cgroup_types)
-	rw_lnk_files_pattern($1, cgroup_types, cgroup_types)
+	create_lnk_files_pattern($1, cgroup_t, cgroup_t)
+	rw_lnk_files_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -1030,10 +919,10 @@ interface(`fs_create_cgroup_links',`
 #
 interface(`fs_write_cgroup_files', `
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	write_files_pattern($1, cgroup_types, cgroup_types)
+	write_files_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -1049,11 +938,11 @@ interface(`fs_write_cgroup_files', `
 #
 interface(`fs_rw_cgroup_files',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	rw_files_pattern($1, cgroup_types, cgroup_types)
-	read_lnk_files_pattern($1, cgroup_types, cgroup_types)
+	rw_files_pattern($1, cgroup_t, cgroup_t)
+	read_lnk_files_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -1071,10 +960,10 @@ interface(`fs_rw_cgroup_files',`
 #
 interface(`fs_dontaudit_rw_cgroup_files',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	dontaudit $1 cgroup_types:file rw_file_perms;
+	dontaudit $1 cgroup_t:file rw_file_perms;
 ')
 
 ########################################
@@ -1089,11 +978,11 @@ interface(`fs_dontaudit_rw_cgroup_files',`
 #
 interface(`fs_manage_cgroup_files',`
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 
 	')
 
-	manage_files_pattern($1, cgroup_types, cgroup_types)
+	manage_files_pattern($1, cgroup_t, cgroup_t)
 	dev_search_sysfs($1)
 ')
 
@@ -1109,28 +998,10 @@ interface(`fs_manage_cgroup_files',`
 #
 interface(`fs_relabel_cgroup_symlinks',`
 	gen_require(`
-		attribute cgroup_types;
-	')
-
-	relabel_lnk_files_pattern($1, cgroup_types, cgroup_types)
-')
-
-########################################
-## <summary>
-##	Watch cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_watch_cgroup_dirs', `
-	gen_require(`
 		type cgroup_t;
 	')
 
-	allow $1 cgroup_t:dir watch;
+	relabel_lnk_files_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
@@ -1145,28 +1016,10 @@ interface(`fs_watch_cgroup_dirs', `
 #
 interface(`fs_mounton_cgroup', `
 	gen_require(`
-		attribute cgroup_types;
+		type cgroup_t;
 	')
 
-	allow $1 cgroup_types:dir mounton;
-')
-
-########################################
-## <summary>
-##	Mount on cgroup files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_mounton_cgroup_files', `
-	gen_require(`
-		attribute cgroup_types;
-	')
-
-	allow $1 cgroup_types:file mounton;
+	allow $1 cgroup_t:dir mounton;
 ')
 
 ########################################
@@ -1203,53 +1056,6 @@ interface(`fs_cgroup_filetrans',`
 	allow $2 tmpfs_t:filesystem associate;
 	filetrans_pattern($1, cgroup_t, $2, $3, $4)
 	dev_search_sysfs($1)
-')
-
-########################################
-## <summary>
-##	Create an object in a cgroup tmpfs filesystem, with the memory_pressure_t
-##	type using a type transition.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <param name="object">
-##	<summary>
-##	The object class of the object being created.
-##	</summary>
-## </param>
-## <param name="name" optional="true">
-##	<summary>
-##	The name of the object being created.
-##	</summary>
-## </param>
-#
-interface(`fs_cgroup_filetrans_memory_pressure',`
-	gen_require(`
-		type memory_pressure_t;
-	')
-
-	fs_cgroup_filetrans($1, memory_pressure_t, $2, $3)
-')
-
-########################################
-## <summary>
-##      Allow managing a cgroup's memory.pressure file to get notifications
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Source domain
-##      </summary>
-## </param>
-#
-interface(`fs_watch_memory_pressure',`
-	gen_require(`
-		type memory_pressure_t;
-	')
-
-	allow $1 memory_pressure_t:file { rw_file_perms setattr };
 ')
 
 ########################################
@@ -2372,84 +2178,6 @@ interface(`fs_manage_dos_files',`
 
 ########################################
 ## <summary>
-##      Read symbolic links on an eCryptfs filesystem.
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`fs_list_ecryptfs',`
-        gen_require(`
-                type ecryptfs_t;
-        ')
-
-        allow $1 ecryptfs_t:dir list_dir_perms;
-        read_lnk_files_pattern($1, ecryptfs_t, ecryptfs_t)
-')
-
-########################################
-## <summary>
-##      Create, read, write, and delete directories
-##      on an eCryptfs filesystem.
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_manage_ecryptfs_dirs',`
-        gen_require(`
-                type ecryptfs_t;
-        ')
-
-        allow $1 ecryptfs_t:dir manage_dir_perms;
-')
-
-########################################
-## <summary>
-##      Create, read, write, and delete files
-##      on an eCryptfs filesystem.
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_manage_ecryptfs_files',`
-        gen_require(`
-                type ecryptfs_t;
-        ')
-
-        manage_files_pattern($1, ecryptfs_t, ecryptfs_t)
-')
-
-########################################
-## <summary>
-##      Create, read, write, and delete named sockets
-##      on an eCryptfs filesystem.
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`fs_manage_ecryptfs_named_sockets',`
-        gen_require(`
-                type ecryptfs_t;
-        ')
-
-        manage_sock_files_pattern($1, ecryptfs_t, ecryptfs_t)
-')
-
-########################################
-## <summary>
 ##	Get the attributes of efivarfs filesystems.
 ## </summary>
 ## <param name="domain">
@@ -2502,26 +2230,6 @@ interface(`fs_read_efivarfs_files',`
 	')
 
 	read_files_pattern($1, efivarfs_t, efivarfs_t)
-')
-
-#######################################
-## <summary>
-##      Set the attributes of files in efivarfs
-##      - contains Linux Kernel configuration options for UEFI systems
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_setattr_efivarfs_files',`
-	gen_require(`
-		type efivarfs_t;
-	')
-
-	setattr_files_pattern($1, efivarfs_t, efivarfs_t)
 ')
 
 ########################################
@@ -2708,26 +2416,6 @@ interface(`fs_search_fusefs',`
 
 ########################################
 ## <summary>
-##	List the contents of directories
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_list_fusefs',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:dir list_dir_perms;
-')
-
-########################################
-## <summary>
 ##	Do not audit attempts to list the contents
 ##	of directories on a FUSEFS filesystem.
 ## </summary>
@@ -2743,26 +2431,6 @@ interface(`fs_dontaudit_list_fusefs',`
 	')
 
 	dontaudit $1 fusefs_t:dir list_dir_perms;
-')
-
-########################################
-## <summary>
-##	Set the attributes of directories
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_setattr_fusefs_dirs',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:dir setattr_dir_perms;
 ')
 
 ########################################
@@ -2807,26 +2475,6 @@ interface(`fs_dontaudit_manage_fusefs_dirs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of files on a
-##	FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_getattr_fusefs_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	getattr_files_pattern($1, fusefs_t, fusefs_t)
-')
-
-########################################
-## <summary>
 ##	Read, a FUSEFS filesystem.
 ## </summary>
 ## <param name="domain">
@@ -2861,26 +2509,6 @@ interface(`fs_exec_fusefs_files',`
 	')
 
 	exec_files_pattern($1, fusefs_t, fusefs_t)
-')
-
-########################################
-## <summary>
-##	Set the attributes of files on a
-##	FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_setattr_fusefs_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:file setattr_file_perms;
 ')
 
 ########################################
@@ -2925,26 +2553,6 @@ interface(`fs_dontaudit_manage_fusefs_files',`
 
 ########################################
 ## <summary>
-##	Get the attributes of symlinks
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_getattr_fusefs_symlinks',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:lnk_file getattr_lnk_file_perms;
-')
-
-########################################
-## <summary>
 ##	Read symbolic links on a FUSEFS filesystem.
 ## </summary>
 ## <param name="domain">
@@ -2964,26 +2572,6 @@ interface(`fs_read_fusefs_symlinks',`
 
 ########################################
 ## <summary>
-##	Set the attributes of symlinks
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_setattr_fusefs_symlinks',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:lnk_file setattr_lnk_file_perms;
-')
-
-########################################
-## <summary>
 ##	Manage symlinks on a FUSEFS filesystem.
 ## </summary>
 ## <param name="domain">
@@ -2999,186 +2587,6 @@ interface(`fs_manage_fusefs_symlinks',`
 	')
 
 	manage_lnk_files_pattern($1, fusefs_t, fusefs_t)
-')
-
-########################################
-## <summary>
-##	Get the attributes of named pipes
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_getattr_fusefs_fifo_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:fifo_file getattr_fifo_file_perms;
-')
-
-########################################
-## <summary>
-##	Set the attributes of named pipes
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_setattr_fusefs_fifo_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:fifo_file setattr_fifo_file_perms;
-')
-
-########################################
-## <summary>
-##	Manage named pipes on a FUSEFS
-##	filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_manage_fusefs_fifo_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:fifo_file manage_fifo_file_perms;
-')
-
-########################################
-## <summary>
-##	Get the attributes of named sockets
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_getattr_fusefs_sock_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:sock_file getattr_sock_file_perms;
-')
-
-########################################
-## <summary>
-##	Set the attributes of named sockets
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_setattr_fusefs_sock_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:sock_file setattr_sock_file_perms;
-')
-
-########################################
-## <summary>
-##	Manage named sockets on a FUSEFS
-##	filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_manage_fusefs_sock_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:sock_file manage_sock_file_perms;
-')
-
-########################################
-## <summary>
-##	Get the attributes of character files
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_getattr_fusefs_chr_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:chr_file getattr_chr_file_perms;
-')
-
-########################################
-## <summary>
-##	Set the attributes of character files
-##	on a FUSEFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_setattr_fusefs_chr_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:chr_file setattr_chr_file_perms;
-')
-
-########################################
-## <summary>
-##	Manage character files on a FUSEFS
-##	filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`fs_manage_fusefs_chr_files',`
-	gen_require(`
-		type fusefs_t;
-	')
-
-	allow $1 fusefs_t:chr_file manage_chr_file_perms;
 ')
 
 ########################################
@@ -3667,25 +3075,6 @@ interface(`fs_dontaudit_list_nfs',`
 
 ########################################
 ## <summary>
-##	Add a watch on directories on an NFS
-##	filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_watch_nfs_dirs',`
-	gen_require(`
-		type nfs_t;
-	')
-
-	allow $1 nfs_t:dir watch;
-')
-
-########################################
-## <summary>
 ##	Mounton a NFS filesystem.
 ## </summary>
 ## <param name="domain">
@@ -3837,24 +3226,6 @@ interface(`fs_dontaudit_rw_nfs_files',`
 	')
 
 	dontaudit $1 nfs_t:file rw_file_perms;
-')
-
-########################################
-## <summary>
-##	Add a watch on files on an NFS filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_watch_nfs_files',`
-	gen_require(`
-		type nfs_t;
-	')
-
-	allow $1 nfs_t:file watch;
 ')
 
 ########################################
@@ -4553,24 +3924,6 @@ interface(`fs_rw_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of nsfs inodes (e.g. /proc/pid/ns/uts)
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_getattr_nsfs_files',`
-	gen_require(`
-		type nsfs_t;
-	')
-
-	allow $1 nsfs_t:file getattr_file_perms;
-')
-
-########################################
-## <summary>
 ##	Read nsfs inodes (e.g. /proc/pid/ns/uts)
 ## </summary>
 ## <param name="domain">
@@ -4585,24 +3938,6 @@ interface(`fs_read_nsfs_files',`
 	')
 
 	allow $1 nsfs_t:file read_file_perms;
-')
-
-########################################
-## <summary>
-##	Watch NFS server files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_watch_nfsd_files',`
-	gen_require(`
-		type nfsd_fs_t;
-	')
-
-	allow $1 nfsd_fs_t:file watch;
 ')
 
 ########################################
@@ -4899,25 +4234,6 @@ interface(`fs_dontaudit_search_ramfs',`
 	')
 
 	dontaudit $1 ramfs_t:dir search_dir_perms;
-')
-
-########################################
-## <summary>
-##	Set the attributes of directories on
-##	a ramfs.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_setattr_ramfs_dirs',`
-	gen_require(`
-		type ramfs_t;
-	')
-
-	allow $1 ramfs_t:dir setattr;
 ')
 
 ########################################
@@ -5273,24 +4589,6 @@ interface(`fs_rw_rpc_named_pipes',`
 
 ########################################
 ## <summary>
-##	Watch RPC pipe filesystem directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_watch_rpc_pipefs_dirs',`
-	gen_require(`
-		type rpc_pipefs_t;
-	')
-
-	allow $1 rpc_pipefs_t:dir watch;
-')
-
-########################################
-## <summary>
 ##	Mount a tmpfs filesystem.
 ## </summary>
 ## <param name="domain">
@@ -5620,24 +4918,6 @@ interface(`fs_relabel_tmpfs_dirs',`
 
 ########################################
 ## <summary>
-##	Watch directories on tmpfs filesystems.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_watch_tmpfs_dirs',`
-	gen_require(`
-		type tmpfs_t;
-	')
-
-	allow $1 tmpfs_t:dir watch;
-')
-
-########################################
-## <summary>
 ##	Create an object in a tmpfs filesystem, with a private
 ##	type using a type transition.
 ## </summary>
@@ -5913,6 +5193,21 @@ interface(`fs_relabel_tmpfs_chr_files',`
 
 ########################################
 ## <summary>
+##	Relabel character nodes on tmpfs filesystems.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_relabel_tmpfs_chr_file',`
+	refpolicywarn(`$0($*) has been deprecated, please use fs_relabel_tmpfs_chr_files() instead.')
+	fs_relabel_tmpfs_chr_files($1)
+')
+
+########################################
+## <summary>
 ##	Read and write block nodes on tmpfs filesystems.
 ## </summary>
 ## <param name="domain">
@@ -5947,6 +5242,21 @@ interface(`fs_relabel_tmpfs_blk_files',`
 
 	allow $1 tmpfs_t:dir list_dir_perms;
 	relabel_blk_files_pattern($1, tmpfs_t, tmpfs_t)
+')
+
+########################################
+## <summary>
+##	Relabel block nodes on tmpfs filesystems.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_relabel_tmpfs_blk_file',`
+	refpolicywarn(`$0($*) has been deprecated, please use fs_relabel_tmpfs_blk_files() instead.')
+	fs_relabel_tmpfs_blk_files($1)
 ')
 
 ########################################
@@ -6134,43 +5444,6 @@ interface(`fs_getattr_tracefs_files',`
 	')
 
         allow $1 tracefs_t:file getattr;
-')
-
-########################################
-## <summary>
-##	Read/write trace filesystem files
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`fs_rw_tracefs_files',`
-	gen_require(`
-		type tracefs_t;
-	')
-
-	allow $1 tracefs_t:dir list_dir_perms;
-	allow $1 tracefs_t:file rw_file_perms;
-')
-
-########################################
-## <summary>
-##	create trace filesystem directories
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-interface(`fs_create_tracefs_dirs',`
-	gen_require(`
-		type tracefs_t;
-	')
-
-	allow $1 tracefs_t:dir { create rw_dir_perms };
 ')
 
 ########################################

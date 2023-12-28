@@ -227,9 +227,6 @@ files_relabel_etc_files(groupadd_t)
 files_read_etc_runtime_files(groupadd_t)
 files_read_usr_symlinks(groupadd_t)
 
-kernel_getattr_proc(groupadd_t)
-kernel_read_kernel_sysctls(groupadd_t)
-
 # Execute /usr/bin/{passwd, chfn, chsh} and /usr/sbin/{useradd, vipw}.
 corecmd_exec_bin(groupadd_t)
 
@@ -278,8 +275,6 @@ optional_policy(`
 optional_policy(`
 	rpm_use_fds(groupadd_t)
 	rpm_rw_pipes(groupadd_t)
-	rpm_read_tmp_files(groupadd_t)
-	rpm_append_tmp_files(groupadd_t)
 ')
 
 optional_policy(`
@@ -313,6 +308,7 @@ allow passwd_t self:msg { send receive };
 allow passwd_t crack_db_t:dir list_dir_perms;
 read_files_pattern(passwd_t, crack_db_t, crack_db_t)
 
+kernel_read_crypto_sysctls(passwd_t)
 kernel_read_kernel_sysctls(passwd_t)
 kernel_dontaudit_getattr_proc(passwd_t)
 
@@ -337,7 +333,6 @@ term_use_all_ttys(passwd_t)
 term_use_all_ptys(passwd_t)
 
 auth_run_chk_passwd(passwd_t, passwd_roles)
-auth_run_upd_passwd(passwd_t, passwd_roles)
 auth_manage_shadow(passwd_t)
 auth_relabel_shadow(passwd_t)
 auth_etc_filetrans_shadow(passwd_t)
@@ -592,8 +587,6 @@ optional_policy(`
 optional_policy(`
 	rpm_use_fds(useradd_t)
 	rpm_rw_pipes(useradd_t)
-	rpm_read_tmp_files(useradd_t)
-	rpm_append_tmp_files(useradd_t)
 ')
 
 optional_policy(`

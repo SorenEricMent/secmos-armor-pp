@@ -912,24 +912,6 @@ interface(`corenet_tcp_bind_generic_node',`
 
 ########################################
 ## <summary>
-##	Do not audit denials on binding TCP sockets to generic nodes.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain to not audit.
-##	</summary>
-## </param>
-#
-interface(`corenet_dontaudit_tcp_bind_generic_node',`
-	gen_require(`
-		type node_t;
-	')
-
-	dontaudit $1 node_t:tcp_socket node_bind;
-')
-
-########################################
-## <summary>
 ##	Bind UDP sockets to generic nodes.
 ## </summary>
 ## <desc>
@@ -3515,64 +3497,4 @@ interface(`corenet_unconfined',`
 	')
 
 	typeattribute $1 corenet_unconfined_type;
-')
-
-
-########################################
-## <summary>
-##      DNS Packet
-## </summary>
-## <desc>
-##      </desc>
-## <param name="domain">
-##      <summary>
-##      From domain
-##      </summary>
-## </param>
-#
-interface(`net_dns_packet',`
-        gen_require(`
-                type domain_packet_t;
-
-        ')
-        allow $1 domain_packet_t:packet { send recv };
-')
-########################################
-## <summary>
-##      HTTP Packet
-## </summary>
-## <desc>
-##      </desc>
-## <param name="domain">
-##      <summary>
-##      From domain
-##      </summary>
-## </param>
-#
-interface(`net_http_packet',`
-        gen_require(`
-                type www_http_packet_t;
-
-        ')
-        allow $1 www_http_packet_t:packet { send recv };
-')
-
-########################################
-## <summary>
-##	HTTPS Packet
-## </summary>
-## <desc>
-##      </desc>
-## <param name="domain">
-##      <summary>
-##      From domain
-##      </summary>
-## </param>
-#
-interface(`net_https_packet',`
-        gen_require(`
-                type https_packet_t;
-
-        ')
-        allow $1 https_packet_t:packet { send recv };
 ')

@@ -119,6 +119,7 @@ files_runtime_filetrans(rpm_t, rpm_runtime_t, { dir file })
 
 can_exec(rpm_t, { rpm_tmp_t rpm_tmpfs_t })
 
+kernel_read_crypto_sysctls(rpm_t)
 kernel_read_network_state(rpm_t)
 kernel_read_system_state(rpm_t)
 kernel_read_kernel_sysctls(rpm_t)
@@ -212,11 +213,6 @@ seutil_read_file_contexts(rpm_t)
 userdom_use_user_terminals(rpm_t)
 userdom_use_unpriv_users_fds(rpm_t)
 
-ifdef(`init_systemd', `
-	systemd_use_logind_fds(rpm_t)
-	systemd_dbus_chat_logind(rpm_t)
-')
-
 optional_policy(`
 	cron_system_entry(rpm_t, rpm_exec_t)
 ')
@@ -275,6 +271,7 @@ fs_tmpfs_filetrans(rpm_script_t, rpm_script_tmpfs_t, { dir file lnk_file sock_fi
 
 can_exec(rpm_script_t, { rpm_script_tmp_t rpm_script_tmpfs_t })
 
+kernel_read_crypto_sysctls(rpm_script_t)
 kernel_read_kernel_sysctls(rpm_script_t)
 kernel_read_system_state(rpm_script_t)
 kernel_read_network_state(rpm_script_t)

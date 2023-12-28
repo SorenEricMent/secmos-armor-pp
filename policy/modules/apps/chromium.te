@@ -96,7 +96,6 @@ allow chromium_t self:file create;
 allow chromium_t self:fifo_file rw_fifo_file_perms;
 allow chromium_t self:sem create_sem_perms;
 allow chromium_t self:netlink_kobject_uevent_socket client_stream_socket_perms;
-allow chromium_t self:user_namespace create;
 # cap_userns sys_admin for the sandbox
 allow chromium_t self:cap_userns { sys_admin sys_chroot sys_ptrace };
 
@@ -152,6 +151,7 @@ kernel_associate_proc(chromium_t)
 
 kernel_get_sysvipc_info(chromium_t)
 kernel_list_proc(chromium_t)
+kernel_read_crypto_sysctls(chromium_t)
 kernel_read_fs_sysctls(chromium_t)
 kernel_read_kernel_sysctls(chromium_t)
 kernel_read_net_sysctls(chromium_t)
@@ -233,6 +233,7 @@ tunable_policy(`chromium_rw_usb_dev',`
 tunable_policy(`chromium_read_system_info',`
 	kernel_read_kernel_sysctls(chromium_t)
 	# Memory optimizations & optimizations based on OS/version
+	kernel_read_crypto_sysctls(chromium_t)
 	kernel_read_system_state(chromium_t)
 
 	# Debugging (sys/kernel/debug) and device information (sys/bus and sys/devices).
@@ -379,7 +380,6 @@ allow chromium_sandbox_t chromium_naclhelper_t:process share;
 # Chromium nacl helper local policy
 #
 
-allow chromium_naclhelper_t self:user_namespace create;
 allow chromium_naclhelper_t chromium_t:unix_stream_socket { getattr read write };
 allow chromium_naclhelper_t chromium_sandbox_t:unix_stream_socket { getattr read write };
 
