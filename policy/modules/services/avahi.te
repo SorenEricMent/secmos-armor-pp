@@ -63,6 +63,13 @@ corenet_tcp_bind_generic_node(avahi_t)
 corenet_udp_bind_generic_node(avahi_t)
 corenet_all_recvfrom_unlabeled(avahi_t)
 
+gen_require(`
+	type lo_netif_t;
+	type mdns_packet_t;
+')
+allow avahi_t lo_netif_t:netif egress;
+allow avahi_t mdns_packet_t:packet { recv send };
+
 corenet_sendrecv_howl_server_packets(avahi_t)
 corenet_tcp_bind_howl_port(avahi_t)
 corenet_udp_bind_howl_port(avahi_t)

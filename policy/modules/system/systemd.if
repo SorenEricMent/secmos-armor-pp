@@ -159,8 +159,12 @@ template(`systemd_role_template',`
 			type node_t;
 			type ptmx_t;
 			type $1_wm_t;
+			type $1_dbusd_t;
+			type $1_gkeyringd_t;
+			type $1_wm_t;
 			type $1_t;
 		')
+		logging_stream_connect_journald_varlink($1_systemd_t)
 		mount_exec($1_systemd_t)
 		xserver_read_xkb_libs($1_systemd_t)
 		xserver_rw_mesa_shader_cache($1_systemd_t)
@@ -231,6 +235,10 @@ template(`systemd_role_template',`
 		allow $1_systemd_t wm_tmpfs_t:file { map read write };
 		allow $1_systemd_t usr_t:file { getattr open read };
 		allow $1_systemd_t lib_t:file execute_no_trans;
+		allow $1_systemd_t $1_dbusd_t:process { noatsecure rlimitinh siginh };
+		allow $1_systemd_t $1_gkeyringd_t:process { noatsecure rlimitinh siginh };
+		allow $1_systemd_t $1_wm_t:process { noatsecure rlimitinh siginh };
+
 		allow $1_systemd_t $1_t:unix_stream_socket { getopt read };
 
 		gen_require(`

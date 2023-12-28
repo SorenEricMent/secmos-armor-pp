@@ -2011,7 +2011,7 @@ init_create_mountpoints = false
 #
 # Allow all daemons the ability to read/write terminals
 # 
-init_daemons_use_tty = false
+init_daemons_use_tty = true
 
 #
 # Enable systemd to mount on all non-security files.

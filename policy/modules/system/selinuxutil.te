@@ -85,6 +85,24 @@ init_daemon_domain(restorecond_t, restorecond_exec_t)
 domain_obj_id_change_exemption(restorecond_t)
 role system_r types restorecond_t;
 
+gen_require(`
+	type etc_t;
+	type file_context_t;
+	type samba_etc_t;
+	type selinux_config_t;
+	type user_home_dir_t;
+	type ssh_home_t;
+	type var_log_t, var_run_t;
+')
+allow restorecond_t etc_t:dir watch;
+allow restorecond_t file_context_t:file { map open read };
+allow restorecond_t samba_etc_t:dir watch;
+allow restorecond_t selinux_config_t:file watch;
+allow restorecond_t ssh_home_t:dir watch;
+allow restorecond_t user_home_dir_t:dir watch;
+allow restorecond_t var_log_t:dir watch;
+allow restorecond_t var_run_t:dir watch;
+
 gen_require(`type unlabeled_t;')
 allow restorecond_t unlabeled_t:file { map open read write };
 

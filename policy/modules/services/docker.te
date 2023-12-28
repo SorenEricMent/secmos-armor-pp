@@ -46,6 +46,10 @@ allow dockerd_t self:process getattr;
 allow dockerd_t self:netlink_netfilter_socket create_socket_perms;
 allow dockerd_t self:netlink_xfrm_socket create_socket_perms;
 
+logging_stream_connect_journald_varlink(dockerd_t)
+logging_send_syslog_msg(dockerd_t)
+logging_create_devlog(dockerd_t)
+
 init_write_runtime_socket(dockerd_t)
 container_runtime_named_socket_activation(dockerd_t)
 

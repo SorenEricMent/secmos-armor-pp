@@ -102,10 +102,17 @@ ifdef(`enable_mcs', `
 	init_ranged_daemon_domain(initrc_t, initrc_exec_t, s0)
 ')
 
+gen_require(`type init_t;')
+
+ifdef(`distro_arch', `
+	allow init_t kernel_t:key { link search };
+	corenet_all_recvfrom_unlabeled(init_t)
+')
 ifdef(`enable_mls', `
 	init_ranged_daemon_domain(initrc_t, initrc_exec_t, s0 - mls_systemhigh)
 	mls_socket_read_all_levels(initrc_t)
 	mls_socket_write_all_levels(initrc_t)
+	mls_key_write_to_clearance(initrc_t)
 ')
 
 gen_require(`
