@@ -8,14 +8,14 @@ policy_module(secadm)
 role secadm_r;
 
 userdom_unpriv_user_template(secadm)
-# userdom_security_admin_template(secadm_t, secadm_r)
+userdom_security_admin_template(secadm_t, secadm_r)
 userdom_operator(secadm)
 ########################################
 #
 # Local policy
 #
 
-allow secadm_t self:capability { dac_override dac_read_search };
+allow secadm_t self:capability { dac_override dac_read_search setuid };
 
 corecmd_exec_shell(secadm_t)
 
@@ -39,17 +39,23 @@ logging_read_generic_logs(secadm_t)
 logging_read_audit_config(secadm_t)
 logging_watch_audit_log(secadm_t)
 
+seutil_get_semanage_read_lock(secadm_t)
 seutil_get_semanage_trans_lock(secadm_t)
 seutil_exec_loadpolicy(secadm_t)
 seutil_exec_checkpolicy(secadm_t)
 seutil_manage_config(secadm_t)
 seutil_manage_config_dirs(secadm_t)
+seutil_search_default_contexts(secadm_t)
+seutil_manage_default_contexts(secadm_t)
+seutil_manage_file_contexts(secadm_t)
+seutil_create_bin_policy(secadm_t)
+seutil_read_module_store(secadm_t)
+seutil_manage_module_store(secadm_t)
+seutil_run_semanage(secadm_t, secadm_r)
+seutil_manage_src_policy(secadm_t)
+seutil_libselinux_linked(secadm_t,)
 
-corenet_ib_access_unlabeled_pkeys(secadm_t)
-
-optional_policy(`
-	aide_run(secadm_t, secadm_r)
-')
+auth_read_pam_runtime_files(secadm_t)
 
 optional_policy(`
 	auditadm_role_change(secadm_r)
@@ -59,17 +65,67 @@ optional_policy(`
 	dmesg_exec(secadm_t)
 ')
 
+
+corenet_ib_access_unlabeled_pkeys(secadm_t)
+
 optional_policy(`
-	netlabel_run_mgmt(secadm_t, secadm_r)
+	apache_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
+optional_policy(`
+	auditadm_role_change(secadm_r)
+')
+
+optional_policy(`
+	container_user_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
+optional_policy(`
+	git_client_role_template(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+	git_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
+optional_policy(`
+	modemmanager_dbus_chat(secadm_t)
+')
+
+optional_policy(`
+	postgresql_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
+optional_policy(`
+	ssh_role_template(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
+optional_policy(`
+	sudo_role_template(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
 ')
 
 optional_policy(`
 	sysadm_role_change(secadm_r, secadm_t)
+	userdom_dontaudit_use_user_terminals(secadm_t)
+')
+
+optional_policy(`
+	syncthing_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
+optional_policy(`
+	virt_stream_connect(secadm_t)
 ')
 
 optional_policy(`
 	vlock_run(secadm_t, secadm_r)
 ')
+
+optional_policy(`
+	xscreensaver_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
+optional_policy(`
+	xserver_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
+')
+
 
 ifndef(`distro_redhat',`
         optional_policy(`

@@ -179,6 +179,7 @@ ifdef(`enable_mls', `
 	mls_net_outbound_all_levels(xdm_t);
 	mls_net_receive_all_levels(xdm_t);
 	mls_socket_read_all_levels(xdm_t);
+	mls_key_write_to_clearance(xdm_t);
 ')
 gen_require(`type init_t;')
 allow xdm_t init_t:system status;
@@ -344,7 +345,7 @@ optional_policy(`
 
 allow xdm_t self:capability { chown dac_override dac_read_search fowner fsetid ipc_owner kill mknod net_bind_service setgid setuid sys_nice sys_rawio sys_resource sys_tty_config };
 dontaudit xdm_t self:capability sys_admin;
-allow xdm_t self:process { setexec setpgid getsched setsched setrlimit signal_perms };
+allow xdm_t self:process { setexec setpgid getsched setsched setrlimit signal_perms execmem };
 allow xdm_t self:fifo_file rw_fifo_file_perms;
 allow xdm_t self:shm create_shm_perms;
 allow xdm_t self:sem create_sem_perms;
@@ -357,8 +358,14 @@ allow xdm_t self:key { search link write };
 allow xdm_t xconsole_device_t:fifo_file { read_fifo_file_perms setattr_fifo_file_perms };
 
 ifdef(`init_systemd', `
-	gen_require(`type user_systemd_t;')
+	gen_require(`
+		type user_systemd_t;
+		type systemd_user_unit_t;
+		class service start;
+	')
 	allow xdm_t user_systemd_t:system status;
+	allow xdm_t systemd_user_unit_t:service start;
+
 ')
 # Allow gdm to run gdm-binary
 can_exec(xdm_t, xdm_exec_t)
@@ -689,7 +696,7 @@ allow xserver_t input_xevent_t:x_event send;
 allow xserver_t self:capability { dac_override fowner fsetid ipc_owner mknod net_bind_service setgid setuid sys_admin sys_nice sys_rawio sys_tty_config };
 dontaudit xserver_t self:capability chown;
 allow xserver_t self:capability2 wake_alarm;
-allow xserver_t self:process { fork transition signal_perms getsched setsched getsession getpgid setpgid getcap setcap share getattr noatsecure siginh rlimitinh dyntransition setkeycreate setsockcreate getrlimit };
+allow xserver_t self:process { fork transition signal_perms getsched setsched getsession getpgid setpgid getcap setcap share getattr noatsecure siginh rlimitinh dyntransition setkeycreate setsockcreate getrlimit execmem };
 allow xserver_t self:fd use;
 allow xserver_t self:fifo_file rw_fifo_file_perms;
 allow xserver_t self:sock_file read_sock_file_perms;

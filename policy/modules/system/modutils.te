@@ -50,6 +50,9 @@ list_dirs_pattern(kmod_t, modules_dep_t, modules_dep_t)
 manage_files_pattern(kmod_t, modules_dep_t, modules_dep_t)
 files_kernel_modules_filetrans(kmod_t, modules_dep_t, file)
 
+gen_require(`type kmod_t;')
+allow kmod_t initrc_t:netlink_route_socket { read write };
+
 can_exec(kmod_t, kmod_exec_t)
 
 kernel_load_module(kmod_t)

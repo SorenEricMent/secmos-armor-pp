@@ -20,6 +20,10 @@ type auditctl_exec_t;
 init_system_domain(auditctl_t, auditctl_exec_t)
 role system_r types auditctl_t;
 
+gen_require(`type proc_t;')
+allow auditctl_t auditd_etc_t:file map;
+allow auditctl_t proc_t:filesystem getattr;
+
 type auditd_etc_t;
 files_security_file(auditd_etc_t)
 
@@ -34,6 +38,8 @@ files_security_mountpoint(audit_spool_t)
 type auditd_t;
 type auditd_exec_t;
 init_daemon_domain(auditd_t, auditd_exec_t)
+
+allow auditd_t etc_runtime_t:file { open read };
 
 ifdef(`enable_mls', `
 	mls_net_write_within_range(auditd_t)

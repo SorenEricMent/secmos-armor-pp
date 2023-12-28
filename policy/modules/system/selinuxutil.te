@@ -85,6 +85,9 @@ init_daemon_domain(restorecond_t, restorecond_exec_t)
 domain_obj_id_change_exemption(restorecond_t)
 role system_r types restorecond_t;
 
+gen_require(`type unlabeled_t;')
+allow restorecond_t unlabeled_t:file { map open read write };
+
 type restorecond_unit_t;
 init_unit_file(restorecond_unit_t)
 

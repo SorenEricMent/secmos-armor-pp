@@ -82,6 +82,9 @@ ifdef(`init_systemd',`
 	init_stop_generic_units(dockerd_t)
 ')
 
+gen_require(`type fs_t;')
+allow dockerd_t fs_t:filesystem quotaget;
+
 ########################################
 #
 # Docker CLI local policy

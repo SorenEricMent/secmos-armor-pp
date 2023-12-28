@@ -65,6 +65,8 @@ manage_dirs_pattern(dnsmasq_t, dnsmasq_runtime_t, dnsmasq_runtime_t)
 manage_files_pattern(dnsmasq_t, dnsmasq_runtime_t, dnsmasq_runtime_t)
 files_runtime_filetrans(dnsmasq_t, dnsmasq_runtime_t, { dir file })
 
+fs_search_tmpfs(dnsmasq_t)
+
 kernel_read_kernel_sysctls(dnsmasq_t)
 kernel_read_net_sysctls(dnsmasq_t)
 kernel_read_network_state(dnsmasq_t)
@@ -74,6 +76,7 @@ kernel_request_load_module(dnsmasq_t)
 corecmd_exec_shell(dnsmasq_t)
 
 corenet_all_recvfrom_netlabel(dnsmasq_t)
+corenet_all_recvfrom_unlabeled(dnsmasq_t)
 corenet_tcp_sendrecv_generic_if(dnsmasq_t)
 corenet_udp_sendrecv_generic_if(dnsmasq_t)
 corenet_raw_sendrecv_generic_if(dnsmasq_t)
@@ -97,6 +100,8 @@ domain_use_interactive_fds(dnsmasq_t)
 
 files_read_etc_runtime_files(dnsmasq_t)
 files_watch_etc_dirs(dnsmasq_t)
+
+fs_rw_tmpfs_files(dnsmasq_t)
 
 fs_getattr_all_fs(dnsmasq_t)
 fs_search_auto_mountpoints(dnsmasq_t)

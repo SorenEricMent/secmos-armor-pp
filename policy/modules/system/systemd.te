@@ -308,6 +308,7 @@ gen_require(`
 	type cgroup_t;	
 	type proc_t;
 	type usr_t;
+	type kernel_t;
 ')
 
 allow systemd_locale_t cgroup_t:filesystem getattr;
@@ -319,6 +320,10 @@ ifdef(`enable_mls', `
 	mls_file_read_all_levels(systemd_logind_t)
 	mls_file_write_all_levels(systemd_logind_t)
 ')
+
+allow systemd_logind_t kernel_t:unix_stream_socket connectto;
+
+systemd_homed_connect(systemd_logind_t)
 
 type systemd_logind_exec_t;
 init_daemon_domain(systemd_logind_t, systemd_logind_exec_t)
@@ -351,6 +356,8 @@ init_daemon_runtime_file(systemd_machined_runtime_t, dir, "machines")
 type systemd_modules_load_t;
 type systemd_modules_load_exec_t;
 init_daemon_domain(systemd_modules_load_t, systemd_modules_load_exec_t)
+
+seutil_read_config(systemd_modules_load_t)
 
 type systemd_networkd_t;
 type systemd_networkd_exec_t;
@@ -440,6 +447,8 @@ type systemd_sysctl_t;
 type systemd_sysctl_exec_t;
 init_daemon_domain(systemd_sysctl_t, systemd_sysctl_exec_t)
 
+seutil_read_config(systemd_sysctl_t)
+
 type systemd_sysusers_t;
 type systemd_sysusers_exec_t;
 init_system_domain(systemd_sysusers_t, systemd_sysusers_exec_t)
@@ -500,6 +509,8 @@ allow systemd_user_runtime_dir_t fusefs_t:dir getattr;
 allow systemd_user_runtime_dir_t gconf_tmp_t:dir { getattr read };
 
 gen_require(`type user_tmp_t;')
+
+allow systemd_user_runtime_dir_t kernel_t:unix_stream_socket { connectto };
 allow systemd_user_runtime_dir_t systemd_homed_runtime_t:sock_file write;
 allow systemd_user_runtime_dir_t systemd_homed_t:unix_stream_socket connectto;
 allow systemd_user_runtime_dir_t systemd_userdbd_runtime_t:dir { getattr open read search };
@@ -515,7 +526,10 @@ userdom_user_tmpfs_file(systemd_user_tmpfs_t)
 type systemd_userdbd_t;
 type systemd_userdbd_exec_t;
 
+allow systemd_userdbd_t self:capability { sys_resource };
+allow systemd_userdbd_t self:process { getcap };
 allow systemd_userdbd_t self:unix_stream_socket { read write };
+allow systemd_userdbd_t kernel_t:unix_stream_socket { connectto };
 
 seutil_read_config(systemd_userdbd_t)
 

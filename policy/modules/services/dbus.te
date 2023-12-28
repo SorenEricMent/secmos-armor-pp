@@ -74,6 +74,9 @@ type system_dbusd_t;
 init_system_domain(system_dbusd_t, dbusd_exec_t)
 init_named_socket_activation(system_dbusd_t, system_dbusd_runtime_t)
 
+gen_require(`type init_t;')
+allow system_dbusd_t init_t:system reload;
+
 type system_dbusd_runtime_t alias system_dbusd_var_run_t;
 files_runtime_file(system_dbusd_runtime_t)
 init_daemon_runtime_file(system_dbusd_runtime_t, dir, "dbus")

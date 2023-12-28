@@ -166,6 +166,8 @@ ifdef(`enable_mls',`
 # Use capabilities. old rule:
 allow init_t self:capability { chown dac_override dac_read_search fowner fsetid kill setgid setuid setpcap linux_immutable net_bind_service net_broadcast net_admin net_raw ipc_lock ipc_owner sys_rawio sys_chroot sys_ptrace sys_pacct sys_admin sys_boot sys_nice sys_resource sys_time sys_tty_config mknod lease audit_write audit_control setfcap };
 allow init_t self:capability2 { wake_alarm block_suspend };
+allow init_t self:system start;
+
 # is ~sys_module really needed? observed:
 # sys_boot
 # sys_tty_config
@@ -800,6 +802,7 @@ files_setattr_lock_dirs(initrc_t)
 corecmd_exec_all_executables(initrc_t)
 
 corenet_all_recvfrom_netlabel(initrc_t)
+corenet_all_recvfrom_unlabeled(initrc_t)
 corenet_tcp_sendrecv_all_if(initrc_t)
 corenet_udp_sendrecv_all_if(initrc_t)
 corenet_tcp_sendrecv_all_nodes(initrc_t)

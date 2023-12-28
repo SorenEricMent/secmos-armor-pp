@@ -9,6 +9,9 @@ require {
 	type xdm_tmp_t;
 	type var_run_t;
 	type sysctl_fs_t;
+	type fsadm_t;
+	type ifconfig_t;
+	type lvm_t;
 }
 ########################################
 #
@@ -84,6 +87,9 @@ allow udev_t var_run_t:file { create getattr ioctl open read write };
 allow udev_t xdm_tmp_t:dir { getattr open read search };
 allow udev_t xdm_tmp_t:sock_file { getattr };
 allow udev_t sysctl_fs_t:file { getattr ioctl };
+allow udev_t fsadm_t:process { noatsecure rlimitinh siginh };
+allow udev_t ifconfig_t:process { noatsecure rlimitinh siginh };
+allow udev_t lvm_t:process { noatsecure rlimitinh siginh };
 
 #
 ifdef(`init_systemd',`
