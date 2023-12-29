@@ -66,6 +66,10 @@ allow lvm_t self:key { search write };
 
 allow lvm_t self:unix_stream_socket { connectto create_stream_socket_perms };
 
+ifdef(`distro_arch', `
+	dev_getattr_all_chr_files(lvm_t)
+')
+
 manage_dirs_pattern(lvm_t, lvm_tmp_t, lvm_tmp_t)
 manage_files_pattern(lvm_t, lvm_tmp_t, lvm_tmp_t)
 files_tmp_filetrans(lvm_t, lvm_tmp_t, { file dir })

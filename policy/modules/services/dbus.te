@@ -102,6 +102,8 @@ type system_dbusd_var_lib_t;
 files_type(system_dbusd_var_lib_t)
 
 ifdef(`enable_mls',`
+	mls_socket_read_to_clearance(system_dbusd_t)
+	mls_socket_write_to_clearance(system_dbusd_t)
 	init_ranged_system_domain(system_dbusd_t, dbusd_exec_t, s0 - mls_systemhigh)
 ')
 

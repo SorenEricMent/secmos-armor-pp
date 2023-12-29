@@ -177,6 +177,7 @@ ifdef(`distro_suse',`
 
 /run/apache.*							gen_context(system_u:object_r:httpd_runtime_t,s0)
 /run/cherokee\.pid					--	gen_context(system_u:object_r:httpd_runtime_t,s0)
+/run/nginx\.pid                                      --      gen_context(system_u:object_r:httpd_runtime_t,s0)
 /run/dirsrv/admin-serv.*					gen_context(system_u:object_r:httpd_runtime_t,s0)
 /run/gcache_port					-s	gen_context(system_u:object_r:httpd_runtime_t,s0)
 /run/httpd.*							gen_context(system_u:object_r:httpd_runtime_t,s0)

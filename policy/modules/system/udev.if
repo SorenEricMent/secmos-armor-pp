@@ -38,6 +38,26 @@ interface(`udev_domtrans',`
 
 ########################################
 ## <summary>
+##      Execute tmpfs in the udev_runtime domain.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed to transition.
+##      </summary>
+## </param>
+#
+interface(`udev_runtime_tmpfs_domtrans',`
+        gen_require(`
+                type tmpfs_t , udev_runtime_t;
+        ')
+	corecmd_search_bin($1)
+        init_domain_transition_pattern($1, tmpfs_t, udev_runtime_t)
+')
+
+
+
+########################################
+## <summary>
 ##	Allow udev to execute the specified program in
 ##	the specified domain.
 ## </summary>

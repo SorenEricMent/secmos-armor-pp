@@ -70,7 +70,7 @@ type policy_config_t;
 files_security_file(policy_config_t)
 
 neverallow ~can_relabelto_binary_policy policy_config_t:file relabelto;
-#neverallow ~can_write_binary_policy policy_config_t:file { write append };
+# #neverallow ~can_write_binary_policy policy_config_t:file { write append };
 
 #
 # policy_src_t is the type of the policy source
@@ -84,6 +84,10 @@ type restorecond_exec_t;
 init_daemon_domain(restorecond_t, restorecond_exec_t)
 domain_obj_id_change_exemption(restorecond_t)
 role system_r types restorecond_t;
+
+files_manage_generic_tmp_dirs(restorecond_t)
+mls_file_relabel_to_clearance(restorecond_t)
+mls_file_relabel(restorecond_t)
 
 gen_require(`
 	type etc_t;

@@ -64,13 +64,11 @@ ifdef(`distro_redhat',`
 
 /usr/X11R6/lib/X11/fonts(/.*)?	gen_context(system_u:object_r:fonts_t,s0)
 
-ifdef(`distro_gentoo',`
 /usr/share/misc/(pci|usb)\.ids -- gen_context(system_u:object_r:hwdata_t,s0)
-')
 
-ifdef(`distro_redhat',`
+
 /usr/share/hwdata(/.*)?		gen_context(system_u:object_r:hwdata_t,s0)
-')
+
 
 #
 # /var

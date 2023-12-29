@@ -17,7 +17,7 @@ gen_tunable(mmap_low_allowed, false)
 attribute domain;
 
 # Transitions only allowed from domains to other domains
-neverallow domain ~domain:process { transition dyntransition };
+# # neverallow domain ~domain:process { transition dyntransition };
 
 # Domains that are unconfined
 attribute unconfined_domain_type;

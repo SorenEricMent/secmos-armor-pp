@@ -12813,3 +12813,8 @@ portcon tcp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s
 portcon udp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s0)
 portcon sctp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s0)
 portcon dccp 32768-60999  gen_context(system_u:object_r:local_ephemeral_port_t, s0)
+
+gen_require(`type lo_netif_t; type sysctl_t;')
+allow unlabeled_t lo_netif_t:netif ingress;
+allow unlabeled_t self:node recvfrom;
+allow unlabeled_t sysctl_t:netif ingress;

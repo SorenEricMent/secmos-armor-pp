@@ -280,6 +280,9 @@ auth_use_nsswitch(policykit_resolve_t)
 
 userdom_read_all_users_state(policykit_resolve_t)
 
+gen_require(`type selinux_config_t;')
+allow policykit_t selinux_config_t:dir search;
+
 optional_policy(`
 	dbus_system_bus_client(policykit_resolve_t)
 ')

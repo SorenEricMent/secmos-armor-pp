@@ -1477,3 +1477,22 @@ interface(`term_use_virtio_console',`
 	dev_list_all_dev_nodes($1)
 	allow $1 virtio_device_t:chr_file rw_term_perms;
 ')
+########################################
+## <summary>
+##  Execute tmpfs in the
+##  tty_device_t domain
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`input_domtrans_tty_device_tmpfs', `
+        gen_require(`
+                type event_device_t, tty_device_t;
+        ')
+
+        corecmd_search_bin($1)
+        domtrans_pattern($1, event_device_t, tty_device_t)
+')

@@ -66,6 +66,13 @@ domain_entry_file(init_t, init_exec_t)
 kernel_domtrans_to(init_t, init_exec_t)
 role system_r types init_t;
 
+allow init_t kernel_t:key { link search };
+allow init_t sysctl_t:netif egress;
+allow init_t unlabeled_t:node sendto;
+allow initrc_t unlabeled_t:node sendto;
+
+allow init_t unlabeled_t:tcp_socket node_bind;
+
 optional_policy(`
 	# required by calico
 	kubernetes_mountpoint(init_t)
@@ -93,13 +100,21 @@ files_type(init_var_lib_t)
 type initctl_t;
 files_type(initctl_t)
 mls_trusted_object(initctl_t)
+mls_trusted_object(init_t)
+mls_file_downgrade(init_t)
+mls_file_upgrade(init_t)
 
 type initrc_t, init_script_domain_type, init_run_all_scripts_domain;
 type initrc_exec_t, init_script_file_type;
 init_domain(initrc_t, initrc_exec_t)
 
+allow initrc_t sysctl_t:netif egress;
+allow initrc_t unlabeled_t:node sendto;
+allow initrc_t unlabeled_t:tcp_socket node_bind;
+
 ifdef(`enable_mcs', `
 	init_ranged_daemon_domain(initrc_t, initrc_exec_t, s0)
+	mls_net_outbound_all_levels(initrc_t)
 ')
 
 gen_require(`type init_t;')
@@ -112,7 +127,10 @@ ifdef(`enable_mls', `
 	init_ranged_daemon_domain(initrc_t, initrc_exec_t, s0 - mls_systemhigh)
 	mls_socket_read_all_levels(initrc_t)
 	mls_socket_write_all_levels(initrc_t)
+	mls_key_write_to_clearance(init_t)
 	mls_key_write_to_clearance(initrc_t)
+	mls_socket_read_all_levels(init_t)
+	mls_socket_write_all_levels(init_t)
 ')
 
 gen_require(`
@@ -551,6 +569,11 @@ ifdef(`init_systemd',`
 	systemd_list_tmpfiles_conf(init_t)
 	systemd_relabelto_tmpfiles_conf_dirs(init_t)
 	systemd_relabelto_tmpfiles_conf_files(init_t)
+
+	gen_require(`type systemd_tmpfiles_t;')
+
+	allow init_t systemd_tmpfiles_t:service start;
+
 	systemd_relabelto_journal_dirs(init_t)
 	systemd_relabelto_journal_files(init_t)
 	systemd_rw_networkd_netlink_route_sockets(init_t)

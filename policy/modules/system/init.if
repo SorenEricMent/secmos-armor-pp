@@ -3810,3 +3810,27 @@ interface(`init_search_keys',`
 
 	allow $1 init_t:key search;
 ')
+
+########################################
+## <summary>
+##      Allows to start userland processes
+##      by transitioning to the specified domain.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      The process type entered by kernel.
+##      </summary>
+## </param>
+## <param name="entrypoint">
+##      <summary>
+##      The executable type for the entrypoint.
+##      </summary>
+## </param>
+#
+interface(`init_tmpfs_domtrans_to',`
+        gen_require(`
+                type init_t, tmpfs_t;
+        ')
+
+        init_domain_transition_pattern(init_t, tmpfs_t, $1)
+')

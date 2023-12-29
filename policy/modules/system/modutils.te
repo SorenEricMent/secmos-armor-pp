@@ -42,6 +42,14 @@ allow kmod_t self:udp_socket create_socket_perms;
 allow kmod_t self:rawip_socket create_socket_perms;
 allow kmod_t self:key write;
 
+gen_require(`type iptables_runtime_t;')
+allow kmod_t iptables_runtime_t:file read;
+allow kmod_t unlabeled_t:chr_file { open read write };
+allow kmod_t unlabeled_t:file { getattr open read };
+
+mls_key_write_to_clearance(kmod_t)
+allow kmod_t kernel_t:key search;
+
 logging_stream_connect_journald_varlink(kmod_t)
 dev_rw_generic_files(kmod_t)
 dev_rw_generic_chr_files(kmod_t)
