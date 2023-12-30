@@ -70,6 +70,7 @@ allow init_t kernel_t:key { link search };
 allow init_t sysctl_t:netif egress;
 allow init_t unlabeled_t:node sendto;
 allow initrc_t unlabeled_t:node sendto;
+allow initrc_t unlabeled_t:udp_socket node_bind;
 
 allow init_t unlabeled_t:tcp_socket node_bind;
 
@@ -114,7 +115,6 @@ allow initrc_t unlabeled_t:tcp_socket node_bind;
 
 ifdef(`enable_mcs', `
 	init_ranged_daemon_domain(initrc_t, initrc_exec_t, s0)
-	mls_net_outbound_all_levels(initrc_t)
 ')
 
 gen_require(`type init_t;')
@@ -267,11 +267,14 @@ fs_write_ramfs_sockets(init_t)
 
 mcs_process_set_categories(init_t)
 
-mls_file_read_all_levels(init_t)
-mls_file_write_all_levels(init_t)
-mls_process_write_all_levels(init_t)
-mls_fd_use_all_levels(init_t)
-mls_process_set_level(init_t)
+ifdef(`enable_mls', `
+	mls_file_read_all_levels(init_t)
+	mls_file_write_all_levels(init_t)
+	mls_process_write_all_levels(init_t)
+	mls_fd_use_all_levels(init_t)
+	mls_process_set_level(init_t)
+	mls_net_outbound_all_levels(initrc_t)
+')
 
 # the following one is needed for libselinux:is_selinux_enabled()
 # otherwise the call fails and sysvinit tries to load the policy

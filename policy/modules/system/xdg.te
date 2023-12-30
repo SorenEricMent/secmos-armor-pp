@@ -58,5 +58,8 @@ userdom_user_home_content(xdg_documents_secret_t)
 type xdg_documents_tmp_t;
 userdom_user_home_content(xdg_documents_tmp_t)
 
+type xdg_documents_telegram_t;
+userdom_user_home_content(xdg_documents_telegram_t)
+
 type xdg_documents_wechat_t;
 userdom_user_home_content(xdg_documents_wechat_t);

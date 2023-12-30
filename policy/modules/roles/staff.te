@@ -15,6 +15,8 @@ userdom_operator(staff)
 #
 corenet_ib_access_unlabeled_pkeys(staff_t)
 
+xdg_manage_all_documents(staff_t)
+
 optional_policy(`
 	apache_role(staff, staff_t, staff_application_exec_domain, staff_r)
 ')

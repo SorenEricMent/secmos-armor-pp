@@ -1544,3 +1544,754 @@ interface(`xdg_relabel_videos',`
 
 	userdom_search_user_home_dirs($1)
 ')
+
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_private home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_private_dirs',`
+	gen_require(`
+		type xdg_documents_private_t;
+	')
+
+	allow $1 xdg_documents_private_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_private_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_private',`
+	gen_require(`
+		type xdg_documents_private_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_private_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_private content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_private',`
+	gen_require(`
+		type xdg_documents_private_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_private_t, xdg_documents_private_t)
+	manage_files_pattern($1, xdg_documents_private_t, xdg_documents_private_t)
+	allow $1 xdg_documents_private_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_private_t, xdg_documents_private_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_private resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_private',`
+	gen_require(`
+		type xdg_documents_private_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_private_t, xdg_documents_private_t)
+	relabel_files_pattern($1, xdg_documents_private_t, xdg_documents_private_t)
+	relabel_lnk_files_pattern($1, xdg_documents_private_t, xdg_documents_private_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_work home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_work_dirs',`
+	gen_require(`
+		type xdg_documents_work_t;
+	')
+
+	allow $1 xdg_documents_work_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_work_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_work',`
+	gen_require(`
+		type xdg_documents_work_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_work_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_work content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_work',`
+	gen_require(`
+		type xdg_documents_work_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_work_t, xdg_documents_work_t)
+	manage_files_pattern($1, xdg_documents_work_t, xdg_documents_work_t)
+	allow $1 xdg_documents_work_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_work_t, xdg_documents_work_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_work resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_work',`
+	gen_require(`
+		type xdg_documents_work_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_work_t, xdg_documents_work_t)
+	relabel_files_pattern($1, xdg_documents_work_t, xdg_documents_work_t)
+	relabel_lnk_files_pattern($1, xdg_documents_work_t, xdg_documents_work_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_school home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_school_dirs',`
+	gen_require(`
+		type xdg_documents_school_t;
+	')
+
+	allow $1 xdg_documents_school_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_school_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_school',`
+	gen_require(`
+		type xdg_documents_school_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_school_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_school content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_school',`
+	gen_require(`
+		type xdg_documents_school_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_school_t, xdg_documents_school_t)
+	manage_files_pattern($1, xdg_documents_school_t, xdg_documents_school_t)
+	allow $1 xdg_documents_school_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_school_t, xdg_documents_school_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_school resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_school',`
+	gen_require(`
+		type xdg_documents_school_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_school_t, xdg_documents_school_t)
+	relabel_files_pattern($1, xdg_documents_school_t, xdg_documents_school_t)
+	relabel_lnk_files_pattern($1, xdg_documents_school_t, xdg_documents_school_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_archive home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_archive_dirs',`
+	gen_require(`
+		type xdg_documents_archive_t;
+	')
+
+	allow $1 xdg_documents_archive_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_archive_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_archive',`
+	gen_require(`
+		type xdg_documents_archive_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_archive_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_archive content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_archive',`
+	gen_require(`
+		type xdg_documents_archive_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_archive_t, xdg_documents_archive_t)
+	manage_files_pattern($1, xdg_documents_archive_t, xdg_documents_archive_t)
+	allow $1 xdg_documents_archive_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_archive_t, xdg_documents_archive_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_archive resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_archive',`
+	gen_require(`
+		type xdg_documents_archive_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_archive_t, xdg_documents_archive_t)
+	relabel_files_pattern($1, xdg_documents_archive_t, xdg_documents_archive_t)
+	relabel_lnk_files_pattern($1, xdg_documents_archive_t, xdg_documents_archive_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_tmp home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_tmp_dirs',`
+	gen_require(`
+		type xdg_documents_tmp_t;
+	')
+
+	allow $1 xdg_documents_tmp_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_tmp_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_tmp',`
+	gen_require(`
+		type xdg_documents_tmp_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_tmp_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_tmp content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_tmp',`
+	gen_require(`
+		type xdg_documents_tmp_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_tmp_t, xdg_documents_tmp_t)
+	manage_files_pattern($1, xdg_documents_tmp_t, xdg_documents_tmp_t)
+	allow $1 xdg_documents_tmp_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_tmp_t, xdg_documents_tmp_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_tmp resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_tmp',`
+	gen_require(`
+		type xdg_documents_tmp_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_tmp_t, xdg_documents_tmp_t)
+	relabel_files_pattern($1, xdg_documents_tmp_t, xdg_documents_tmp_t)
+	relabel_lnk_files_pattern($1, xdg_documents_tmp_t, xdg_documents_tmp_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_secret home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_secret_dirs',`
+	gen_require(`
+		type xdg_documents_secret_t;
+	')
+
+	allow $1 xdg_documents_secret_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_secret_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_secret',`
+	gen_require(`
+		type xdg_documents_secret_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_secret_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_secret content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_secret',`
+	gen_require(`
+		type xdg_documents_secret_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_secret_t, xdg_documents_secret_t)
+	manage_files_pattern($1, xdg_documents_secret_t, xdg_documents_secret_t)
+	allow $1 xdg_documents_secret_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_secret_t, xdg_documents_secret_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_secret resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_secret',`
+	gen_require(`
+		type xdg_documents_secret_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_secret_t, xdg_documents_secret_t)
+	relabel_files_pattern($1, xdg_documents_secret_t, xdg_documents_secret_t)
+	relabel_lnk_files_pattern($1, xdg_documents_secret_t, xdg_documents_secret_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_telegram home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_telegram_dirs',`
+	gen_require(`
+		type xdg_documents_telegram_t;
+	')
+
+	allow $1 xdg_documents_telegram_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_telegram_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_telegram',`
+	gen_require(`
+		type xdg_documents_telegram_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_telegram_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_telegram content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_telegram',`
+	gen_require(`
+		type xdg_documents_telegram_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_telegram_t, xdg_documents_telegram_t)
+	manage_files_pattern($1, xdg_documents_telegram_t, xdg_documents_telegram_t)
+	allow $1 xdg_documents_telegram_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_telegram_t, xdg_documents_telegram_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_telegram resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_telegram',`
+	gen_require(`
+		type xdg_documents_telegram_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_telegram_t, xdg_documents_telegram_t)
+	relabel_files_pattern($1, xdg_documents_telegram_t, xdg_documents_telegram_t)
+	relabel_lnk_files_pattern($1, xdg_documents_telegram_t, xdg_documents_telegram_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+
+########################################
+## <summary>
+##	Watch the xdg documents_wechat home directories
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_watch_documents_wechat_dirs',`
+	gen_require(`
+		type xdg_documents_wechat_t;
+	')
+
+	allow $1 xdg_documents_wechat_t:dir watch;
+')
+
+########################################
+## <summary>
+##	Create objects in the user home dir with an automatic type transition to
+##	the xdg_documents_wechat_t type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+## <param name="filename" optional="true">
+##	<summary>
+##	Name of the directory created
+##	</summary>
+## </param>
+#
+interface(`xdg_generic_user_home_dir_filetrans_documents_wechat',`
+	gen_require(`
+		type xdg_documents_wechat_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, xdg_documents_wechat_t, $2, $3)
+')
+
+#########################################
+## <summary>
+##	Manage documents_wechat content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`xdg_manage_documents_wechat',`
+	gen_require(`
+		type xdg_documents_wechat_t;
+	')
+
+	manage_dirs_pattern($1, xdg_documents_wechat_t, xdg_documents_wechat_t)
+	manage_files_pattern($1, xdg_documents_wechat_t, xdg_documents_wechat_t)
+	allow $1 xdg_documents_wechat_t:file map;
+	manage_lnk_files_pattern($1, xdg_documents_wechat_t, xdg_documents_wechat_t)
+')
+
+########################################
+## <summary>
+##	Allow relabeling the documents_wechat resources
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xdg_relabel_documents_wechat',`
+	gen_require(`
+		type xdg_documents_wechat_t;
+	')
+
+	relabel_dirs_pattern($1, xdg_documents_wechat_t, xdg_documents_wechat_t)
+	relabel_files_pattern($1, xdg_documents_wechat_t, xdg_documents_wechat_t)
+	relabel_lnk_files_pattern($1, xdg_documents_wechat_t, xdg_documents_wechat_t)
+
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##      Allow all documents manage
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`xdg_manage_all_documents',`
+        xdg_manage_documents($1)
+	xdg_manage_documents_private($1)
+	xdg_manage_documents_school($1)
+	xdg_manage_documents_work($1)
+	xdg_manage_documents_telegram($1)
+	xdg_manage_documents_wechat($1)
+	xdg_manage_documents_tmp($1)
+	xdg_manage_documents_archive($1)
+')

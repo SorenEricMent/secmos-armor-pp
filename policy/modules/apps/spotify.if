@@ -30,6 +30,7 @@ template(`spotify_role',`
 	gen_require(`
 		type spotify_t;
 		type spotify_exec_t;
+		type $1_wm_t;
 		attribute_role spotify_roles;
 		class dbus send_msg;
 	')
@@ -44,6 +45,7 @@ template(`spotify_role',`
 
 	allow $3 spotify_t:dbus send_msg;
 	allow spotify_t $3:dbus send_msg;
+	allow $1_wm_t spotify_exec_t:lnk_file read;
 
 	optional_policy(`
 		systemd_user_app_status($1, spotify_t)

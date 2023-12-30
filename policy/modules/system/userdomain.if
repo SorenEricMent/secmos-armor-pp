@@ -64,7 +64,7 @@ template(`userdom_base_user_template',`
 	ifdef(`init_systemd', `
                 gen_require(`
 			type systemd_logind_runtime_t;
-	                type systemd_machined_runtime_t;
+	                type systemd_machined_t, systemd_machined_runtime_t;
         		type systemd_sessions_runtime_t;
                		type systemd_user_tmpfs_t;
 			type systemd_homed_t;
@@ -77,6 +77,7 @@ template(`userdom_base_user_template',`
 		allow $1_t systemd_logind_runtime_t:dir watch;
  	        allow $1_t systemd_logind_runtime_t:file { open read };
        		allow $1_t systemd_machined_runtime_t:dir watch;
+		allow $1_t systemd_machined_t:unix_stream_socket connectto;	
 	        allow $1_t systemd_sessions_runtime_t:dir watch;
 	        allow $1_t systemd_user_tmpfs_t:file { read write };
 	')

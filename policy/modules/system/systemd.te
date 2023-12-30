@@ -234,6 +234,7 @@ allow systemd_homed_t default_t:file { getattr read write };
 allow systemd_homed_t etc_runtime_t:file { open read };
 
 gen_require(`
+	type user_home_dir_t;
 	type init_t;
 	type locale_t;
 	type init_runtime_t;
@@ -248,6 +249,7 @@ allow systemd_homed_t systemd_homework_t:fd use;
 
 storage_raw_rw_fixed_disk(systemd_homework_t)
 allow systemd_homework_t init_runtime_t:dir mounton;
+allow systemd_homework_t user_home_dir_t:file { getattr open read };
 
 mls_file_read_to_clearance(systemd_homework_t)
 allow systemd_homework_t fixed_disk_device_t:blk_file getattr;
@@ -411,7 +413,7 @@ logging_stream_connect_journald_varlink(systemd_machined_t)
 logging_send_syslog_msg(systemd_machined_t)
 
 ifdef(`enable_mls', `
-	mls_socket_write_to_clearanc(systemd_machined_t)
+	mls_socket_write_to_clearance(systemd_machined_t)
 	mls_socket_read_to_clearance(systemd_machined_t)
 ')
 allow systemd_machined_t self:unix_stream_socket { getopt read write };

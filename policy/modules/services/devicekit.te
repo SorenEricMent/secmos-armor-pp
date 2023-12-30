@@ -50,6 +50,13 @@ files_read_etc_files(devicekit_t)
 
 miscfiles_read_localization(devicekit_t)
 
+gen_require(`
+	type lvm_control_t;
+	type systemd_homed_runtime_t;
+')
+allow devicekit_disk_t lvm_control_t:chr_file { read write };
+allow devicekit_disk_t systemd_homed_runtime_t:file { lock open read unlink write };
+
 optional_policy(`
 	dbus_system_bus_client(devicekit_t)
 

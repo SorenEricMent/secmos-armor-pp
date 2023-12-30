@@ -85,12 +85,12 @@ init_mountpoint(system_dbusd_runtime_t)
 ifdef(`init_systemd', `
 	gen_require(`
 		type systemd_homed_runtime_t;
-		type systemd_homed_t;
+		type user_tmpfs_t;
 	')
 	allow system_dbusd_t systemd_homed_runtime_t:fifo_file write;
 	allow system_dbusd_t systemd_homed_runtime_t:sock_file write;
-	allow system_dbusd_t systemd_homed_t:fd use;
-	allow system_dbusd_t systemd_homed_t:unix_stream_socket connectto;
+	systemd_homed_connect(system_dbusd_t)
+	allow system_dbusd_t user_tmpfs_t:file { read write };
 ')
 type system_dbusd_tmp_t;
 files_tmp_file(system_dbusd_tmp_t)

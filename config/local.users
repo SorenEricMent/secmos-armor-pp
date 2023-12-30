@@ -22,3 +22,4 @@
 user secadm roles { staff_r secadm_r };
 user sysadm roles { sysadm_r };
 user certadm roles { certadm_r }; 
+user sbadm roles { staff_r };

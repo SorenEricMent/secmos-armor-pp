@@ -697,7 +697,8 @@ userdom_read_all_users_state(virtd_t)
 
 ifdef(`init_systemd',`
 	init_read_utmp(virtd_t)
-
+	
+	systemd_homed_connect(virtd_t)
 	systemd_dbus_chat_logind(virtd_t)
 
 	systemd_connect_machined(virtd_t)
