@@ -71,7 +71,9 @@ gen_require(`
         type nsfs_t;
 	type unlabeled_t;
 	type lo_netif_t;
+	type sysctl_t;
 ')
+allow NetworkManager_t sysctl_t:netif egress;
 allow NetworkManager_t lo_netif_t:netif egress;
 allow NetworkManager_t unlabeled_t:packet send;
 allow NetworkManager_t unlabeled_t:udp_socket node_bind;

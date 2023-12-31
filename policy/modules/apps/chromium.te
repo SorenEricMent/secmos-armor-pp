@@ -101,6 +101,7 @@ allow chromium_t self:user_namespace create;
 allow chromium_t self:cap_userns { sys_admin sys_chroot sys_ptrace };
 
 allow chromium_t chromium_exec_t:file execute_no_trans;
+allow chromium_t chromium_xdg_config_t:file { execute };
 
 allow chromium_t chromium_renderer_t:dir list_dir_perms;
 allow chromium_t chromium_renderer_t:file rw_file_perms;
@@ -166,6 +167,10 @@ corenet_tcp_connect_http_port(chromium_t)
 corenet_tcp_connect_ipp_port(chromium_t)
 corenet_udp_bind_generic_node(chromium_t)
 corenet_udp_bind_all_unreserved_ports(chromium_t)
+
+net_dns_packet(chromium_t)
+net_http_packet(chromium_t)
+net_https_packet(chromium_t)
 
 dev_read_sound(chromium_t)
 dev_write_sound(chromium_t)

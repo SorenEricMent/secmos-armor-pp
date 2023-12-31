@@ -88,6 +88,14 @@ gen_tunable(git_system_use_nfs, false)
 ## </desc>
 gen_tunable(git_client_manage_all_user_home_content, false)
 
+## <desc>
+##      <p>
+##      Determine whether Git client domains
+##      can access GnuPG
+##      </p>
+## </desc>
+gen_tunable(git_use_gpg, true)
+
 attribute git_daemon;
 attribute_role git_session_roles;
 

@@ -108,7 +108,8 @@ template(`dbus_role_template',`
 	dontaudit $1_dbusd_t self:cap_userns sys_ptrace;
 	allow $1_dbusd_t self:process { getsched setsched };
 	allow $1_dbusd_t self:unix_stream_socket connectto;
-	
+	allow $1_dbusd_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
+
 	allow $3 system_dbusd_t:dbus { send_msg acquire_svc };
 	allow $1_dbusd_t systemd_user_runtime_t:sock_file write;
 

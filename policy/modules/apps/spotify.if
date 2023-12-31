@@ -45,8 +45,8 @@ template(`spotify_role',`
 
 	allow $3 spotify_t:dbus send_msg;
 	allow spotify_t $3:dbus send_msg;
-	allow $1_wm_t spotify_exec_t:lnk_file read;
-
+	allow $2 spotify_exec_t:lnk_file { manage_lnk_file_perms relabel_lnk_file_perms };
+	
 	optional_policy(`
 		systemd_user_app_status($1, spotify_t)
 	')

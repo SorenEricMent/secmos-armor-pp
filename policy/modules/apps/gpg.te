@@ -317,10 +317,15 @@ optional_policy(`
 # Pinentry local policy
 #
 
+gen_require(`type session_dbusd_runtime_t;')
+
 allow gpg_pinentry_t self:process { getcap getsched setsched signal };
 allow gpg_pinentry_t self:fifo_file rw_fifo_file_perms;
 allow gpg_pinentry_t self:shm create_shm_perms;
 allow gpg_pinentry_t self:tcp_socket { accept listen };
+
+gen_require(`type session_dbusd_runtime_t;')
+allow gpg_pinentry_t session_dbusd_runtime_t:sock_file write;
 
 manage_sock_files_pattern(gpg_pinentry_t, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
 userdom_user_tmp_filetrans(gpg_pinentry_t, gpg_pinentry_tmp_t, sock_file)

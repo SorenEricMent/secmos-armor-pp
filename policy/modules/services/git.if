@@ -51,6 +51,16 @@ template(`git_role',`
 	allow $3 git_session_t:process { ptrace signal_perms };
 	ps_process_pattern($3, git_session_t)
 
+	tunable_policy(`git_use_gpg', `
+		gen_require(`
+			type gpg_exec_t, gpg_runtime_t;
+			type gpg_agent_t, gpg_agent_tmp_t;
+		')
+		allow $1_git_t gpg_agent_t:unix_stream_socket connectto;
+		allow $1_git_t gpg_agent_tmp_t:sock_file { getattr write };
+		allow $1_git_t gpg_exec_t:file { execute execute_no_trans getattr map open read };
+		allow $1_git_t gpg_runtime_t:dir { getattr search };
+	')
 	tunable_policy(`git_session_users',`
 		domtrans_pattern($3, gitd_exec_t, git_session_t)
 	',`

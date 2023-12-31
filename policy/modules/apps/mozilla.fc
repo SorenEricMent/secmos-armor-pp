@@ -5,6 +5,7 @@ HOME_DIR/\.mozilla/plugins(/.*)?	gen_context(system_u:object_r:mozilla_plugin_ho
 HOME_DIR/\.netscape(/.*)?	gen_context(system_u:object_r:mozilla_home_t,s0)
 HOME_DIR/\.phoenix(/.*)?	gen_context(system_u:object_r:mozilla_home_t,s0)
 HOME_DIR/\.vimperator.*		gen_context(system_u:object_r:mozilla_home_t,s0)
+HOME_DIR/\.librewolf(/.*)?	gen_context(system_u:object_r:mozilla_home_t,s0)
 
 HOME_DIR/\.adobe(/.*)?	gen_context(system_u:object_r:mozilla_plugin_home_t,s0)
 HOME_DIR/\.macromedia(/.*)?	gen_context(system_u:object_r:mozilla_plugin_home_t,s0)
@@ -22,11 +23,14 @@ HOME_DIR/zimbrauserdata(/.*)?	gen_context(system_u:object_r:mozilla_plugin_home_
 /usr/bin/mozilla-[0-9].*	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
 /usr/bin/mozilla-bin-[0-9].*	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
 /usr/bin/netscape	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
+/usr/bin/librewolf	--	 gen_context(system_u:object_r:mozilla_exec_t,s0)
 /usr/bin/nspluginscan	--	gen_context(system_u:object_r:mozilla_plugin_exec_t,s0)
 /usr/bin/nspluginviewer	--	gen_context(system_u:object_r:mozilla_plugin_exec_t,s0)
 
 /usr/lib/[^/]*firefox[^/]*/firefox	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
 /usr/lib/[^/]*firefox[^/]*/firefox-bin	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
+/usr/lib/[^/]*firefox[^/]*/librewolf      --      gen_context(system_u:object_r:mozilla_exec_t,s0)
+/usr/lib/[^/]*firefox[^/]*/librewolf-bin  --      gen_context(system_u:object_r:mozilla_exec_t,s0)
 /usr/lib/firefox[^/]*/firefox-.*	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
 /usr/lib/firefox[^/]*/mozilla-.*	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
 /usr/lib/galeon/galeon	--	gen_context(system_u:object_r:mozilla_exec_t,s0)
