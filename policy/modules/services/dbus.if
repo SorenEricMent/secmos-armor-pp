@@ -77,6 +77,9 @@ template(`dbus_role_template',`
 	domain_entry_file($1_dbusd_t, dbusd_exec_t)
 	ubac_constrained($1_dbusd_t)
 
+	type $1_dbusd_tmpfs_t;
+	files_tmpfs_file($1_dbusd_tmpfs_t)
+
 	role $2 types $1_dbusd_t;
 	ifdef(`init_systemd', `
 		dbus_systemd($1)
@@ -111,6 +114,7 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
 
 	allow $3 system_dbusd_t:dbus { send_msg acquire_svc };
+
 	allow $1_dbusd_t systemd_user_runtime_t:sock_file write;
 
 	gen_require(`type var_lib_t;')
@@ -215,6 +219,13 @@ template(`dbus_role_template',`
 
 	allow $1_dbusd_t $3:process sigkill;
 	allow $1_dbusd_t session_dbusd_tmp_t:sock_file manage_sock_file_perms;
+	allow $1_dbusd_t self:unix_stream_socket connectto;
+
+	allow $1_dbusd_t $1_dbusd_tmpfs_t:file mmap_rw_inherited_file_perms;
+
+	files_read_etc_runtime_files($1_dbusd_t)
+
+	fs_tmpfs_filetrans($1_dbusd_t, $1_dbusd_tmpfs_t, file)
 
 	kernel_getattr_proc($1_dbusd_t)
 	kernel_search_network_sysctl($1_dbusd_t)
@@ -227,11 +238,16 @@ template(`dbus_role_template',`
 	corecmd_bin_domtrans($1_dbusd_t, $3)
 	corecmd_shell_domtrans($1_dbusd_t, $3)
 
+	selinux_use_status_page($1_dbusd_t)
+
 	auth_use_nsswitch($1_dbusd_t)
+
+	dbus_exec($1_dbusd_t)
 
 	optional_policy(`
 		systemd_read_logind_runtime_files($1_dbusd_t)
 		systemd_user_daemon_domain($1, dbusd_exec_t, $1_dbusd_t)
+		systemd_user_send_systemd_notify($1, $1_dbusd_t)
 		systemd_user_unix_stream_activated_socket($1_dbusd_t, session_dbusd_runtime_t)
 	')
 ')
