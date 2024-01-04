@@ -1,17 +1,40 @@
 policy_module(spotify, 1.0)
 
+attribute_role spotify_roles;
+
 type spotify_t;
 type spotify_exec_t;
+
+userdom_user_application_domain(spotify_t, spotify_exec_t)
+
 application_domain(spotify_t, spotify_exec_t)
+
+role spotify_roles types spotify_t;
+
+optional_policy(`
+        wm_application_domain(spotify_t, spotify_exec_t)
+')
 
 type spotify_home_t;
 userdom_user_home_content(spotify_home_t)
 
+type spotify_env_t;
+
 manage_files_pattern(spotify_t, spotify_home_t, spotify_home_t)
+manage_files_pattern(spotify_t, spotify_env_t, spotify_env_t)
+manage_dirs_pattern(spotify_t, spotify_env_t, spotify_env_t)
+manage_dirs_pattern(spotify_t, spotify_env_t, spotify_env_t)
 
-kernel_list_proc(spotify_t)
+allow spotify_t self:process { signal_perms };
+allow spotify_t self:fifo_file rw_fifo_file_perms;
+allow spotify_t self:capability { chown setgid setuid };
 
-corecmd_exec_bin(spotify_t)
+domain_use_interactive_fds(spotify_t)
+
+can_exec(spotify_t, spotify_exec_t)
+corecmd_search_bin(spotify_t)
+corecmd_exec_bin(spotify_exec_t)
+
 corenet_tcp_connect_http_port(spotify_t)
 
 domain_use_interactive_fds(spotify_t)

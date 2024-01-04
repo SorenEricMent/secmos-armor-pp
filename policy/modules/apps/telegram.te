@@ -1,0 +1,31 @@
+policy_module(telegram, 1.0)
+
+attribute_role telegram_roles;
+
+type telegram_t;
+type telegram_exec_t;
+
+userdom_user_application_domain(telegram_t, telegram_exec_t)
+
+role telegram_roles types telegram_t;
+
+optional_policy(`
+        wm_application_domain(telegram_t, telegram_exec_t)
+')
+
+type telegram_env_t;
+
+allow telegram_t self:process { signal_perms };
+allow telegram_t self:fifo_file rw_fifo_file_perms;
+
+domain_use_interactive_fds(telegram_t)
+
+can_exec(telegram_t, telegram_exec_t)
+corecmd_search_bin(telegram_t)
+corecmd_exec_bin(telegram_exec_t)
+
+domain_use_interactive_fds(telegram_t)
+
+xserver_stream_connect_xdm(telegram_t)
+
+domain_mmap_low_uncond(telegram_t)

@@ -43,8 +43,6 @@ template(`spotify_role',`
 	ps_process_pattern($3, spotify_t)
 	ps_process_pattern($3, spotify_exec_t)
 
-	allow $3 spotify_t:dbus send_msg;
-	allow spotify_t $3:dbus send_msg;
 	allow $2 spotify_exec_t:lnk_file { manage_lnk_file_perms relabel_lnk_file_perms };
 	
 	optional_policy(`
@@ -52,43 +50,77 @@ template(`spotify_role',`
 	')
 ')
 
-#######################################
+## <summary>policy for spotify</summary>
+
+########################################
 ## <summary>
-## 	Execute a domain transition to the spotify domain (spotify_t)
+##      Execute spotify_exec_t in the spotify domain.
 ## </summary>
 ## <param name="domain">
-##	<summary>
-##	Domain allowed access
-##	</summary>
+## <summary>
+##      Domain allowed to transition.
+## </summary>
 ## </param>
 #
 interface(`spotify_domtrans',`
-	gen_require(`
-		type spotify_t;
-		type spotify_exec_t;
-		class dbus send_msg;
-	')
-
-	corecmd_search_bin($1)
-	domtrans_pattern($1, spotify_exec_t, spotify_t)
-')
-########################################
-## <summary>
-##      Execute spotify in the caller domain.
-## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
-## </param>
-#
-#
-interface(`spotify_exec',`
         gen_require(`
-                type spotify_exec_t;
+                type spotify_t, spotify_exec_t;
         ')
 
         corecmd_search_bin($1)
-        can_exec($1, spotify_exec_t)
+        domtrans_pattern($1, spotify_exec_t, spotify_t)
+')
+
+########################################
+## <summary>
+##	Execute the spotify in the caller domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`spotify_exec',`
+	gen_require(`
+		type spotify_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	can_exec($1, spotify_exec_t)
+')
+
+########################################
+## <summary>
+##	Execute spotify in a specified domain.
+## </summary>
+## <desc>
+##	<p>
+##	Execute spotify in a specified domain.
+##	</p>
+##	<p>
+##	No interprocess communication (signals, pipes,
+##	etc.) is provided by this interface since
+##	the domains are not owned by this module.
+##	</p>
+## </desc>
+## <param name="source_domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+## <param name="target_domain">
+##	<summary>
+##	Domain to transition to.
+##	</summary>
+## </param>
+#
+interface(`spotify_spec_domtrans',`
+	gen_require(`
+		type spotify_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	domain_auto_transition_pattern($1, spotify_exec_t, $2)
 ')
 

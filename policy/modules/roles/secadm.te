@@ -145,10 +145,6 @@ ifndef(`distro_redhat',`
         ')
 
         optional_policy(`
-                spotify_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
-        ')
-
-        optional_policy(`
                 cron_role(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
         ')
 
