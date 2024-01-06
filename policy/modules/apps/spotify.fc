@@ -3,3 +3,4 @@
 /usr/bin/spotify		gen_context(system_u:object_r:spotify_exec_t,s0)
 /opt/spotify/spotify		gen_context(system_u:object_r:spotify_exec_t,s0)
 /opt/spotify/.*\.bin            gen_context(system_u:object_r:spotify_exec_t,s0)
+/opt/spotify/.*\.so.*		gen_context(system_u:object_r:spotify_exec_t,s0)

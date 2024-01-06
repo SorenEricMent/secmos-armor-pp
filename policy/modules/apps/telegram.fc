@@ -1,5 +1,8 @@
 # Telegram Official Client
-/usr/bin/telegram-desktop         --      gen_context(system_u:object_r:telegram_exec_t,s0)
+/usr/bin/telegram-desktop	--	gen_context(system_u:object_r:telegram_exec_t,s0)
+/usr/bin/telegram-desktop-bin	--	gen_context(system_u:object_r:telegram_exec_t,s0)
 
 # 64Gram Client
 /usr/bin/64gram-desktop		--	gen_context(system_u:object_r:telegram_exec_t,s0)
+/usr/bin/64gram-desktop-bin	--	gen_context(system_u:object_r:telegram_exec_t,s0)
+/usr/share/64Gram/(/.*)?	--	gen_context(system_u:object_r:telegram_usr_t,s0)

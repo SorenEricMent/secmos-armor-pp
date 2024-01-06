@@ -75,7 +75,7 @@ gen_require(`
 ')
 allow NetworkManager_t sysctl_t:netif egress;
 allow NetworkManager_t lo_netif_t:netif egress;
-allow NetworkManager_t unlabeled_t:packet send;
+allow NetworkManager_t unlabeled_t:packet { send recv};
 allow NetworkManager_t unlabeled_t:udp_socket node_bind;
 allow NetworkManager_t kernel_t:unix_stream_socket { connectto };
 allow NetworkManager_t lib_t:dir { watch };

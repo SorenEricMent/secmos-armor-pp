@@ -51,6 +51,9 @@ allow mount_t mount_tmp_t:dir manage_dir_perms;
 
 allow mount_t kernel_t:process setsched;
 
+gen_require(`type var_lock_t;')
+allow mount_t var_lock_t:file write;
+
 can_exec(mount_t, mount_exec_t)
 
 files_tmp_filetrans(mount_t, mount_tmp_t, { file dir })

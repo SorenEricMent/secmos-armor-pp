@@ -7,16 +7,25 @@ type telegram_exec_t;
 
 userdom_user_application_domain(telegram_t, telegram_exec_t)
 
+application_domain(telegram_t, telegram_exec_t)
+
+wm_application_domain(telegram_t, telegram_exec_t)
+
 role telegram_roles types telegram_t;
 
 optional_policy(`
         wm_application_domain(telegram_t, telegram_exec_t)
 ')
 
-type telegram_env_t;
+type telegram_usr_t;
 
 allow telegram_t self:process { signal_perms };
-allow telegram_t self:fifo_file rw_fifo_file_perms;
+allow telegram_t self:fifo_file { rw_fifo_file_perms };
+
+manage_files_pattern(telegram_t, telegram_usr_t, telegram_usr_t)
+manage_dirs_pattern(telegram_t, telegram_usr_t, telegram_usr_t)
+
+xdg_manage_documents_telegram(telegram_t)
 
 domain_use_interactive_fds(telegram_t)
 

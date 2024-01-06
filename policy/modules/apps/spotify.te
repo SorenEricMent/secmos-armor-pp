@@ -9,11 +9,9 @@ userdom_user_application_domain(spotify_t, spotify_exec_t)
 
 application_domain(spotify_t, spotify_exec_t)
 
-role spotify_roles types spotify_t;
+wm_application_domain(spotify_t, spotify_exec_t)
 
-optional_policy(`
-        wm_application_domain(spotify_t, spotify_exec_t)
-')
+role spotify_roles types spotify_t;
 
 type spotify_home_t;
 userdom_user_home_content(spotify_home_t)
@@ -25,9 +23,208 @@ manage_files_pattern(spotify_t, spotify_env_t, spotify_env_t)
 manage_dirs_pattern(spotify_t, spotify_env_t, spotify_env_t)
 manage_dirs_pattern(spotify_t, spotify_env_t, spotify_env_t)
 
-allow spotify_t self:process { signal_perms };
+# Spotify won't run without execmem, presumbly because it is Electron-based
+allow spotify_t self:process { signal_perms getsched setcap setsched execmem };
 allow spotify_t self:fifo_file rw_fifo_file_perms;
 allow spotify_t self:capability { chown setgid setuid };
+allow spotify_t self:tcp_socket { accept bind connect create getattr getopt listen read setopt write };
+allow spotify_t self:udp_socket { bind connect create getattr getopt ioctl read setopt shutdown write };
+allow spotify_t self:unix_dgram_socket { create ioctl write };
+allow spotify_t self:netlink_route_socket { create bind write nlmsg_read read};
+allow spotify_t self:netlink_kobject_uevent_socket { create setopt bind };
+allow spotify_t self:netlink_kobject_uevent_socket getattr;
+allow spotify_t self:netlink_route_socket getattr;
+
+allow spotify_t spotify_env_t:file { execute map };
+
+files_read_etc_files(spotify_t)
+files_read_etc_symlinks(spotify_t)
+files_read_usr_files(spotify_t)
+files_read_usr_symlinks(spotify_t)
+
+userdom_search_user_runtime_root(spotify_t)
+
+miscfiles_read_fonts(spotify_t)
+miscfiles_getattr_fonts_dirs(spotify_t)
+miscfiles_setattr_fonts_cache_dirs(spotify_t)
+miscfiles_read_localization(spotify_t)
+files_search_var_lib(spotify_t)
+
+net_dns_packet(spotify_t)
+net_https_packet(spotify_t)
+#temp policy
+
+gen_require(`
+	type unlabeled_t;
+	type sysctl_t;
+	type cgroup_t;
+	type fs_t;
+	type sysfs_t;
+	type tmpfs_t;
+	type user_tmp_t;
+	type user_fonts_cache_t;
+	type user_fonts_config_t;
+	type user_runtime_t;
+	type xdg_config_t;
+	type gnome_xdg_config_t;
+	type net_conf_t;
+	type session_dbusd_runtime_t;
+	type system_dbusd_runtime_t;
+	type system_dbusd_var_lib_t;
+	type system_dbusd_t;
+	type udev_runtime_t;
+	type sysctl_fs_t;
+	type xdm_t;
+	type root_t;
+	type selinux_config_t;
+	type proc_t;
+	type security_t;
+	type unreserved_port_t;
+	type http_cache_port_t;
+	type http_port_t;
+	type transproxy_port_t;
+	type mozilla_exec_t;
+	type chromium_exec_t;
+')
+allow spotify_t cgroup_t:dir search;
+allow spotify_t fs_t:filesystem getattr;
+allow spotify_t sysfs_t:file read;
+allow spotify_t sysfs_t:lnk_file read;
+allow spotify_t tmpfs_t:filesystem getattr;
+allow spotify_t user_fonts_cache_t:dir { search setattr write };
+allow spotify_t user_fonts_config_t:file { getattr read };
+allow spotify_t user_home_dir_t:dir write;
+allow spotify_t user_runtime_t:dir search;
+allow spotify_t xdg_config_t:file read;
+allow spotify_t user_fonts_cache_t:dir add_name;
+allow spotify_t user_fonts_cache_t:file { read write };
+allow spotify_t user_fonts_config_t:file open;
+allow spotify_t user_runtime_t:file read;
+allow spotify_t xdg_config_t:file open;
+allow spotify_t sysfs_t:file open;
+allow spotify_t user_fonts_cache_t:file { create open };
+allow spotify_t user_runtime_t:file open;
+allow spotify_t xdg_config_t:file getattr;
+allow spotify_t user_fonts_cache_t:dir { create remove_name };
+allow spotify_t user_fonts_cache_t:file { getattr link lock };
+allow spotify_t usr_t:file map;
+allow spotify_t xdg_cache_t:file read;
+allow spotify_t tmpfs_t:dir { search write };
+allow spotify_t user_fonts_cache_t:file map;
+allow spotify_t user_tmp_t:dir { getattr search };
+allow spotify_t xdg_cache_t:file open;
+allow spotify_t gnome_xdg_config_t:dir search;
+allow spotify_t user_runtime_t:file getattr;
+allow spotify_t user_tmp_t:file { read write };
+allow spotify_t xdg_cache_t:file getattr;
+allow spotify_t gnome_xdg_config_t:file read;
+allow spotify_t tmpfs_t:dir add_name;
+allow spotify_t user_tmp_t:file open;
+allow spotify_t xdg_config_t:file map;
+allow spotify_t user_tmp_t:file map;
+allow spotify_t xdg_config_t:file execute;
+allow spotify_t gnome_xdg_config_t:file open;
+allow spotify_t tmpfs_t:file create;
+allow spotify_t user_home_t:dir search;
+allow spotify_t gnome_xdg_config_t:file getattr;
+allow spotify_t net_conf_t:file { getattr read };
+allow spotify_t tmpfs_t:file { open read write };
+allow spotify_t user_home_t:file { getattr read };
+allow spotify_t gnome_xdg_config_t:file map;
+allow spotify_t session_dbusd_runtime_t:sock_file write;
+allow spotify_t tmpfs_t:dir remove_name;
+allow spotify_t tmpfs_t:file getattr;
+allow spotify_t user_home_t:file open;
+allow spotify_t net_conf_t:file open;
+allow spotify_t tmpfs_t:file { map unlink };
+allow spotify_t user_home_t:file map;
+allow spotify_t xdg_cache_t:dir { read write };
+allow spotify_t xdg_cache_t:dir { add_name remove_name };
+allow spotify_t xdg_cache_t:file { lock map };
+allow spotify_t xdg_config_t:dir { read write };
+allow spotify_t xdg_cache_t:file { append write };
+allow spotify_t xdg_cache_t:dir { add_name remove_name };
+allow spotify_t xdg_cache_t:dir { create rmdir };
+allow spotify_t xdg_cache_t:file { lock map };
+allow spotify_t xdg_cache_t:file { create rename unlink };
+allow spotify_t xdg_config_t:dir { read write };
+allow spotify_t xdg_config_t:dir add_name;
+allow spotify_t user_home_t:lnk_file read;
+allow spotify_t xdg_config_t:file create;
+allow spotify_t xdg_config_t:file write;
+allow spotify_t xdg_config_t:dir remove_name;
+allow spotify_t xdg_config_t:file { rename unlink };
+allow spotify_t system_dbusd_runtime_t:dir search;
+allow spotify_t system_dbusd_var_lib_t:dir search;
+allow spotify_t system_dbusd_runtime_t:sock_file write;
+allow spotify_t system_dbusd_var_lib_t:lnk_file read;
+allow spotify_t system_dbusd_t:unix_stream_socket connectto;
+allow spotify_t etc_t:dir watch;
+allow spotify_t udev_runtime_t:dir search;
+allow spotify_t sysctl_fs_t:dir search;
+allow spotify_t sysfs_t:file getattr;
+allow spotify_t sysctl_fs_t:file read;
+allow spotify_t sysctl_fs_t:file open;
+allow spotify_t sysctl_fs_t:file getattr;
+allow spotify_t root_t:dir watch;
+allow spotify_t selinux_config_t:dir search;
+allow spotify_t selinux_config_t:lnk_file read;
+allow spotify_t security_t:filesystem getattr;
+allow spotify_t proc_t:dir read;
+allow spotify_t proc_t:file open;
+allow spotify_t proc_t:file read;
+
+allow spotify_t unlabeled_t:packet {send recv};
+allow spotify_t unlabeled_t:peer recv;
+allow xdm_t spotify_env_t:dir search;
+allow spotify_t sysctl_t:netif egress;
+allow spotify_t unlabeled_t:node sendto;
+allow spotify_t http_cache_port_t:tcp_socket name_bind;
+allow spotify_t http_port_t:tcp_socket name_bind;
+allow spotify_t transproxy_port_t:tcp_socket name_bind;
+allow spotify_t unlabeled_t:tcp_socket node_bind;
+allow spotify_t unreserved_port_t:tcp_socket name_bind;
+
+# Spotify require all the following permission to use browser-login
+# Browser-login is stupid compared to in-app login, especially considering
+# The reason for this change is "for security"
+# therefore, the following rules are commented out by default
+
+# allow spotify_t self:process ptrace;
+# allow spotify_t self:capability sys_admin;
+# allow spotify_t mozilla_exec_t:file { getattr execute open read execute_no_trans map };
+# allow spotify_t chromium_exec_t:file { getattr execute open read execute_no_trans map };
+# allow spotify_t bin_t:file execute;
+# allow spotify_t lib_t:file execute_no_trans;
+# allow spotify_t bin_t:file { getattr open read };
+# allow spotify_t bin_t:file execute_no_trans;
+# allow spotify_t bin_t:file map
+
+gen_require(`
+	type chromium_sandbox_exec_t;
+	type chromium_t;
+	type chromium_tmp_t;
+	type chromium_xdg_config_t;
+')
+#allow spotify_t chromium_sandbox_exec_t:file { execute execute_no_trans getattr map open read };
+#allow spotify_t chromium_xdg_config_t:file create;
+#allow spotify_t chromium_t:unix_stream_socket connectto;
+#allow spotify_t chromium_tmp_t:dir search;
+#allow spotify_t chromium_tmp_t:lnk_file read;
+#allow spotify_t chromium_tmp_t:sock_file write;
+#allow spotify_t chromium_xdg_config_t:dir { add_name create getattr remove_name search write };
+#allow spotify_t chromium_xdg_config_t:file { execute getattr lock map open read rename write };
+#allow spotify_t chromium_xdg_config_t:lnk_file read;
+
+xdg_search_cache_dirs(spotify_t)
+xdg_search_config_dirs(spotify_t)
+
+mls_file_read_all_levels(spotify_t)
+mls_file_write_all_levels(spotify_t)
+mls_net_outbound_all_levels(spotify_t)
+mls_socket_read_all_levels(spotify_t)
+
+xdg_read_data_files(spotify_t)
 
 domain_use_interactive_fds(spotify_t)
 
@@ -40,5 +237,6 @@ corenet_tcp_connect_http_port(spotify_t)
 domain_use_interactive_fds(spotify_t)
 
 xserver_stream_connect_xdm(spotify_t)
+kernel_rw_unlabeled_chr_files(spotify_t)
 
 domain_mmap_low_uncond(spotify_t)

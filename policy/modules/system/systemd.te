@@ -263,7 +263,6 @@ kernel_read_unlabeled_files(systemd_homework_t)
 fs_search_tmpfs(systemd_homework_t)
 fs_rw_tmpfs_files(systemd_homework_t)
 
-
 domain_type(systemd_homework_t)
 domain_entry_file(systemd_homework_t, systemd_homework_exec_t)
 
@@ -648,6 +647,8 @@ allow systemd_userdbd_t self:process { getcap };
 allow systemd_userdbd_t self:unix_stream_socket { read write };
 allow systemd_userdbd_t kernel_t:unix_stream_socket { connectto };
 
+allow systemd_userdbd_t systemd_machined_t:unix_stream_socket connectto;
+
 dev_rw_input_dev(systemd_userdbd_t)
 
 fs_manage_tmpfs_dirs(systemd_userdbd_t)
@@ -1000,6 +1001,11 @@ allow systemd_homework_t self:sem create_sem_perms;
 
 allow systemd_homework_t systemd_homed_runtime_t:file manage_file_perms;
 allow systemd_homework_t systemd_homed_runtime_t:dir manage_dir_perms;
+
+gen_require(`type lvm_runtime_t;')
+allow systemd_homework_t lvm_runtime_t:dir { add_name open remove_name search write read };
+allow systemd_homework_t lvm_runtime_t:file { create getattr lock open read unlink write };
+
 files_runtime_filetrans(systemd_homework_t, systemd_homed_runtime_t, file)
 init_runtime_filetrans(systemd_homework_t, systemd_homed_runtime_t, dir)
 

@@ -3232,6 +3232,25 @@ interface(`kernel_dontaudit_getattr_unlabeled_chr_files',`
 
 ########################################
 ## <summary>
+##      Allow rw on unlabeled character devices
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain to not audit.
+##      </summary>
+## </param>
+#
+interface(`kernel_rw_unlabeled_chr_files',`
+        gen_require(`
+                type unlabeled_t;
+        ')
+
+        allow $1 unlabeled_t:chr_file { open read write };
+')
+
+
+########################################
+## <summary>
 ##	Do not audit attempts to
 ##	write unlabeled character devices.
 ## </summary>

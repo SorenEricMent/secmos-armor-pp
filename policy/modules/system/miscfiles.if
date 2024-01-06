@@ -324,6 +324,25 @@ interface(`miscfiles_read_fonts',`
 
 ########################################
 ## <summary>
+##      Get the attributes on a fonts directory.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+## <rolecap/>
+#
+interface(`miscfiles_getattr_fonts_dirs',`
+        gen_require(`
+                type fonts_t;
+        ')
+
+        allow $1 fonts_t:dir getattr;
+')
+
+########################################
+## <summary>
 ##	Set the attributes on a fonts directory.
 ## </summary>
 ## <param name="domain">

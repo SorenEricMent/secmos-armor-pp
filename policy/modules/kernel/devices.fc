@@ -37,6 +37,7 @@
 /dev/fb[0-9]*		-c	gen_context(system_u:object_r:framebuf_device_t,s0)
 /dev/freefall	-c	gen_context(system_u:object_r:freefall_device_t,s0)
 /dev/full		-c	gen_context(system_u:object_r:null_device_t,s0)
+/null			-c	gen_context(system_u:object_r:null_device_t,s0)
 /dev/fw.*		-c	gen_context(system_u:object_r:usb_device_t,s0)
 /dev/gfx		-c	gen_context(system_u:object_r:xserver_misc_device_t,s0)
 /dev/gpiochip[0-9]	-c	gen_context(system_u:object_r:gpiochip_device_t,s0)

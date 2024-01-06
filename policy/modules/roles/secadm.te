@@ -101,6 +101,15 @@ optional_policy(`
 	sudo_role_template(secadm, secadm_t, secadm_application_exec_domain, secadm_r)
 ')
 
+gen_require(`
+	type secadm_sudo_t;
+	type kmsg_device_t;
+	type xserver_misc_device_t;
+')
+allow secadm_sudo_t kmsg_device_t:chr_file getattr;
+allow secadm_sudo_t xserver_misc_device_t:chr_file getattr;
+
+
 optional_policy(`
 	sysadm_role_change(secadm_r, secadm_t)
 	userdom_dontaudit_use_user_terminals(secadm_t)

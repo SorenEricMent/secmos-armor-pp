@@ -313,6 +313,25 @@ interface(`wm_dontaudit_exec_tmpfs_files',`
 
 ########################################
 ## <summary>
+##      Allow rw on files in temporary filesystems.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain to not audit.
+##      </summary>
+## </param>
+#
+interface(`wm_rw_tmpfs_files',`
+        gen_require(`
+                type wm_tmpfs_t;
+        ')
+
+        allow $1 wm_tmpfs_t:file rw_file_perms;
+')
+
+
+########################################
+## <summary>
 ##	Create a domain for applications
 ##	that are launched by the window
 ##	manager.
