@@ -1,0 +1,409 @@
+
+
+#============= NetworkManager_t ==============
+allow NetworkManager_t bootpc_packet_t:packet recv;
+allow NetworkManager_t bootps_packet_t:packet send;
+allow NetworkManager_t systemd_machined_t:unix_stream_socket connectto;
+allow NetworkManager_t unlabeled_t:node sendto;
+
+#============= avahi_t ==============
+allow avahi_t sysctl_t:netif egress;
+allow avahi_t systemd_homed_runtime_t:sock_file write;
+allow avahi_t systemd_homed_t:unix_stream_socket connectto;
+allow avahi_t systemd_machined_t:unix_stream_socket connectto;
+allow avahi_t unlabeled_t:node sendto;
+allow avahi_t unlabeled_t:packet { recv send };
+allow avahi_t unlabeled_t:udp_socket node_bind;
+
+#============= chromium_t ==============
+
+#!!!! This avc can be allowed using the boolean 'chromium_read_system_info'
+allow chromium_t etc_runtime_t:file read;
+allow chromium_t locale_t:dir watch;
+allow chromium_t security_t:dir search;
+allow chromium_t staff_wm_t:unix_stream_socket ioctl;
+allow chromium_t sysctl_t:netif egress;
+allow chromium_t syslogd_runtime_t:dir search;
+allow chromium_t systemd_machined_t:unix_stream_socket connectto;
+allow chromium_t unlabeled_t:udp_socket node_bind;
+allow chromium_t user_home_t:file map;
+allow chromium_t var_lib_t:dir read;
+allow chromium_t var_lib_t:file { getattr read };
+
+#============= cupsd_t ==============
+allow cupsd_t systemd_machined_t:unix_stream_socket connectto;
+
+#============= devicekit_disk_t ==============
+allow devicekit_disk_t lvm_runtime_t:dir { add_name remove_name write };
+allow devicekit_disk_t lvm_runtime_t:file { create lock open read unlink write };
+
+#============= mandb_t ==============
+allow mandb_t self:capability dac_read_search;
+allow mandb_t var_lib_t:dir search;
+
+#============= mozilla_t ==============
+allow mozilla_t NetworkManager_etc_t:dir getattr;
+allow mozilla_t auditd_etc_t:dir getattr;
+allow mozilla_t bluetooth_conf_t:dir getattr;
+allow mozilla_t container_config_t:dir getattr;
+allow mozilla_t dnsmasq_etc_t:dir getattr;
+allow mozilla_t domain_packet_t:packet send;
+allow mozilla_t firewalld_etc_rw_t:dir getattr;
+allow mozilla_t geoclue_etc_t:dir getattr;
+allow mozilla_t hostapd_conf_t:dir getattr;
+allow mozilla_t httpd_config_t:dir getattr;
+allow mozilla_t https_packet_t:packet send;
+allow mozilla_t ifplugd_etc_t:dir getattr;
+allow mozilla_t lircd_etc_t:dir getattr;
+allow mozilla_t lo_netif_t:netif egress;
+allow mozilla_t local_ephemeral_port_t:tcp_socket name_connect;
+allow mozilla_t lvm_etc_t:dir getattr;
+allow mozilla_t modules_conf_t:dir getattr;
+allow mozilla_t mplayer_etc_t:dir getattr;
+allow mozilla_t named_conf_t:dir getattr;
+allow mozilla_t node_t:tcp_socket name_connect;
+allow mozilla_t samba_etc_t:dir getattr;
+allow mozilla_t saslauthd_keytab_t:dir getattr;
+allow mozilla_t selinux_config_t:dir getattr;
+allow mozilla_t snort_etc_t:dir getattr;
+allow mozilla_t sysctl_t:netif egress;
+allow mozilla_t system_cron_spool_t:dir getattr;
+allow mozilla_t systemd_machined_t:unix_stream_socket connectto;
+allow mozilla_t unlabeled_t:node sendto;
+allow mozilla_t unlabeled_t:packet { recv send };
+allow mozilla_t unlabeled_t:peer recv;
+allow mozilla_t unlabeled_t:udp_socket node_bind;
+allow mozilla_t usbguard_conf_t:dir getattr;
+allow mozilla_t user_home_t:file map;
+allow mozilla_t user_runtime_t:file getattr;
+allow mozilla_t var_lib_t:file map;
+allow mozilla_t virt_etc_t:dir getattr;
+allow mozilla_t vmware_sys_conf_t:dir getattr;
+allow mozilla_t www_http_packet_t:packet send;
+
+#============= ntpd_t ==============
+allow ntpd_t ntp_packet_t:packet send;
+allow ntpd_t selinux_config_t:dir search;
+allow ntpd_t sysctl_t:netif egress;
+allow ntpd_t unlabeled_t:node sendto;
+allow ntpd_t unlabeled_t:packet recv;
+allow ntpd_t unlabeled_t:peer recv;
+allow ntpd_t unlabeled_t:udp_socket node_bind;
+
+#============= secadm_sudo_t ==============
+allow secadm_sudo_t cgroup_t:filesystem getattr;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain chr_file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (secadm_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s15:c0.c512) and target level (s15:c0.c1023) are different.
+allow secadm_sudo_t kmsg_device_t:chr_file getattr;
+allow secadm_sudo_t proc_t:filesystem getattr;
+allow secadm_sudo_t secadm_t:process { noatsecure rlimitinh siginh };
+
+#!!!! This avc can be allowed using the boolean 'authlogin_pam'
+allow secadm_sudo_t shadow_t:file { getattr open read };
+allow secadm_sudo_t systemd_machined_t:unix_stream_socket connectto;
+allow secadm_sudo_t systemd_sessions_runtime_t:dir search;
+allow secadm_sudo_t systemd_sessions_runtime_t:file { getattr open read };
+allow secadm_sudo_t tty_device_t:chr_file getattr;
+
+#============= secadm_t ==============
+allow secadm_t secadm_git_t:process { noatsecure rlimitinh siginh };
+allow secadm_t secadm_sudo_t:process { noatsecure rlimitinh siginh };
+allow secadm_t xdg_documents_work_t:file { ioctl open read setattr write };
+
+#============= staff_dbusd_t ==============
+allow staff_dbusd_t etc_t:file map;
+allow staff_dbusd_t http_port_t:tcp_socket name_connect;
+allow staff_dbusd_t https_packet_t:packet send;
+allow staff_dbusd_t ssdp_packet_t:packet { recv send };
+allow staff_dbusd_t staff_dbusd_tmpfs_t:file execute;
+allow staff_dbusd_t sysctl_t:netif egress;
+allow staff_dbusd_t systemd_machined_t:unix_stream_socket connectto;
+allow staff_dbusd_t unlabeled_t:node sendto;
+allow staff_dbusd_t unlabeled_t:packet recv;
+allow staff_dbusd_t unlabeled_t:peer recv;
+allow staff_dbusd_t unlabeled_t:tcp_socket node_bind;
+allow staff_dbusd_t unlabeled_t:udp_socket node_bind;
+
+#============= staff_git_t ==============
+
+#!!!! This avc can be allowed using the boolean 'git_client_manage_all_user_home_content'
+allow staff_git_t xdg_documents_t:dir { getattr search };
+
+#!!!! This avc can be allowed using the boolean 'git_client_manage_all_user_home_content'
+allow staff_git_t xdg_documents_work_t:dir { getattr open read search };
+
+#!!!! This avc can be allowed using the boolean 'git_client_manage_all_user_home_content'
+allow staff_git_t xdg_documents_work_t:file { getattr map open read };
+
+#============= staff_sudo_t ==============
+allow staff_sudo_t self:capability dac_read_search;
+allow staff_sudo_t systemd_machined_t:unix_stream_socket connectto;
+allow staff_sudo_t xdg_documents_work_t:file { getattr write };
+
+#============= staff_systemd_t ==============
+allow staff_systemd_t chromium_sandbox_t:dir search;
+allow staff_systemd_t etc_t:file map;
+allow staff_systemd_t gpg_agent_t:process { noatsecure rlimitinh siginh };
+allow staff_systemd_t http_port_t:tcp_socket name_connect;
+allow staff_systemd_t https_packet_t:packet send;
+allow staff_systemd_t samba_etc_t:dir search;
+allow staff_systemd_t samba_etc_t:file { getattr open read };
+allow staff_systemd_t samba_runtime_t:dir search;
+allow staff_systemd_t sysctl_net_t:dir search;
+allow staff_systemd_t sysctl_net_t:file { getattr open read };
+allow staff_systemd_t sysctl_t:netif egress;
+allow staff_systemd_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_systemd_t unlabeled_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_systemd_t unlabeled_t:peer recv;
+allow staff_systemd_t var_lib_t:file map;
+allow staff_systemd_t winbind_helper_exec_t:file { execute execute_no_trans map open read };
+
+#============= staff_t ==============
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain file { write create setattr relabelfrom append unlink link rename mounton } ((l1 eq l2 -Fail-)  or (t1 == mlsfilewritetoclr -Fail-)  and (h1 dom l2 -Fail-)  and (l1 domby l2)  or (t2 == mlsfilewriteinrange -Fail-)  and (l1 dom l2 -Fail-)  and (h1 domby h2)  or (t1 == mlsfilewrite -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t auditd_log_t:file { getattr read };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain dir { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain dir { search } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source role (staff_r) and target role (system_r) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t auditd_t:dir { getattr search };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source role (staff_r) and target role (system_r) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t auditd_t:file read;
+allow staff_t avahi_t:dir { getattr search };
+allow staff_t avahi_t:file read;
+allow staff_t default_t:dir getattr;
+allow staff_t default_t:file getattr;
+allow staff_t faillog_t:dir search;
+allow staff_t faillog_t:file getattr;
+allow staff_t init_runtime_t:dir { add_name create write };
+allow staff_t init_runtime_t:fifo_file { create open read };
+allow staff_t init_runtime_t:sock_file write;
+allow staff_t init_t:system reload;
+allow staff_t lo_netif_t:netif egress;
+allow staff_t local_login_t:file { open read };
+allow staff_t ntpd_t:dir { getattr search };
+allow staff_t ntpd_t:file { open read };
+allow staff_t restorecond_t:dir { getattr search };
+allow staff_t restorecond_t:file { open read };
+allow staff_t secadm_dbusd_t:dir { getattr search };
+allow staff_t secadm_dbusd_t:file { open read };
+allow staff_t secadm_systemd_t:dir { getattr search };
+allow staff_t secadm_systemd_t:file { open read };
+allow staff_t secadm_t:dir { getattr search };
+allow staff_t secadm_t:file { open read };
+allow staff_t security_t:security read_policy;
+allow staff_t self:capability sys_resource;
+allow staff_t shadow_t:file { getattr open read };
+allow staff_t staff_systemd_t:lnk_file read;
+allow staff_t staff_wm_t:fifo_file { getattr ioctl read };
+allow staff_t sysctl_t:netif egress;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain dir { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain dir { search } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source role (staff_r) and target role (system_r) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t syslogd_t:dir { getattr search };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source role (staff_r) and target role (system_r) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t syslogd_t:file read;
+allow staff_t systemd_logind_runtime_t:dir search;
+allow staff_t systemd_machined_t:dir { getattr search };
+allow staff_t systemd_machined_t:file { open read };
+allow staff_t systemd_passwd_runtime_t:dir { getattr open read };
+allow staff_t systemd_sessions_runtime_t:dir search;
+allow staff_t systemd_sessions_runtime_t:file getattr;
+allow staff_t systemd_unit_t:service { status stop };
+allow staff_t unlabeled_t:chr_file { open read write };
+allow staff_t unlabeled_t:node sendto;
+allow staff_t unlabeled_t:packet recv;
+allow staff_t unlabeled_t:peer recv;
+allow staff_t var_lib_t:file map;
+allow staff_t var_lib_t:lnk_file getattr;
+allow staff_t xdg_documents_archive_t:file execute;
+
+#============= staff_wm_t ==============
+allow staff_wm_t staff_dbusd_tmpfs_t:file { getattr map read write };
+
+#============= udev_t ==============
+allow udev_t default_t:file getattr;
+
+
+#============= NetworkManager_t ==============
+allow NetworkManager_t bootpc_packet_t:packet recv;
+allow NetworkManager_t bootps_packet_t:packet send;
+allow NetworkManager_t unlabeled_t:node sendto;
+
+#============= auditd_t ==============
+allow auditd_t systemd_machined_t:unix_stream_socket connectto;
+
+#============= chromium_t ==============
+allow chromium_t boolean_t:file { open read };
+
+#!!!! This avc can be allowed using the boolean 'chromium_read_system_info'
+allow chromium_t etc_runtime_t:file { getattr open read };
+allow chromium_t hpvroom_packet_t:packet send;
+allow chromium_t inedo_packet_t:packet recv;
+allow chromium_t locale_t:dir watch;
+allow chromium_t mdns_packet_t:packet { recv send };
+allow chromium_t security_t:dir search;
+allow chromium_t self:process execheap;
+allow chromium_t ssdp_packet_t:packet send;
+allow chromium_t sysctl_t:netif egress;
+allow chromium_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow chromium_t unlabeled_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow chromium_t unlabeled_t:peer recv;
+allow chromium_t unlabeled_t:udp_socket node_bind;
+allow chromium_t user_home_t:file map;
+allow chromium_t var_lib_t:dir read;
+allow chromium_t var_lib_t:file { getattr map open read };
+
+#============= cupsd_t ==============
+allow cupsd_t systemd_machined_t:unix_stream_socket connectto;
+
+#============= devicekit_disk_t ==============
+allow devicekit_disk_t lvm_runtime_t:dir write;
+
+#============= mozilla_t ==============
+allow mozilla_t domain_packet_t:packet send;
+allow mozilla_t https_packet_t:packet send;
+allow mozilla_t sysctl_t:netif egress;
+allow mozilla_t unlabeled_t:node sendto;
+allow mozilla_t unlabeled_t:packet recv;
+allow mozilla_t unlabeled_t:peer recv;
+allow mozilla_t unlabeled_t:udp_socket node_bind;
+allow mozilla_t www_http_packet_t:packet send;
+
+#============= secadm_sudo_t ==============
+allow secadm_sudo_t cgroup_t:filesystem getattr;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain chr_file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (secadm_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s15:c0.c512) and target level (s15:c0.c1023) are different.
+allow secadm_sudo_t kmsg_device_t:chr_file getattr;
+allow secadm_sudo_t proc_t:filesystem getattr;
+allow secadm_sudo_t secadm_t:process { noatsecure rlimitinh siginh };
+
+#!!!! This avc can be allowed using the boolean 'authlogin_pam'
+allow secadm_sudo_t shadow_t:file read;
+allow secadm_sudo_t systemd_machined_t:unix_stream_socket connectto;
+allow secadm_sudo_t tty_device_t:chr_file getattr;
+
+#============= secadm_t ==============
+allow secadm_t secadm_git_t:process { noatsecure rlimitinh siginh };
+allow secadm_t secadm_sudo_t:process { noatsecure rlimitinh siginh };
+
+#============= staff_git_t ==============
+
+#!!!! This avc can be allowed using the boolean 'git_client_manage_all_user_home_content'
+allow staff_git_t xdg_documents_t:dir { getattr search };
+
+#!!!! This avc can be allowed using the boolean 'git_client_manage_all_user_home_content'
+allow staff_git_t xdg_documents_work_t:dir { getattr open read search };
+
+#!!!! This avc can be allowed using the boolean 'git_client_manage_all_user_home_content'
+allow staff_git_t xdg_documents_work_t:file { getattr map open read };
+
+#============= staff_sudo_t ==============
+allow staff_sudo_t self:capability dac_read_search;
+allow staff_sudo_t systemd_machined_t:unix_stream_socket connectto;
+allow staff_sudo_t xdg_documents_work_t:file { getattr write };
+
+#============= staff_systemd_t ==============
+allow staff_systemd_t chromium_sandbox_t:dir search;
+allow staff_systemd_t chromium_sandbox_t:file { getattr ioctl open };
+
+#============= staff_t ==============
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain file { write create setattr relabelfrom append unlink link rename mounton } ((l1 eq l2 -Fail-)  or (t1 == mlsfilewritetoclr -Fail-)  and (h1 dom l2 -Fail-)  and (l1 domby l2)  or (t2 == mlsfilewriteinrange -Fail-)  and (l1 dom l2 -Fail-)  and (h1 domby h2)  or (t1 == mlsfilewrite -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t auditd_log_t:file { getattr read write };
+allow staff_t security_t:security { read_policy setenforce };
+allow staff_t staff_wm_t:fifo_file read;
+
+#============= staff_wm_t ==============
+allow staff_wm_t etc_t:file map;
+allow staff_wm_t http_port_t:tcp_socket name_connect;
+allow staff_wm_t https_packet_t:packet send;
+allow staff_wm_t sysctl_t:netif egress;
+allow staff_wm_t unlabeled_t:node sendto;
+allow staff_wm_t unlabeled_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_wm_t unlabeled_t:peer recv;
+
+#============= udev_t ==============
+allow udev_t default_t:file getattr;
