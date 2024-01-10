@@ -1,0 +1,33 @@
+policy(monerod, 1.0)
+
+type monerod_t;
+
+init_system_domain(monerod_t, monerod_exec_t)
+userdom_user_application_domain(monerod_t, monerod_exec_t)
+
+manage_dirs_pattern(monerod_t, monerod_usr_t)
+manage_files_pattern(monerod_t, monerod_usr_t)
+manage_files_pattern(monerod_t, monerod_log_t)
+manage_files_pattern(monerod_t, monerod_cert_t)
+# MoneroD might create rpc_ssl files, if your rpc_ssl is manage by another 
+# process, change this to read pattern.
+
+type monerod_exec_t;
+application_executable_file(monerod_exec_t)
+
+type monerod_log_t;
+# Monerod does not use /var/log and tmpfs for logging, therefore
+# monerod_log_t has attribute file instead of log file
+files_type(monerod_log_t)
+
+type monerod_conf_t;
+
+files_type(monerod_conf_t)
+
+type monerod_cert_t;
+
+files_type(monerod_conf_t)
+
+type monerod_usr_t;
+# Including p2pstate and blockchain
+files_type(monerod_usr_t)

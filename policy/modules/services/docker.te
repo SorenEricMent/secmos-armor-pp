@@ -32,6 +32,7 @@ ifdef(`enable_mls' ,`
 ')
 ifdef(`init_systemd', `
         systemd_homed_connect(dockerd_t)
+	systemd_connect_machined(dockerd_t)
 ')
 
 type dockerc_user_t;

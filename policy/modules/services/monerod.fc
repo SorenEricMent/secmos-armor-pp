@@ -1,0 +1,23 @@
+/usr/share/monero(/.*)?				gen_context(system_u:object_r:monerod_usr_t)
+/usr/share/monero/bitmonero\.log(.*)?	--	gen_context(system_u:object_r:monerod_log_t)
+/usr/share/monero/rpc_ssl.crt		--	gen_context(system_u:object_r:monerod_cert_t)
+/usr/share/monero/rpc_ssl.key		--	gen_context(system_u:object_r:monerod_cert_t)
+
+monero2john				--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-ancestry		--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-depth			--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-export		--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-import		--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-mark-spent-outputs	--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-prune			--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-prune-known-spent-data	--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-stats			--	gen_context(system_u:object_r:monerod_exec_t)
+monero-blockchain-usage			--	gen_context(system_u:object_r:monerod_exec_t)
+monerod					--	gen_context(system_u:object_r:monerod_exec_t)
+monero-gen-ssl-cert			--	gen_context(system_u:object_r:monerod_exec_t)
+monero-gen-trusted-multisig		--	gen_context(system_u:object_r:monerod_exec_t)
+
+monero-wallet-cli			--	gen_context(system_u:object_r:monerod_cli_exec_t)
+monero-wallet-rpc                       --      gen_context(system_u:object_r:monerod_cli_exec_t)
+
+# Monero GUI is controlled with policy apps/monero-gui

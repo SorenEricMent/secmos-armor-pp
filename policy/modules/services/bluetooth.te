@@ -7,6 +7,11 @@ policy_module(bluetooth)
 
 attribute_role bluetooth_helper_roles;
 
+gen_tunable(`bluetooth_hid', true)
+
+tunable_policy(`bluetooth_hid', `
+	dev_rw_uhid(bluetooth_t)
+')
 type bluetooth_t;
 type bluetooth_exec_t;
 init_daemon_domain(bluetooth_t, bluetooth_exec_t)

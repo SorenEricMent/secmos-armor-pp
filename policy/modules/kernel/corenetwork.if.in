@@ -57,25 +57,6 @@ interface(`corenet_reserved_port',`
 	typeattribute $1 reserved_port_type;
 ')
 
-########################################
-## <summary>
-##	Define network type to be a rpc port ( 512 lt PORT lt 1024)
-## </summary>
-## <desc>
-##	<p>
-##	Define network type to be a rpc port ( 512 lt PORT lt 1024)
-##	</p>
-##	<p>
-##	This is for supporting third party modules and its
-##	use is not allowed in upstream reference policy.
-##	</p>
-## </desc>
-## <param name="domain">
-##	<summary>
-##	Type to be used for network ports.
-##	</summary>
-## </param>
-#
 interface(`corenet_rpc_port',`
 	gen_require(`
 		attribute rpc_port_type;
@@ -3517,6 +3498,31 @@ interface(`corenet_unconfined',`
 	typeattribute $1 corenet_unconfined_type;
 ')
 
+########################################
+## <summary>
+##      Allow send and recv certain packet
+## </summary>
+## <desc>
+##      </desc>
+## <param name="domain">
+##      <summary>
+##      From domain
+##      </summary>
+## </param>
+## <param name="type">
+##      <summary>
+##      packet type
+##      </summary>
+## </param>
+
+#
+interface(`net_sr_packet',`
+        gen_require(`
+                type $2;
+        ')
+        allow $1 $2:packet { send recv };
+')
+
 
 ########################################
 ## <summary>
@@ -3535,7 +3541,7 @@ interface(`net_dns_packet',`
                 type domain_packet_t;
 
         ')
-        allow $1 domain_packet_t:packet { send recv };
+        net_sr_packet($1, domain_packet_t)
 ')
 ########################################
 ## <summary>
@@ -3554,7 +3560,7 @@ interface(`net_http_packet',`
                 type www_http_packet_t;
 
         ')
-        allow $1 www_http_packet_t:packet { send recv };
+        net_sr_packet($1, www_http_packet_t)
 ')
 
 ########################################
@@ -3574,5 +3580,26 @@ interface(`net_https_packet',`
                 type https_packet_t;
 
         ')
-        allow $1 https_packet_t:packet { send recv };
+        net_sr_packet($1, https_packet_t)
 ')
+
+########################################
+## <summary>
+##      mDNS Packet
+## </summary>
+## <desc>
+##      </desc>
+## <param name="domain">
+##      <summary>
+##      From domain
+##      </summary>
+## </param>
+#
+interface(`net_mdns_packet',`
+        gen_require(`
+                type mdns_packet_t;
+
+        ')
+        net_sr_packet($1, mdns_packet_t)
+')
+

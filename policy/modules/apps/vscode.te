@@ -1,0 +1,42 @@
+policy_module(vscode, 1.0)
+
+attribute_role vscode_roles;
+
+type vscode_t;
+
+type vscode_home_t;
+
+userdom_user_home_content(vscode_home_t)
+
+type vscode_exec_t;
+
+userdom_user_application_domain(vscode_t, vscode_exec_t)
+
+application_domain(vscode_t, vscode_exec_t)
+
+wm_application_domain(vscode_t, vscode_exec_t)
+
+role vscode_roles types vscode_t;
+
+optional_policy(`
+        wm_application_domain(vscode_t, vscode_exec_t)
+')
+
+
+allow vscode_t self:process { signal_perms };
+allow vscode_t self:fifo_file { rw_fifo_file_perms };
+allow vscode_t self:process { getsched ptrace setsched };
+
+
+
+domain_use_interactive_fds(vscode_t)
+
+can_exec(vscode_t, vscode_exec_t)
+corecmd_search_bin(vscode_t)
+corecmd_exec_bin(vscode_exec_t)
+
+domain_use_interactive_fds(vscode_t)
+
+xserver_stream_connect_xdm(vscode_t)
+
+domain_mmap_low_uncond(vscode_t)

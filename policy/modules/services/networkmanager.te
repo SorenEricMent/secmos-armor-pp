@@ -150,6 +150,9 @@ corenet_udp_sendrecv_generic_node(NetworkManager_t)
 corenet_raw_sendrecv_generic_node(NetworkManager_t)
 corenet_udp_bind_generic_node(NetworkManager_t)
 
+net_sr_packet(NetworkManager_t, bootps_packet_t)
+net_sr_packet(NetworkManager_t, bootpc_packet_t)
+
 corenet_sendrecv_isakmp_server_packets(NetworkManager_t)
 corenet_udp_bind_isakmp_port(NetworkManager_t)
 

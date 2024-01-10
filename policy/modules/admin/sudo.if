@@ -88,6 +88,7 @@ template(`sudo_role_template',`
 	corecmd_bin_domtrans($1_sudo_t, $2)
 	
 	ifdef(`enable_mls', `
+		mls_file_read_all_levels($1_sudo_t)
 		mls_socket_write_to_clearance($1_sudo_t)
 	')
 

@@ -1,0 +1,87 @@
+## <summary>Monero wallet GUI</summary>
+
+#######################################
+## <summary>
+## 	Role access for monero_gui
+## </summary>
+## <param name="role_prefix">
+##	<summary>
+##	The prefix of the user role (e.g., user
+##	is the prefix for user_r).
+##	</summary>
+## </param>
+## <param name="user_domain">
+##	<summary>
+##	User domain for the role.
+##	</summary>
+## </param>
+## <param name="user_exec_domain">
+##	<summary>
+##	User exec domain for execute and transition access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access
+##	</summary>
+## </param>
+#
+template(`monero_gui_role',`
+	gen_require(`
+		type monero_gui_t;
+		type monero_gui_exec_t;
+		type $1_wm_t;
+		attribute_role monero_gui_roles;
+		class dbus send_msg;
+	')
+
+	roleattribute $4 monero_gui_roles;
+
+	allow $2 monero_gui_exec_t:lnk_file { manage_lnk_file_perms relabel_lnk_file_perms };
+	
+	optional_policy(`
+		systemd_user_app_status($1, monero_gui_t)
+	')
+')
+
+## <summary>policy for monero_gui</summary>
+
+########################################
+## <summary>
+##      Execute monero_gui_exec_t in the monero_gui domain.
+## </summary>
+## <param name="domain">
+## <summary>
+##      Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`monero_gui_domtrans',`
+        gen_require(`
+                type monero_gui_t, monero_gui_exec_t;
+        ')
+
+        corecmd_search_bin($1)
+        domtrans_pattern($1, monero_gui_exec_t, monero_gui_t)
+')
+
+######################################
+## <summary>
+##      Execute monero_gui in the caller domain.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`monero_gui_exec',`
+        gen_require(`
+                type monero_gui_exec_t;
+        ')
+
+        corecmd_search_bin($1)
+        can_exec($1, monero_gui_exec_t)
+')
+
+

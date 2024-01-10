@@ -1,0 +1,44 @@
+policy_module(zoom, 1.0)
+
+attribute_role zoom_roles;
+
+type zoom_t;
+type zoom_exec_t;
+
+userdom_user_application_domain(zoom_t, zoom_exec_t)
+
+application_domain(zoom_t, zoom_exec_t)
+
+wm_application_domain(zoom_t, zoom_exec_t)
+
+role zoom_roles types zoom_t;
+
+optional_policy(`
+        wm_application_domain(zoom_t, zoom_exec_t)
+')
+
+type zoom_home_t;
+
+allow zoom_t self:process { signal_perms };
+allow zoom_t self:fifo_file { rw_fifo_file_perms };
+allow zoom_t self:netlink_route_socket { bind create getattr getopt nlmsg_read read setopt write };
+allow zoom_t self:process { getsched ptrace setsched };
+allow zoom_t self:tcp_socket { connect create getattr getopt read setopt write };
+allow zoom_t self:unix_dgram_socket { create write };
+
+manage_files_pattern(zoom_t, zoom_usr_t, zoom_usr_t)
+manage_dirs_pattern(zoom_t, zoom_usr_t, zoom_usr_t)
+
+xdg_manage_documents_zoom(zoom_t)
+
+domain_use_interactive_fds(zoom_t)
+
+can_exec(zoom_t, zoom_exec_t)
+corecmd_search_bin(zoom_t)
+corecmd_exec_bin(zoom_exec_t)
+
+domain_use_interactive_fds(zoom_t)
+
+xserver_stream_connect_xdm(zoom_t)
+
+domain_mmap_low_uncond(zoom_t)

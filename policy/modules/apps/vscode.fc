@@ -1,0 +1,3 @@
+/usr/bin/code	--	gen_context(system_u:object_r:vscode_exec_t, s0)
+HOME_DIR/\.vscode(/.*)?	--	gen_context(system_u:object_r:vscode_home_t, s0)
+

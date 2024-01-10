@@ -1,0 +1,3 @@
+/usr/bin/zoom			--	gen_context(system_u:object_r:zoom_exec_t, s0)
+HOME_DIR/\.zoom(/.*)?		--	gen_context(system_u:object_r:zoom_home_t, s0)
+HOME_DIR/\.zoom/logs(/.*)?	--	gen_context(system_u:object_r:zoom_log_t, s0)

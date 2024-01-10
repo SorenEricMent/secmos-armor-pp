@@ -351,6 +351,8 @@ userdom_map_user_home_content_files(git_client_domain)
 xdg_search_cache_dirs(git_client_domain)
 xdg_search_config_dirs(git_client_domain)
 
+term_use_generic_ptys(git_client_domain)
+
 tunable_policy(`git_client_manage_all_user_home_content',`
 	userdom_manage_all_user_home_content(git_client_domain)
 	userdom_map_all_user_home_content_files(git_client_domain)

@@ -316,6 +316,8 @@ allow chromium_renderer_t chromium_t:fd use;
 allow chromium_renderer_t chromium_t:unix_stream_socket rw_stream_socket_perms;
 allow chromium_renderer_t chromium_tmpfs_t:file rw_file_perms;
 
+allow chromium_t chromium_tmpfs_t:file execute;
+
 dontaudit chromium_renderer_t chromium_t:dir search;	# /proc/... access
 
 read_files_pattern(chromium_renderer_t, chromium_xdg_config_t, chromium_xdg_config_t)

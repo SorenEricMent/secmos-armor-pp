@@ -1,0 +1,63 @@
+policy_module(sbadm)
+
+## <desc>
+## <p>
+## Allow sbadm to read files in the user home directory
+## </p>
+## </desc>
+gen_tunable(sbadm_read_user_files, false)
+
+## <desc>
+## <p>
+## Allow sbadm to manage files in the user home directory
+## </p>
+## </desc>
+gen_tunable(sbadm_manage_user_files, false)
+
+########################################
+#
+# Declarations
+#
+# role sbadm_r;
+
+userdom_unpriv_user_template(sbadm)
+userdom_operator(sbadm)
+
+########################################
+#
+# sbadm local policy
+#
+
+
+domain_use_interactive_fds(sbadm_t)
+
+files_read_etc_files(sbadm_t)
+
+miscfiles_read_localization(sbadm_t)
+
+allow sbadm_t self:capability { dac_override dac_read_search kill sys_ptrace };
+files_dontaudit_search_all_dirs(sbadm_t)
+
+selinux_get_enforce_mode(sbadm_t)
+seutil_domtrans_setfiles(sbadm_t)
+seutil_search_default_contexts(sbadm_t)
+
+logging_send_syslog_msg(sbadm_t)
+
+kernel_read_system_state(sbadm_t)
+
+domain_dontaudit_search_all_domains_state(sbadm_t)
+domain_dontaudit_ptrace_all_domains(sbadm_t)
+
+
+tunable_policy(`sbadm_read_user_files',`
+        userdom_read_user_home_content_files(sbadm_t)
+        userdom_read_user_tmp_files(sbadm_t)
+')
+
+tunable_policy(`sbadm_manage_user_files',`
+	userdom_manage_user_home_content_dirs(sbadm_t)
+	userdom_manage_user_home_content_files(sbadm_t)
+	userdom_manage_user_home_content_symlinks(sbadm_t)
+        userdom_manage_user_tmp_files(sbadm_t)
+')

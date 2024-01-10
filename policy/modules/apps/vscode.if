@@ -1,0 +1,87 @@
+## <summary>VSCode Editor</summary>
+
+#######################################
+## <summary>
+## 	Role access for vscode
+## </summary>
+## <param name="role_prefix">
+##	<summary>
+##	The prefix of the user role (e.g., user
+##	is the prefix for user_r).
+##	</summary>
+## </param>
+## <param name="user_domain">
+##	<summary>
+##	User domain for the role.
+##	</summary>
+## </param>
+## <param name="user_exec_domain">
+##	<summary>
+##	User exec domain for execute and transition access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access
+##	</summary>
+## </param>
+#
+template(`vscode_role',`
+	gen_require(`
+		type vscode_t;
+		type vscode_exec_t;
+		type $1_wm_t;
+		attribute_role vscode_roles;
+		class dbus send_msg;
+	')
+
+	roleattribute $4 vscode_roles;
+
+	allow $2 vscode_exec_t:lnk_file { manage_lnk_file_perms relabel_lnk_file_perms };
+	
+	optional_policy(`
+		systemd_user_app_status($1, vscode_t)
+	')
+')
+
+## <summary>policy for vscode</summary>
+
+########################################
+## <summary>
+##      Execute vscode_exec_t in the vscode domain.
+## </summary>
+## <param name="domain">
+## <summary>
+##      Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`vscode_domtrans',`
+        gen_require(`
+                type vscode_t, vscode_exec_t;
+        ')
+
+        corecmd_search_bin($1)
+        domtrans_pattern($1, vscode_exec_t, vscode_t)
+')
+
+######################################
+## <summary>
+##      Execute vscode in the caller domain.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      Domain allowed access.
+##      </summary>
+## </param>
+#
+interface(`vscode_exec',`
+        gen_require(`
+                type vscode_exec_t;
+        ')
+
+        corecmd_search_bin($1)
+        can_exec($1, vscode_exec_t)
+')
+
+

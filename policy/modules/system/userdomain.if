@@ -5043,7 +5043,7 @@ interface(`userdom_dontaudit_rw_all_users_stream_sockets',`
 
 ########################################
 ## <summary>
-##     seCMOS operator
+##     A seCMOS operator is anyone who need to use the system normally.
 ## </summary>
 ## <param name="type">
 ##      <summary>
@@ -5055,4 +5055,5 @@ interface(`userdom_dontaudit_rw_all_users_stream_sockets',`
 interface(`userdom_operator', `
 	userdom_use_user_ptys($1_t)
 	term_use_all_terms($1_t)
+	xdg_manage_all_documents($1_t)
 ')

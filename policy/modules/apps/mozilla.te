@@ -155,6 +155,12 @@ corenet_tcp_connect_soundd_port(mozilla_t)
 corenet_sendrecv_speech_client_packets(mozilla_t)
 corenet_tcp_connect_speech_port(mozilla_t)
 
+corenet_sendrecv_unlabeled_packets(mozilla_t)
+
+net_dns_packet(mozilla_t)
+net_http_packet(mozilla_t)
+net_https_packet(mozilla_t)
+
 dev_getattr_sysfs_dirs(mozilla_t)
 dev_read_sysfs(mozilla_t)
 dev_read_sound(mozilla_t)
@@ -224,6 +230,11 @@ ifndef(`enable_mls',`
 	fs_read_removable_symlinks(mozilla_t)
 
 	fs_read_iso9660_files(mozilla_t)
+')
+
+ifdef(`enable_mls', `
+        mls_net_outbound_all_levels(mozilla_t)
+        mls_socket_read_all_levels(mozilla_t)
 ')
 
 tunable_policy(`allow_execmem',`
@@ -691,3 +702,80 @@ optional_policy(`
 optional_policy(`
 	xserver_use_user_fonts(mozilla_plugin_config_t)
 ')
+
+
+
+## TODO: RESORT
+gen_require(`
+	type NetworkManager_etc_t;
+	type auditd_etc_t;
+	type bluetooth_conf_t;
+	type container_config_t;
+	type dnsmasq_etc_t;
+	type domain_packet_t;
+	type unlabeled_t;
+	type usbguard_conf_t;
+	type virt_etc_t;
+	type firewalld_etc_rw_t;
+	type geoclue_etc_t;
+	type httpd_config_t;
+	type hostapd_conf_t;
+	type https_packet_t;
+	type modules_conf_t;
+	type selinux_config_t;
+	type system_cron_spool_t;
+	type systemd_machined_t;
+	type mplayer_etc_t;
+	type samba_etc_t;
+	type snort_etc_t;
+	type saslauthd_keytab_t;
+	type node_t;
+	type lo_netif_t;
+	type www_http_packet_t;
+	type lvm_etc_t;
+	type ifplugd_etc_t;
+	type lircd_etc_t;
+	type named_conf_t;
+	type var_lib_t;
+	type vmware_sys_conf_t;
+	type user_runtime_t; 
+	type local_ephemeral_port_t;
+')
+allow mozilla_t NetworkManager_etc_t:dir getattr;
+allow mozilla_t auditd_etc_t:dir getattr;
+allow mozilla_t bluetooth_conf_t:dir getattr;
+allow mozilla_t container_config_t:dir getattr;
+allow mozilla_t dnsmasq_etc_t:dir getattr;
+allow mozilla_t domain_packet_t:packet send;
+allow mozilla_t firewalld_etc_rw_t:dir getattr;
+allow mozilla_t geoclue_etc_t:dir getattr;
+allow mozilla_t hostapd_conf_t:dir getattr;
+allow mozilla_t httpd_config_t:dir getattr;
+allow mozilla_t https_packet_t:packet send;
+allow mozilla_t ifplugd_etc_t:dir getattr;
+allow mozilla_t lircd_etc_t:dir getattr;
+allow mozilla_t lo_netif_t:netif egress;
+allow mozilla_t local_ephemeral_port_t:tcp_socket name_connect;
+allow mozilla_t lvm_etc_t:dir getattr;
+allow mozilla_t modules_conf_t:dir getattr;
+allow mozilla_t mplayer_etc_t:dir getattr;
+allow mozilla_t named_conf_t:dir getattr;
+allow mozilla_t node_t:tcp_socket name_connect;
+allow mozilla_t samba_etc_t:dir getattr;
+allow mozilla_t saslauthd_keytab_t:dir getattr;
+allow mozilla_t selinux_config_t:dir getattr;
+allow mozilla_t snort_etc_t:dir getattr;
+allow mozilla_t sysctl_t:netif egress;
+allow mozilla_t system_cron_spool_t:dir getattr;
+allow mozilla_t systemd_machined_t:unix_stream_socket connectto;
+allow mozilla_t unlabeled_t:node sendto;
+allow mozilla_t unlabeled_t:peer recv;
+allow mozilla_t unlabeled_t:udp_socket node_bind;
+allow mozilla_t usbguard_conf_t:dir getattr;
+allow mozilla_t user_home_t:file map;
+allow mozilla_t user_runtime_t:file getattr;
+allow mozilla_t var_lib_t:file map;
+allow mozilla_t virt_etc_t:dir getattr;
+allow mozilla_t vmware_sys_conf_t:dir getattr;
+allow mozilla_t www_http_packet_t:packet send;
+

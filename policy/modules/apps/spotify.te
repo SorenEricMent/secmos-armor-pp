@@ -55,6 +55,7 @@ net_https_packet(spotify_t)
 #temp policy
 
 gen_require(`
+	type shell_exec_t;
 	type unlabeled_t;
 	type sysctl_t;
 	type cgroup_t;
@@ -86,6 +87,7 @@ gen_require(`
 	type mozilla_exec_t;
 	type chromium_exec_t;
 ')
+allow spotify_t shell_exec_t:file map;
 allow spotify_t cgroup_t:dir search;
 allow spotify_t fs_t:filesystem getattr;
 allow spotify_t sysfs_t:file read;

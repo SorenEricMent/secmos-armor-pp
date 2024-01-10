@@ -21,6 +21,10 @@ type telegram_usr_t;
 
 allow telegram_t self:process { signal_perms };
 allow telegram_t self:fifo_file { rw_fifo_file_perms };
+allow telegram_t self:netlink_route_socket { bind create getattr getopt nlmsg_read read setopt write };
+allow telegram_t self:process { getsched ptrace setsched };
+allow telegram_t self:tcp_socket { connect create getattr getopt read setopt write };
+allow telegram_t self:unix_dgram_socket { create write };
 
 manage_files_pattern(telegram_t, telegram_usr_t, telegram_usr_t)
 manage_dirs_pattern(telegram_t, telegram_usr_t, telegram_usr_t)

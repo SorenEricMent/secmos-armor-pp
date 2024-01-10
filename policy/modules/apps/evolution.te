@@ -111,11 +111,14 @@ allow evolution_server_t evolution_orbit_tmp_t:dir manage_dir_perms;
 allow evolution_server_t evolution_orbit_tmp_t:file manage_file_perms;
 files_tmp_filetrans(evolution_server_t, evolution_orbit_tmp_t, { dir file })
 
-allow evolution_t evolution_tmpfs_t:dir rw_dir_perms;
-allow evolution_t evolution_tmpfs_t:file manage_file_perms;
+allow evolution_t evolution_tmpfs_t:dir { rw_dir_perms create mounton };
+allow evolution_t evolution_tmpfs_t:file { manage_file_perms mounton };
 allow evolution_t evolution_tmpfs_t:lnk_file manage_lnk_file_perms;
 allow evolution_t evolution_tmpfs_t:sock_file manage_sock_file_perms;
 allow evolution_t evolution_tmpfs_t:fifo_file manage_fifo_file_perms;
+
+allow evolution_t evolution_xdg_config_t:file map;
+
 fs_tmpfs_filetrans(evolution_t, evolution_tmpfs_t, { dir file lnk_file sock_file fifo_file })
 
 allow evolution_t { evolution_alarm_t evolution_server_t }:dir search_dir_perms;
@@ -168,6 +171,8 @@ corenet_tcp_connect_ldap_port(evolution_t)
 
 corenet_sendrecv_ipp_client_packets(evolution_t)
 corenet_tcp_connect_ipp_port(evolution_t)
+
+net_dns_packet(evolution_t)
 
 dev_read_rand(evolution_t)
 dev_read_urand(evolution_t)

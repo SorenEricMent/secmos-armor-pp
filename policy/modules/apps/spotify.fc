@@ -1,4 +1,4 @@
-/home/user/.spotify(/.*)?	gen_context(system_u:object_r:spotify_home_t,s0)
+HOME_DIR/\.spotify(/.*)?	gen_context(system_u:object_r:spotify_home_t,s0)
 /opt/spotify(/.*)?		gen_context(system_u:object_r:spotify_env_t,s0)
 /usr/bin/spotify		gen_context(system_u:object_r:spotify_exec_t,s0)
 /opt/spotify/spotify		gen_context(system_u:object_r:spotify_exec_t,s0)
