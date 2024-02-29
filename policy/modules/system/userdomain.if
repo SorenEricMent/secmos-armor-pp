@@ -801,6 +801,10 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
+		cockpit_role_template($1, $1_t, $1_r)
+	')
+
+	optional_policy(`
 		dbus_role_template($1, $1_r, $1_t)
 		dbus_system_bus_client($1_t)
 
@@ -1189,6 +1193,10 @@ template(`userdom_restricted_xwindows_user_template',`
 		')
 
 		optional_policy(`
+			systemd_role_template($1, $1_r, $1_t)
+		')
+
+		optional_policy(`
 			wm_role_template($1, $1_t, $1_application_exec_domain, $1_r)
 		')
 	')
@@ -1395,6 +1403,7 @@ template(`userdom_admin_user_template',`
 	kernel_change_ring_buffer_level($1_t)
 	kernel_clear_ring_buffer($1_t)
 	kernel_read_ring_buffer($1_t)
+	kernel_read_psi($1_t)
 	kernel_get_sysvipc_info($1_t)
 	kernel_rw_all_sysctls($1_t)
 	# signal unlabeled processes:
@@ -3474,6 +3483,24 @@ interface(`userdom_dontaudit_read_user_tmpfs_files',`
 
 ########################################
 ## <summary>
+##	dontaudit Execution attempts of user tmpfs files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_dontaudit_execute_user_tmpfs_files',`
+	gen_require(`
+		type user_tmpfs_t;
+	')
+
+	dontaudit $1 user_tmpfs_t:file execute;
+')
+
+########################################
+## <summary>
 ##	relabel to/from user tmpfs dirs
 ## </summary>
 ## <param name="domain">
@@ -3664,6 +3691,25 @@ interface(`userdom_manage_user_runtime_files',`
         ')
 
         manage_files_pattern($1, user_runtime_t, user_runtime_t)
+')
+
+########################################
+## <summary>
+##	Watch user runtime dirs.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_watch_user_runtime_dirs',`
+	gen_require(`
+		type user_runtime_t;
+	')
+
+	allow $1 user_runtime_t:dir watch;
+	userdom_search_user_runtime_root($1)
 ')
 
 ########################################

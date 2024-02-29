@@ -296,6 +296,11 @@ seutil_read_default_contexts(init_t)
 miscfiles_read_localization(init_t)
 
 ifdef(`init_systemd',`
+	gen_require(`
+		class service { status start stop };
+		class system { status reboot halt reload };
+	')
+
 	# handle instances where an old labeled init script is encountered.
 	typeattribute init_t init_run_all_scripts_domain;
 
@@ -304,6 +309,7 @@ ifdef(`init_systemd',`
 	allow init_t self:process { getcap setcap getsched setsched };
 	allow init_t self:unix_stream_socket { create_stream_socket_perms connectto };
 	allow init_t self:netlink_audit_socket { nlmsg_relay create_socket_perms };
+	allow init_t self:netlink_netfilter_socket create_socket_perms;
 	allow init_t self:netlink_selinux_socket create_socket_perms;
 	allow init_t self:system { status reboot halt reload };
 	# Until systemd is fixed
@@ -457,7 +463,7 @@ ifdef(`init_systemd',`
 	files_create_all_spool_sockets(init_t)
 	files_create_lock_dirs(init_t)
 	files_watch_runtime_dirs(init_t)
-	files_delete_runtime_symlinks(init_t)
+	files_delete_all_runtime_symlinks(init_t)
 	files_delete_all_runtime_files(init_t)
 	files_delete_all_runtime_dirs(init_t)
 	files_delete_all_runtime_sockets(init_t)
@@ -647,6 +653,7 @@ ifdef(`init_systemd',`
 
 	optional_policy(`
 		dbus_connect_system_bus(init_t)
+		dbus_use_system_bus_fds(init_t)
 	')
 
 	optional_policy(`
@@ -1165,6 +1172,10 @@ ifdef(`enable_mls',`
 ')
 
 ifdef(`init_systemd',`
+	gen_require(`
+		class service { stop start status reload };
+		class system { start stop status reboot halt reload };
+	')
 	allow initrc_t init_t:system { start stop status reboot halt reload };
 
 	manage_files_pattern(initrc_t, initrc_lock_t, initrc_lock_t)
@@ -1276,6 +1287,11 @@ optional_policy(`
 optional_policy(`
 	clamav_filetrans_runtime_dir(initrc_t)
 	clamav_read_config(initrc_t)
+')
+
+
+optional_policy(`
+	cockpit_manage_runtime_symlnks(initrc_t)
 ')
 
 optional_policy(`

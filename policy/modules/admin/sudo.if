@@ -77,7 +77,8 @@ template(`sudo_role_template',`
 
 	# allow getting the process group of the parent process
 	allow $1_sudo_t $2:process getpgid;
-	
+	allow $1_sudo_t $2:unix_stream_socket rw_socket_perms;
+
 	# allow accessing /proc/pid/stat of the calling domain
 	ps_process_pattern($1_sudo_t, $2)
 
@@ -207,7 +208,7 @@ template(`sudo_role_template',`
 	')
 
 	optional_policy(`
-		dbus_system_bus_client($1_sudo_t)
+		auth_use_pam_systemd($1_sudo_t)
 
 		ifdef(`init_systemd',`
 			init_dbus_chat($1_sudo_t)
@@ -244,4 +245,23 @@ interface(`sudo_sigchld',`
 	')
 
 	allow $1 sudodomain:process sigchld;
+')
+
+########################################
+## <summary>
+##	Execute sudo in the caller domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sudo_exec',`
+	gen_require(`
+		type sudo_exec_t;
+	')
+
+	can_exec($1, sudo_exec_t)
+	corecmd_search_bin($1)
 ')

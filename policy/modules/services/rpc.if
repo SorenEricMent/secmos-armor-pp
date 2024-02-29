@@ -52,6 +52,24 @@ template(`rpc_domain_template',`
 
 ########################################
 ## <summary>
+##	List export files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`rpc_list_exports',`
+	gen_require(`
+		type exports_t;
+	')
+
+	allow $1 exports_t:dir list_dir_perms;
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to get
 ##	attributes of export files.
 ## </summary>
@@ -85,6 +103,24 @@ interface(`rpc_read_exports',`
 	')
 
 	allow $1 exports_t:file read_file_perms;
+')
+
+########################################
+## <summary>
+##	Create export files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`rpc_create_exports',`
+	gen_require(`
+		type exports_t;
+	')
+
+	create_files_pattern($1, exports_t, exports_t)
 ')
 
 ########################################

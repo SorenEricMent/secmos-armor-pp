@@ -264,6 +264,24 @@ interface(`dev_dontaudit_list_all_dev_nodes',`
 
 ########################################
 ## <summary>
+##	Dontaudit attempts to execute device nodes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`dev_dontaudit_execute_dev_nodes',`
+	gen_require(`
+		type device_t;
+	')
+
+	dontaudit $1 device_t:file execute;
+')
+
+########################################
+## <summary>
 ##	Add entries to directories in /dev.
 ## </summary>
 ## <param name="domain">
@@ -604,6 +622,25 @@ interface(`dev_delete_generic_blk_files',`
 	')
 
 	delete_blk_files_pattern($1, device_t, device_t)
+')
+
+########################################
+## <summary>
+##	Dontaudit relabelto the generic device
+##	type on block files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`dev_dontaudit_relabelto_generic_blk_files',`
+	gen_require(`
+		type device_t;
+	')
+
+	dontaudit $1 device_t:blk_file relabelto;
 ')
 
 ########################################
@@ -2067,6 +2104,24 @@ interface(`dev_manage_dri_dev',`
 
 ########################################
 ## <summary>
+##	Mount on the dri devices.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_mounton_dri_dev',`
+	gen_require(`
+		type dri_device_t;
+	')
+
+	allow $1 dri_device_t:chr_file mounton;
+')
+
+########################################
+## <summary>
 ##	Automatic type transition to the type
 ##	for DRI device nodes when created in /dev.
 ## </summary>
@@ -3303,6 +3358,24 @@ interface(`dev_setattr_mouse_dev',`
 	')
 
 	setattr_chr_files_pattern($1, device_t, mouse_device_t)
+')
+
+########################################
+## <summary>
+##	Delete the mouse devices.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_delete_mouse_dev',`
+	gen_require(`
+		type device_t, mouse_device_t;
+	')
+
+	delete_chr_files_pattern($1, device_t, mouse_device_t)
 ')
 
 ########################################
@@ -4944,6 +5017,24 @@ interface(`dev_rw_generic_usb_dev',`
 	')
 
 	rw_chr_files_pattern($1, device_t, usb_device_t)
+')
+
+########################################
+## <summary>
+##	Delete the generic USB devices.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_delete_generic_usb_dev',`
+	gen_require(`
+		type device_t, usb_device_t;
+	')
+
+	delete_chr_files_pattern($1, device_t, usb_device_t)
 ')
 
 ########################################

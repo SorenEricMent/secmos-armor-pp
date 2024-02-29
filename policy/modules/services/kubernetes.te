@@ -78,6 +78,9 @@ ps_process_pattern(kubernetes_container_engine_domain, kubernetes_container_doma
 # for kubectl port-forward
 corenet_tcp_connect_all_ports(kubernetes_container_engine_domain)
 
+# for rook-ceph
+dev_create_generic_blk_files(kubernetes_container_engine_domain)
+
 files_getattr_kernel_modules(kubernetes_container_engine_domain)
 # for replicated storage that may be mounted in /mnt
 files_search_mnt(kubernetes_container_engine_domain)
@@ -90,12 +93,27 @@ fs_manage_fusefs_sock_files(kubernetes_container_engine_domain)
 fs_manage_fusefs_symlinks(kubernetes_container_engine_domain)
 fs_mounton_tmpfs(kubernetes_container_engine_domain)
 fs_relabelfrom_tmpfs_dirs(kubernetes_container_engine_domain)
+# for rook-ceph
+fs_create_fusefs_blk_files(kubernetes_container_engine_domain)
+fs_setattr_fusefs_blk_files(kubernetes_container_engine_domain)
 
 # for relabeling newly provisioned persistent volumes
 kernel_list_unlabeled(kubernetes_container_engine_domain)
 kernel_relabelfrom_unlabeled_dirs(kubernetes_container_engine_domain)
+# for cilium
+kernel_mounton_net_sysctl_dirs(kubernetes_container_engine_domain)
+kernel_mounton_kernel_sysctl_dirs(kubernetes_container_engine_domain)
+
+# for using the fuse-overlayfs storage driver
+storage_rw_fuse(kubernetes_container_engine_domain)
+fs_mount_fusefs(kubernetes_container_engine_domain)
+fs_unmount_fusefs(kubernetes_container_engine_domain)
+fs_remount_fusefs(kubernetes_container_engine_domain)
+container_fusefs_domtrans_spc(kubernetes_container_engine_domain)
 
 iptables_getattr_runtime_files(kubernetes_container_engine_domain)
+
+mount_exec(kubernetes_container_engine_domain)
 
 # for /dev/termination-log and maybe other device types
 container_dev_filetrans(kubernetes_container_engine_domain, file)
@@ -112,7 +130,15 @@ container_watch_log_dirs(kubernetes_container_engine_domain)
 container_var_lib_filetrans_file(kubernetes_container_engine_domain, dir, "calico")
 container_var_lib_filetrans_file(kubernetes_container_engine_domain, dir, "etcd")
 
+# for cilium
+container_stream_connect_spc(kubernetes_container_engine_domain)
+
 kubernetes_search_plugin_dirs(kubernetes_container_engine_domain)
+
+allow kubernetes_container_engine_domain kubernetes_runtime_t:sock_file rw_sock_file_perms;
+
+manage_dirs_pattern(kubernetes_container_engine_domain, kubernetes_runtime_t, kubernetes_runtime_t)
+manage_files_pattern(kubernetes_container_engine_domain, kubernetes_runtime_t, kubernetes_runtime_t)
 
 ifdef(`init_systemd',`
 	init_dbus_chat(kubernetes_container_engine_domain)
@@ -134,6 +160,10 @@ tunable_policy(`container_manage_public_content',`
 tunable_policy(`container_read_public_content',`
 	miscfiles_mounton_all_public_dirs(kubernetes_container_engine_domain)
 	miscfiles_mounton_all_public_files(kubernetes_container_engine_domain)
+')
+
+tunable_policy(`container_use_dri',`
+	dev_mounton_dri_dev(kubernetes_container_engine_domain)
 ')
 
 tunable_policy(`container_use_nfs',`
@@ -277,8 +307,13 @@ kernel_read_vm_sysctls(kubelet_t)
 kernel_rw_kernel_sysctl(kubelet_t)
 kernel_rw_net_sysctls(kubelet_t)
 kernel_rw_vm_overcommit_sysctl(kubelet_t)
+# for recursive chown on persistent volumes that
+# haven't been relabeled yet (fsGroup)
+kernel_list_unlabeled(kubelet_t)
+kernel_setattr_all_unlabeled(kubelet_t)
 
 storage_getattr_fixed_disk_dev(kubelet_t)
+storage_dontaudit_read_fixed_disk(kubelet_t)
 
 auth_use_nsswitch(kubelet_t)
 
@@ -287,6 +322,8 @@ init_read_state(kubelet_t)
 iptables_domtrans(kubelet_t)
 iptables_getattr_runtime_files(kubelet_t)
 iptables_read_state(kubelet_t)
+
+fstools_domtrans(kubelet_t)
 
 logging_send_syslog_msg(kubelet_t)
 
@@ -313,6 +350,7 @@ dbus_list_system_bus_runtime(kubelet_t)
 dbus_system_bus_client(kubelet_t)
 
 container_read_config(kubelet_t)
+container_getattr_device_blk_files(kubelet_t)
 container_getattr_fs(kubelet_t)
 # read /run/docker.pid
 container_read_runtime_files(kubelet_t)
@@ -358,10 +396,18 @@ container_manage_log_symlinks(kubelet_t)
 container_watch_log_files(kubelet_t)
 container_log_filetrans(kubelet_t, { dir file })
 
+# for cilium
+container_create_runtime_dirs(kubelet_t)
+
 kubernetes_manage_tmpfs_dirs(kubelet_t)
 kubernetes_manage_tmpfs_files(kubelet_t)
 kubernetes_manage_tmpfs_symlinks(kubelet_t)
 fs_tmpfs_filetrans(kubelet_t, kubernetes_tmpfs_t, { dir file lnk_file })
+
+# for metrics and accounting
+container_getattr_all_files(kubelet_t)
+container_getattr_all_ro_files(kubelet_t)
+container_getattr_all_var_lib_files(kubelet_t)
 
 ifdef(`init_systemd',`
 	init_dbus_chat(kubelet_t)

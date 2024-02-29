@@ -150,6 +150,7 @@ kernel_read_device_sysctls(udev_t)
 kernel_read_hotplug_sysctls(udev_t)
 kernel_read_modprobe_sysctls(udev_t)
 kernel_read_kernel_sysctls(udev_t)
+kernel_rw_fs_sysctls(udev_t)
 kernel_rw_hotplug_sysctls(udev_t)
 kernel_rw_unix_dgram_sockets(udev_t)
 kernel_signal(udev_t)
@@ -157,6 +158,8 @@ kernel_search_debugfs(udev_t)
 kernel_search_key(udev_t)
 # kpartx:
 kernel_get_sysvipc_info(udev_t)
+# needed as of systemd 255
+kernel_read_fs_sysctls(udev_t)
 #https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=235182
 kernel_rw_net_sysctls(udev_t)
 kernel_read_network_state(udev_t)
@@ -270,6 +273,9 @@ ifdef(`distro_debian',`
 	files_read_default_files(udev_t)
 
 	files_runtime_filetrans(udev_t, udev_runtime_t, dir, "xen-hotplug")
+
+	sysnet_runtime_filetrans_config(udev_t, dir, "network")
+	sysnet_create_config(udev_t)
 
 	optional_policy(`
 		# for /usr/lib/avahi/avahi-daemon-check-dns.sh
@@ -482,6 +488,8 @@ init_read_state(udevadm_t)
 kernel_dontaudit_getattr_proc(udevadm_t)
 kernel_read_kernel_sysctls(udevadm_t)
 kernel_read_system_state(udevadm_t)
+
+selinux_use_status_page(udevadm_t)
 
 seutil_read_file_contexts(udevadm_t)
 

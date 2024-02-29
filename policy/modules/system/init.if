@@ -376,7 +376,11 @@ interface(`init_daemon_domain',`
 
 		allow $1 init_t:unix_dgram_socket sendto;
 
+		allow init_t $1:process noatsecure;
 		allow init_t $1:process2 { nnp_transition nosuid_transition };
+
+		# for /run/systemd/private
+		init_write_runtime_socket($1)
 
 		optional_policy(`
 			systemd_stream_connect_socket_proxyd($1)
@@ -553,6 +557,8 @@ interface(`init_system_domain',`
 
 	ifdef(`init_systemd',`
 		init_domain($1, $2)
+
+		allow initrc_t $1:process2 { nnp_transition nosuid_transition };
 	')
 ')
 
@@ -1186,6 +1192,7 @@ interface(`init_dontaudit_search_keys',`
 #
 interface(`init_start_system',`
 	gen_require(`
+		class system { start };
 		type init_t;
 	')
 
@@ -1204,6 +1211,7 @@ interface(`init_start_system',`
 #
 interface(`init_stop_system',`
 	gen_require(`
+		class system { stop };
 		type init_t;
 	')
 
@@ -1222,6 +1230,7 @@ interface(`init_stop_system',`
 #
 interface(`init_get_system_status',`
 	gen_require(`
+		class system { status };
 		type init_t;
 	')
 
@@ -1240,6 +1249,7 @@ interface(`init_get_system_status',`
 #
 interface(`init_enable',`
 	gen_require(`
+		class system { enable };
 		type init_t;
 	')
 
@@ -1258,6 +1268,7 @@ interface(`init_enable',`
 #
 interface(`init_disable',`
 	gen_require(`
+		class system { disable };
 		type init_t;
 	')
 
@@ -1276,6 +1287,7 @@ interface(`init_disable',`
 #
 interface(`init_reload',`
 	gen_require(`
+		class system { reload };
 		type init_t;
 	')
 
@@ -1294,6 +1306,7 @@ interface(`init_reload',`
 #
 interface(`init_reboot_system',`
 	gen_require(`
+		class system { reboot };
 		type init_t;
 	')
 
@@ -1312,6 +1325,7 @@ interface(`init_reboot_system',`
 #
 interface(`init_shutdown_system',`
 	gen_require(`
+		class system { halt };
 		type init_t;
 	')
 
@@ -1390,7 +1404,6 @@ interface(`init_dbus_chat',`
 interface(`init_run_bpf',`
 	gen_require(`
 		type init_t;
-		class bpf prog_run;
 	')
 
 	allow $1 init_t:bpf prog_run;
@@ -1602,6 +1615,25 @@ interface(`init_manage_runtime_dirs', `
 	')
 
 	manage_dirs_pattern($1, init_runtime_t, init_runtime_t)
+')
+
+######################################
+## <summary>
+## 	Create, read, write, and delete
+##	files in the /run/systemd directory.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`init_manage_runtime_files', `
+	gen_require(`
+		type init_runtime_t;
+	')
+
+	manage_files_pattern($1, init_runtime_t, init_runtime_t)
 ')
 
 ########################################
@@ -3046,6 +3078,24 @@ interface(`init_manage_utmp',`
 
 ########################################
 ## <summary>
+##	Add a watch on init runtime
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`init_watch_runtime_dirs',`
+	gen_require(`
+		type init_runtime_t;
+	')
+
+	allow $1 init_runtime_t:dir watch;
+')
+
+########################################
+## <summary>
 ##	Add a watch on utmp.
 ## </summary>
 ## <param name="domain">
@@ -3359,7 +3409,7 @@ interface(`init_getattr_generic_units_files',`
 		type systemd_unit_t;
 	')
 
-	allow $1 systemd_unit_t:file read_file_perms;
+	allow $1 systemd_unit_t:file getattr;
 ')
 
 ########################################
@@ -3706,6 +3756,45 @@ interface(`init_reload_all_units',`
 
 ########################################
 ## <summary>
+##	List systemd unit dirs and the files in them
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`init_list_all_units',`
+	gen_require(`
+		attribute systemdunit;
+	')
+
+	list_dirs_pattern($1, systemdunit, systemdunit)
+	read_lnk_files_pattern($1, systemdunit, systemdunit)
+')
+
+########################################
+## <summary>
+##	Get the attributes of systemd unit directories and the files in them.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`init_getattr_all_unit_files',`
+	gen_require(`
+		attribute systemdunit;
+	')
+
+	list_dirs_pattern($1, systemdunit, systemdunit)
+	getattr_files_pattern($1, systemdunit, systemdunit)
+	read_lnk_files_pattern($1, systemdunit, systemdunit)
+')
+
+########################################
+## <summary>
 ##	Manage systemd unit dirs and the files in them
 ## </summary>
 ## <param name="domain">
@@ -3722,6 +3811,26 @@ interface(`init_manage_all_unit_files',`
 	manage_dirs_pattern($1, systemdunit, systemdunit)
 	manage_files_pattern($1, systemdunit, systemdunit)
 	manage_lnk_files_pattern($1, systemdunit, systemdunit)
+')
+
+########################################
+## <summary>
+##	Relabel from and to systemd unit types.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`init_relabel_all_unit_files',`
+	gen_require(`
+		attribute systemdunit;
+	')
+
+	list_dirs_pattern($1, systemdunit, systemdunit)
+	read_lnk_files_pattern($1, systemdunit, systemdunit)
+	relabel_files_pattern($1, systemdunit, systemdunit)
 ')
 
 #########################################
