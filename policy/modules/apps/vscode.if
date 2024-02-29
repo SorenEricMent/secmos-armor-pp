@@ -44,8 +44,6 @@ template(`vscode_role',`
 	')
 ')
 
-## <summary>policy for vscode</summary>
-
 ########################################
 ## <summary>
 ##      Execute vscode_exec_t in the vscode domain.

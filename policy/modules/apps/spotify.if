@@ -67,8 +67,6 @@ template(`spotify_role',`
 	')
 ')
 
-## <summary>policy for spotify</summary>
-
 ########################################
 ## <summary>
 ##      Execute spotify_exec_t in the spotify domain.

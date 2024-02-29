@@ -44,8 +44,6 @@ template(`zoom_role',`
 	')
 ')
 
-## <summary>policy for zoom</summary>
-
 ########################################
 ## <summary>
 ##      Execute zoom_exec_t in the zoom domain.

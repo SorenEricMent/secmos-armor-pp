@@ -44,8 +44,6 @@ template(`telegram_role',`
 	')
 ')
 
-## <summary>policy for telegram</summary>
-
 ########################################
 ## <summary>
 ##      Execute telegram_exec_t in the telegram domain.

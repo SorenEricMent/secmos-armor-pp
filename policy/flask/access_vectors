@@ -1072,7 +1072,6 @@ class io_uring
 	cmd
 	override_creds
 	sqpoll
-	cmd
 }
 
 class user_namespace {

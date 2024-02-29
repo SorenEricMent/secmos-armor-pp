@@ -3,6 +3,8 @@ policy_module(zoom, 1.0)
 attribute_role zoom_roles;
 
 type zoom_t;
+type zoom_log_t;
+type zoom_usr_t;
 type zoom_exec_t;
 
 userdom_user_application_domain(zoom_t, zoom_exec_t)
@@ -28,8 +30,6 @@ allow zoom_t self:unix_dgram_socket { create write };
 
 manage_files_pattern(zoom_t, zoom_usr_t, zoom_usr_t)
 manage_dirs_pattern(zoom_t, zoom_usr_t, zoom_usr_t)
-
-xdg_manage_documents_zoom(zoom_t)
 
 domain_use_interactive_fds(zoom_t)
 
