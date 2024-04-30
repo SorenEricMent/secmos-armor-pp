@@ -1,0 +1,1993 @@
+
+module temppatch 1.0;
+
+require {
+	type system_dbusd_runtime_t;
+	type staff_wm_t;
+	type neckar_packet_t;
+	type crestron_cips_packet_t;
+	type asmp_mon_packet_t;
+	type weandsf_packet_t;
+	type xdg_documents_work_t;
+	type rt_helper_packet_t;
+	type xdg_music_t;
+	type qdb2service_packet_t;
+	type ifconfig_t;
+	type z_wave_s_packet_t;
+	type user_systemd_t;
+	type ciscocsdb_packet_t;
+	type dosfs_t;
+	type sysctl_net_t;
+	type xdg_documents_private_t;
+	type usb_device_t;
+	type var_t;
+	type samba_etc_t;
+	type filenet_pa_packet_t;
+	type edi_service_packet_t;
+	type user_cert_t;
+	type winbind_helper_exec_t;
+	type wm_tmp_t;
+	type robotraconteur_packet_t;
+	type efivarfs_t;
+	type man_t;
+	type ew_disc_cmd_packet_t;
+	type systemd_user_runtime_t;
+	type dai_shell_packet_t;
+	type cypress_stat_packet_t;
+	type bluetooth_t;
+	type sysctl_t;
+	type user_runtime_t;
+	type gnome_home_t;
+	type ssh_home_t;
+	type sptx_packet_t;
+	type user_home_dir_t;
+	type telepathy_xdg_data_t;
+	type hwdata_t;
+	type filenet_rpc_packet_t;
+	type xdg_videos_t;
+	type staff_git_t;
+	type bluetooth_unit_t;
+	type etc_runtime_t;
+	type user_runtime_root_t;
+	type user_fonts_cache_t;
+	type zoom_home_t;
+	type bacnet_packet_t;
+	type cloudcheck_packet_t;
+	type candrp_packet_t;
+	type gpg_agent_tmp_t;
+	type telepathy_mission_control_exec_t;
+	type security_t;
+	type heathview_packet_t;
+	type hpvroom_packet_t;
+	type chkpwd_t;
+	type shell_exec_t;
+	type samba_var_t;
+	type ssr_servermgr_packet_t;
+	type pmcd_packet_t;
+	type bin_t;
+	type sysctl_vm_t;
+	type systemd_machined_runtime_t;
+	type m3da_disc_packet_t;
+	type policykit_auth_t;
+	type filenet_tms_packet_t;
+	type safetynetp_packet_t;
+	type initrc_t;
+	type EtherNet_IP_2_packet_t;
+	type telegram_t;
+	type fs_qos_packet_t;
+	type netbios_ssn_packet_t;
+	type unlabeled_t;
+	type user_home_t;
+	type snort_t;
+	type evolution_tmpfs_t;
+	type mediabox_packet_t;
+	type device_t;
+	type galaxy7_data_packet_t;
+	type filenet_cm_packet_t;
+	type evolution_xdg_data_t;
+	type pulseaudio_tmp_t;
+	type agpolicy_packet_t;
+	type mnt_t;
+	type faillog_t;
+	type mdns_packet_t;
+	type pstore_t;
+	type presonus_ucnet_packet_t;
+	type copy_disc_packet_t;
+	type mlsn_packet_t;
+	type pmcdproxy_packet_t;
+	type gitd_exec_t;
+	type dns_port_t;
+	type cloudcheck_ping_packet_t;
+	type avahi_t;
+	type ivs_database_packet_t;
+	type devpts_t;
+	type ntp_packet_t;
+	type observium_agent_packet_t;
+	type staff_dbusd_t;
+	type sysfs_t;
+	type nimhub_packet_t;
+	type digilent_adept_packet_t;
+	type fonts_cache_t;
+	type sysctl_kernel_t;
+	type mount_runtime_t;
+	type node_t;
+	type spotify_t;
+	type http_port_t;
+	type systemd_homed_runtime_t;
+	type rt_viewer_packet_t;
+	type allpeers_packet_t;
+	type syslogd_t;
+	type lvm_runtime_t;
+	type wm_tmpfs_t;
+	type lvision_lm_packet_t;
+	type italk_packet_t;
+	type hmip_routing_packet_t;
+	type pcscd_unit_t;
+	type java_home_t;
+	type xdg_cache_t;
+	type jvl_mactalk_packet_t;
+	type auditd_etc_t;
+	type cadkey_tablet_packet_t;
+	type http_alt_packet_t;
+	type altova_lm_disc_packet_t;
+	type devicekit_disk_t;
+	type xdg_downloads_t;
+	type cscp_packet_t;
+	type ssh_t;
+	type sshd_unit_t;
+	type mozilla_home_t;
+	type virtd_t;
+	type domain_packet_t;
+	type rtkit_daemon_unit_t;
+	type staff_gkeyringd_t;
+	type staff_t;
+	type ld_so_cache_t;
+	type systemd_locale_t;
+	type systemd_networkd_unit_t;
+	type ndm_agent_port_packet_t;
+	type fuse_device_t;
+	type NetworkManager_t;
+	type nvme_disc_packet_t;
+	type init_t;
+	type howl_port_t;
+	type dockerd_t;
+	type user_t;
+	type profinet_rtm_packet_t;
+	type iqobject_packet_t;
+	type diamondport_packet_t;
+	type spremotetablet_packet_t;
+	type turbonote_1_packet_t;
+	type var_lib_t;
+	type home_root_t;
+	type p_net_local_packet_t;
+	type java_t;
+	type oa_system_packet_t;
+	type udev_t;
+	type csccredir_packet_t;
+	type idmgratm_packet_t;
+	type matahari_packet_t;
+	type rt_sound_packet_t;
+	type sco_websrvrmg3_packet_t;
+	type ip_provision_packet_t;
+	type submissions_packet_t;
+	type mandb_t;
+	type cresco_control_packet_t;
+	type mesa_shader_cache_t;
+	type zero_device_t;
+	type lib_t;
+	type ortec_disc_packet_t;
+	type filenet_nch_packet_t;
+	type auditd_t;
+	type mbus_packet_t;
+	type recvr_rc_packet_t;
+	type systemd_coredump_t;
+	type recvr_rc_disc_packet_t;
+	type gpg_pinentry_t;
+	type lo_netif_t;
+	type filenet_re_packet_t;
+	type tmpfs_t;
+	type xdg_documents_archive_t;
+	type unreserved_port_t;
+	type systemd_machined_t;
+	type staff_systemd_t;
+	type mouse_device_t;
+	type nsfs_t;
+	type filenet_peior_packet_t;
+	type www_http_packet_t;
+	type proc_psi_t;
+	type var_run_t;
+	type init_runtime_t;
+	type dbbrowse_packet_t;
+	type user_fonts_config_t;
+	type systemd_user_manager_unit_t;
+	type sysctl_fs_t;
+	type sruth_packet_t;
+	type sysctl_irq_t;
+	type crestron_ctp_packet_t;
+	type snip_slave_packet_t;
+	type amahi_anywhere_packet_t;
+	type xdm_t;
+	type xkb_var_lib_t;
+	type filenet_pch_packet_t;
+	type https_packet_t;
+	type user_tmpfs_t;
+	type fairview_packet_t;
+	type bpf_t;
+	type invision_ag_packet_t;
+	type cupsd_t;
+	type alsa_etc_t;
+	type imyx_packet_t;
+	type xdg_config_t;
+	type net_conf_t;
+	type ethercat_packet_t;
+	type syslogd_runtime_t;
+	type dirmngr_t;
+	type sysctl_vm_overcommit_t;
+	type samba_runtime_t;
+	type getty_t;
+	type filenet_obrok_packet_t;
+	type configfs_t;
+	type evolution_t;
+	type staff_ssh_agent_t;
+	type kernel_t;
+	type stun_behavior_packet_t;
+	type ap_packet_t;
+	type logrotate_t;
+	type crestron_cip_packet_t;
+	type proc_t;
+	type ew_mgmt_packet_t;
+	type telepathy_mission_control_xdg_data_t;
+	type mplayer_home_t;
+	type traceroute_packet_t;
+	type nimbusdb_packet_t;
+	type ntpd_t;
+	type inspider_packet_t;
+	type vmware_host_t;
+	type xdg_pictures_t;
+	type chromium_xdg_config_t;
+	type pulseaudio_xdg_config_t;
+	type domiq_packet_t;
+	type systemd_userdbd_t;
+	type nimcontroller_packet_t;
+	type evolution_orbit_tmp_t;
+	type mysqlx_packet_t;
+	type candp_packet_t;
+	type fusefs_t;
+	type fs_t;
+	type qip_msgd_packet_t;
+	type xdg_documents_school_t;
+	type systemd_hostnamed_t;
+	type systemd_user_runtime_dir_t;
+	type nimgtw_packet_t;
+	type krb5_conf_t;
+	type mtrace_packet_t;
+	type system_dbusd_var_lib_t;
+	type boolean_t;
+	type user_dbusd_t;
+	type usr_t;
+	type nusdp_disc_packet_t;
+	type dri_device_t;
+	type asihpi_packet_t;
+	type usbguard_tmpfs_t;
+	type aurora_balaena_packet_t;
+	type tmp_t;
+	type staff_sudo_t;
+	type ssdp_packet_t;
+	type febooti_aw_packet_t;
+	type profinet_cm_packet_t;
+	type power_unit_t;
+	type imaps_packet_t;
+	type systemd_journal_t;
+	type rs_status_packet_t;
+	type wg_endpt_comms_packet_t;
+	type rbr_debug_packet_t;
+	type telegram_exec_t;
+	type p_net_remote_packet_t;
+	type mapx_packet_t;
+	type guttersnex_packet_t;
+	type caerpc_packet_t;
+	type dnsmasq_t;
+	type ldconfig_cache_t;
+	type profinet_rt_packet_t;
+	type filenet_rmi_packet_t;
+	type udev_runtime_t;
+	type v4l_device_t;
+	type modules_dep_t;
+	type cert_t;
+	type xdg_data_t;
+	type inedo_packet_t;
+	type gnome_xdg_config_t;
+	type versiera_packet_t;
+	type reachout_packet_t;
+	type tripe_packet_t;
+	type restorecond_t;
+	type root_t;
+	type xdm_tmp_t;
+	type gpg_t;
+	type speedtrace_disc_packet_t;
+	type psqlmws_packet_t;
+	type systemd_user_tmpfs_t;
+	type com_bardac_dw_packet_t;
+	type etc_t;
+	type turbonote_2_packet_t;
+	type xdg_documents_t;
+	type nimspooler_packet_t;
+	type systemd_tmpfiles_t;
+	type session_dbusd_runtime_t;
+	type fonts_t;
+	type ptcnameservice_packet_t;
+	type locale_t;
+	type systemd_userdbd_runtime_t;
+	type m3da_packet_t;
+	type rt_classmanager_packet_t;
+	type thunderbird_home_t;
+	type unisys_eportal_packet_t;
+	type mozilla_t;
+	type usbguard_t;
+	type systemd_homed_t;
+	type speedtrace_packet_t;
+	type microsoft_ds_packet_t;
+	type shaperai_disc_packet_t;
+	type shaperai_packet_t;
+	type gpg_agent_t;
+	type snort_log_t;
+	type directplaysrvr_packet_t;
+	type evolution_xdg_cache_t;
+	type auditd_log_t;
+	type juka_packet_t;
+	type systemd_unit_t;
+	type stone_design_1_packet_t;
+	type pcscd_t;
+	type selinux_config_t;
+	type tracefs_t;
+	type ssdp_port_t;
+	type eq3_config_packet_t;
+	type asmp_packet_t;
+	type crescoctrl_disc_packet_t;
+	type smbd_port_t;
+	type zoom_log_t;
+	type blp5_packet_t;
+	type k_patentssensor_packet_t;
+	type cgroup_t;
+	type cognex_dataman_packet_t;
+	type pcsync_https_packet_t;
+	type systemd_logind_t;
+	type policykit_t;
+	type user_tmp_t;
+	type modules_object_t;
+	type eba_packet_t;
+	type system_dbusd_t;
+	type vmware_file_t;
+	type kitim_packet_t;
+	type csccfirewall_packet_t;
+	type isnetserv_packet_t;
+	type kastenxpipe_packet_t;
+	type axio_disc_packet_t;
+	type event_device_t;
+	type wlcp_packet_t;
+	class capability { dac_override dac_read_search kill net_admin setpcap sys_admin sys_chroot sys_ptrace };
+	class process { execheap execmem execstack getattr getcap getsched signal signull };
+	class file { append create execmod execute execute_no_trans getattr ioctl link lock map mounton open read relabelfrom relabelto rename setattr unlink watch write };
+	class dir { add_name create getattr ioctl mounton open read relabelfrom relabelto remove_name rename reparent rmdir search setattr watch write };
+	class unix_stream_socket { append connectto getattr ioctl read write };
+	class udp_socket { bind connect create getattr ioctl name_bind node_bind read setopt write };
+	class node sendto;
+	class peer recv;
+	class packet { recv send };
+	class chr_file { append execute getattr ioctl map open read write };
+	class fifo_file { open read write };
+	class netif egress;
+	class lnk_file { create getattr read relabelfrom relabelto rename setattr unlink };
+	class process2 nnp_transition;
+	class fd use;
+	class system { ipc_info status };
+	class tcp_socket { bind getattr listen name_connect node_bind read write };
+	class sock_file { create getattr setattr unlink write };
+	class netlink_route_socket { getattr read write };
+	class unix_dgram_socket { create getattr ioctl };
+	class netlink_kobject_uevent_socket { getattr getopt };
+	class bluetooth_socket getattr;
+	class user_namespace create;
+	class cap_userns { net_admin setpcap setuid sys_admin sys_ptrace };
+	class filesystem { associate getattr mount remount unmount };
+	class security { compute_av read_policy };
+	class service { start status };
+	class rawip_socket node_bind;
+	class msgq { associate read unix_read unix_write write };
+	class sem { associate read unix_read unix_write write };
+	class msg { receive send };
+	class passwd rootok;
+}
+
+#============= NetworkManager_t ==============
+allow NetworkManager_t EtherNet_IP_2_packet_t:packet recv;
+allow NetworkManager_t allpeers_packet_t:packet recv;
+allow NetworkManager_t altova_lm_disc_packet_t:packet recv;
+allow NetworkManager_t ap_packet_t:packet recv;
+allow NetworkManager_t bacnet_packet_t:packet recv;
+allow NetworkManager_t candrp_packet_t:packet recv;
+allow NetworkManager_t cognex_dataman_packet_t:packet recv;
+allow NetworkManager_t digilent_adept_packet_t:packet recv;
+allow NetworkManager_t eba_packet_t:packet recv;
+allow NetworkManager_t ethercat_packet_t:packet recv;
+allow NetworkManager_t febooti_aw_packet_t:packet recv;
+allow NetworkManager_t filenet_nch_packet_t:packet recv;
+allow NetworkManager_t hmip_routing_packet_t:packet recv;
+allow NetworkManager_t inedo_packet_t:packet recv;
+allow NetworkManager_t juka_packet_t:packet recv;
+allow NetworkManager_t jvl_mactalk_packet_t:packet recv;
+allow NetworkManager_t mbus_packet_t:packet recv;
+allow NetworkManager_t nimcontroller_packet_t:packet recv;
+allow NetworkManager_t nimhub_packet_t:packet recv;
+allow NetworkManager_t nimspooler_packet_t:packet recv;
+allow NetworkManager_t ortec_disc_packet_t:packet recv;
+allow NetworkManager_t profinet_cm_packet_t:packet recv;
+allow NetworkManager_t reachout_packet_t:packet recv;
+allow NetworkManager_t ssr_servermgr_packet_t:packet recv;
+allow NetworkManager_t systemd_machined_t:unix_stream_socket connectto;
+allow NetworkManager_t traceroute_packet_t:packet recv;
+allow NetworkManager_t turbonote_2_packet_t:packet recv;
+allow NetworkManager_t unisys_eportal_packet_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source level (s0-s15:c0.c1023) and target level (s15:c0.c1023) are different.
+allow NetworkManager_t unlabeled_t:node sendto;
+allow NetworkManager_t wg_endpt_comms_packet_t:packet recv;
+
+#============= auditd_t ==============
+allow auditd_t self:capability setpcap;
+allow auditd_t selinux_config_t:lnk_file read;
+allow auditd_t system_dbusd_runtime_t:dir search;
+allow auditd_t system_dbusd_runtime_t:sock_file write;
+allow auditd_t system_dbusd_t:unix_stream_socket connectto;
+allow auditd_t systemd_machined_t:unix_stream_socket connectto;
+
+#============= avahi_t ==============
+allow avahi_t sysctl_t:netif egress;
+allow avahi_t systemd_homed_runtime_t:sock_file write;
+allow avahi_t systemd_homed_t:unix_stream_socket connectto;
+allow avahi_t systemd_machined_t:unix_stream_socket connectto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source level (s0-s15:c0.c1023) and target level (s15:c0.c1023) are different.
+allow avahi_t unlabeled_t:node sendto;
+allow avahi_t unlabeled_t:packet { recv send };
+allow avahi_t unlabeled_t:udp_socket node_bind;
+
+#============= chkpwd_t ==============
+allow chkpwd_t etc_runtime_t:file { open read };
+allow chkpwd_t systemd_homed_runtime_t:sock_file write;
+allow chkpwd_t systemd_homed_t:unix_stream_socket connectto;
+allow chkpwd_t systemd_machined_t:unix_stream_socket connectto;
+
+#============= cupsd_t ==============
+allow cupsd_t lo_netif_t:netif egress;
+allow cupsd_t systemd_machined_t:unix_stream_socket connectto;
+allow cupsd_t unlabeled_t:node sendto;
+allow cupsd_t unlabeled_t:packet { recv send };
+allow cupsd_t unlabeled_t:peer recv;
+allow cupsd_t unlabeled_t:tcp_socket node_bind;
+
+#============= devicekit_disk_t ==============
+allow devicekit_disk_t lvm_runtime_t:dir { add_name remove_name write };
+allow devicekit_disk_t lvm_runtime_t:file { create lock open read unlink write };
+
+#============= dirmngr_t ==============
+allow dirmngr_t bin_t:dir search;
+allow dirmngr_t caerpc_packet_t:packet recv;
+allow dirmngr_t domain_packet_t:packet send;
+allow dirmngr_t etc_t:dir { watch write };
+allow dirmngr_t etc_t:file map;
+allow dirmngr_t https_packet_t:packet send;
+allow dirmngr_t lo_netif_t:netif egress;
+allow dirmngr_t unlabeled_t:node sendto;
+allow dirmngr_t unlabeled_t:packet { recv send };
+allow dirmngr_t unlabeled_t:peer recv;
+allow dirmngr_t unlabeled_t:udp_socket node_bind;
+allow dirmngr_t unreserved_port_t:tcp_socket name_connect;
+allow dirmngr_t user_runtime_root_t:dir { add_name create write };
+allow dirmngr_t usr_t:file map;
+allow dirmngr_t versiera_packet_t:packet send;
+
+#============= dnsmasq_t ==============
+allow dnsmasq_t EtherNet_IP_2_packet_t:packet send;
+allow dnsmasq_t agpolicy_packet_t:packet send;
+allow dnsmasq_t allpeers_packet_t:packet send;
+allow dnsmasq_t altova_lm_disc_packet_t:packet send;
+allow dnsmasq_t asihpi_packet_t:packet send;
+allow dnsmasq_t asmp_mon_packet_t:packet send;
+allow dnsmasq_t axio_disc_packet_t:packet send;
+allow dnsmasq_t bacnet_packet_t:packet send;
+allow dnsmasq_t caerpc_packet_t:packet send;
+allow dnsmasq_t com_bardac_dw_packet_t:packet send;
+allow dnsmasq_t crestron_cip_packet_t:packet send;
+allow dnsmasq_t crestron_ctp_packet_t:packet send;
+allow dnsmasq_t csccredir_packet_t:packet send;
+allow dnsmasq_t cscp_packet_t:packet send;
+allow dnsmasq_t dbbrowse_packet_t:packet send;
+allow dnsmasq_t eba_packet_t:packet send;
+allow dnsmasq_t edi_service_packet_t:packet send;
+allow dnsmasq_t eq3_config_packet_t:packet send;
+allow dnsmasq_t ethercat_packet_t:packet send;
+allow dnsmasq_t ew_disc_cmd_packet_t:packet send;
+allow dnsmasq_t fairview_packet_t:packet send;
+allow dnsmasq_t filenet_cm_packet_t:packet send;
+allow dnsmasq_t filenet_obrok_packet_t:packet send;
+allow dnsmasq_t filenet_pch_packet_t:packet send;
+allow dnsmasq_t filenet_tms_packet_t:packet send;
+allow dnsmasq_t fs_qos_packet_t:packet send;
+allow dnsmasq_t idmgratm_packet_t:packet send;
+allow dnsmasq_t invision_ag_packet_t:packet send;
+allow dnsmasq_t iqobject_packet_t:packet send;
+allow dnsmasq_t jvl_mactalk_packet_t:packet send;
+allow dnsmasq_t kastenxpipe_packet_t:packet send;
+allow dnsmasq_t mediabox_packet_t:packet send;
+allow dnsmasq_t mlsn_packet_t:packet send;
+allow dnsmasq_t mtrace_packet_t:packet send;
+allow dnsmasq_t neckar_packet_t:packet send;
+allow dnsmasq_t ortec_disc_packet_t:packet send;
+allow dnsmasq_t p_net_local_packet_t:packet send;
+allow dnsmasq_t pmcd_packet_t:packet send;
+allow dnsmasq_t pmcdproxy_packet_t:packet send;
+allow dnsmasq_t profinet_rt_packet_t:packet send;
+allow dnsmasq_t profinet_rtm_packet_t:packet send;
+allow dnsmasq_t reachout_packet_t:packet send;
+allow dnsmasq_t rt_classmanager_packet_t:packet send;
+allow dnsmasq_t shaperai_disc_packet_t:packet send;
+allow dnsmasq_t speedtrace_disc_packet_t:packet send;
+allow dnsmasq_t ssr_servermgr_packet_t:packet send;
+allow dnsmasq_t systemd_machined_t:unix_stream_socket connectto;
+allow dnsmasq_t traceroute_packet_t:packet send;
+allow dnsmasq_t turbonote_2_packet_t:packet send;
+allow dnsmasq_t unisys_eportal_packet_t:packet send;
+allow dnsmasq_t unlabeled_t:node sendto;
+allow dnsmasq_t unlabeled_t:packet send;
+allow dnsmasq_t unlabeled_t:tcp_socket node_bind;
+allow dnsmasq_t unlabeled_t:udp_socket node_bind;
+allow dnsmasq_t wlcp_packet_t:packet send;
+
+#============= dockerd_t ==============
+allow dockerd_t unlabeled_t:tcp_socket node_bind;
+
+#============= evolution_t ==============
+allow evolution_t bacnet_packet_t:packet recv;
+allow evolution_t candp_packet_t:packet recv;
+allow evolution_t cgroup_t:file { open read };
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t chromium_xdg_config_t:dir { add_name create getattr remove_name search write };
+
+#!!!! This avc can be allowed using the boolean 'evolution_manage_all_user_content'
+allow evolution_t chromium_xdg_config_t:file { create getattr lock open read rename write };
+allow evolution_t chromium_xdg_config_t:file { execute map };
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t chromium_xdg_config_t:lnk_file read;
+allow evolution_t device_t:chr_file { getattr ioctl open read };
+allow evolution_t devpts_t:filesystem mount;
+allow evolution_t diamondport_packet_t:packet recv;
+allow evolution_t dri_device_t:chr_file { getattr ioctl map open read write };
+allow evolution_t etc_runtime_t:file { getattr open read };
+allow evolution_t etc_t:dir watch;
+allow evolution_t etc_t:file map;
+allow evolution_t evolution_orbit_tmp_t:dir watch;
+allow evolution_t ew_mgmt_packet_t:packet recv;
+allow evolution_t filenet_pa_packet_t:packet recv;
+allow evolution_t filenet_peior_packet_t:packet recv;
+allow evolution_t fonts_t:dir mounton;
+allow evolution_t fs_t:filesystem { remount unmount };
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t gnome_xdg_config_t:dir { getattr search };
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t gnome_xdg_config_t:file { getattr open read };
+allow evolution_t gnome_xdg_config_t:file map;
+allow evolution_t gpg_agent_tmp_t:file { getattr open read unlink };
+allow evolution_t https_packet_t:packet send;
+allow evolution_t idmgratm_packet_t:packet recv;
+allow evolution_t imaps_packet_t:packet send;
+allow evolution_t imyx_packet_t:packet send;
+allow evolution_t inedo_packet_t:packet recv;
+allow evolution_t kitim_packet_t:packet recv;
+allow evolution_t lib_t:dir mounton;
+allow evolution_t lib_t:file execute_no_trans;
+allow evolution_t lo_netif_t:netif egress;
+allow evolution_t locale_t:file mounton;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t mesa_shader_cache_t:dir { getattr search };
+
+#!!!! This avc can be allowed using the boolean 'evolution_manage_all_user_content'
+allow evolution_t mesa_shader_cache_t:file { getattr open read write };
+allow evolution_t mesa_shader_cache_t:file map;
+allow evolution_t nimbusdb_packet_t:packet recv;
+allow evolution_t nimhub_packet_t:packet recv;
+allow evolution_t nsfs_t:file getattr;
+allow evolution_t presonus_ucnet_packet_t:packet recv;
+allow evolution_t proc_t:filesystem mount;
+allow evolution_t pulseaudio_tmp_t:dir getattr;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t pulseaudio_xdg_config_t:dir getattr;
+allow evolution_t root_t:dir mounton;
+allow evolution_t self:capability { net_admin setpcap sys_admin sys_chroot sys_ptrace };
+allow evolution_t self:netlink_kobject_uevent_socket getopt;
+allow evolution_t selinux_config_t:lnk_file read;
+allow evolution_t session_dbusd_runtime_t:sock_file write;
+allow evolution_t shaperai_disc_packet_t:packet recv;
+allow evolution_t staff_t:process signull;
+allow evolution_t staff_t:unix_stream_socket { getattr read write };
+allow evolution_t staff_wm_t:unix_stream_socket { getattr ioctl read write };
+allow evolution_t submissions_packet_t:packet send;
+allow evolution_t sysctl_fs_t:dir search;
+allow evolution_t sysctl_fs_t:file { getattr open read };
+allow evolution_t sysctl_t:netif egress;
+allow evolution_t sysctl_vm_overcommit_t:file { open read };
+allow evolution_t sysctl_vm_t:dir search;
+allow evolution_t sysctl_vm_t:file { getattr open read };
+allow evolution_t sysfs_t:dir read;
+allow evolution_t sysfs_t:file { getattr open read };
+allow evolution_t sysfs_t:filesystem remount;
+allow evolution_t sysfs_t:lnk_file { getattr read };
+allow evolution_t systemd_homed_runtime_t:sock_file write;
+allow evolution_t systemd_homed_t:unix_stream_socket connectto;
+allow evolution_t systemd_machined_t:unix_stream_socket connectto;
+allow evolution_t systemd_user_runtime_t:dir { add_name create getattr mounton remove_name search write };
+allow evolution_t systemd_user_runtime_t:file { create open read unlink write };
+allow evolution_t systemd_user_runtime_t:sock_file { create getattr write };
+allow evolution_t tmp_t:dir mounton;
+allow evolution_t tmpfs_t:filesystem { mount remount unmount };
+allow evolution_t unlabeled_t:dir { add_name getattr open read remove_name search write };
+allow evolution_t unlabeled_t:file { create execute execute_no_trans getattr map open read rename unlink write };
+allow evolution_t unlabeled_t:node sendto;
+allow evolution_t unlabeled_t:packet recv;
+allow evolution_t unlabeled_t:peer recv;
+allow evolution_t user_home_t:file map;
+allow evolution_t user_runtime_t:dir { add_name create remove_name write };
+allow evolution_t user_runtime_t:file { create getattr open read unlink write };
+allow evolution_t user_runtime_t:sock_file { create getattr unlink write };
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_manage_generic_user_content, evolution_manage_all_user_content
+allow evolution_t user_tmp_t:dir { add_name write };
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_manage_generic_user_content, evolution_manage_all_user_content
+allow evolution_t user_tmp_t:file { create write };
+allow evolution_t user_tmp_t:file map;
+allow evolution_t usr_t:dir { mounton watch };
+allow evolution_t v4l_device_t:chr_file { getattr ioctl open read write };
+allow evolution_t var_lib_t:dir watch;
+allow evolution_t var_lib_t:file { getattr map open };
+allow evolution_t winbind_helper_exec_t:file execute;
+allow evolution_t wm_tmp_t:dir search;
+allow evolution_t wm_tmp_t:lnk_file read;
+allow evolution_t wm_tmp_t:sock_file write;
+allow evolution_t wm_tmpfs_t:file { map read write };
+allow evolution_t xdg_cache_t:dir watch;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t xdg_cache_t:file { getattr lock open read unlink write };
+
+#!!!! This avc can be allowed using the boolean 'evolution_manage_all_user_content'
+allow evolution_t xdg_cache_t:sock_file write;
+allow evolution_t xdg_config_t:dir watch;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t xdg_config_t:file { append getattr lock open read };
+allow evolution_t xdg_data_t:dir watch;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t xdg_data_t:file { getattr open read unlink };
+allow evolution_t xdg_data_t:file map;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     evolution_read_all_user_content, evolution_manage_all_user_content
+allow evolution_t xdg_data_t:lnk_file read;
+allow evolution_t xkb_var_lib_t:dir { getattr read search };
+allow evolution_t xkb_var_lib_t:file { getattr map open read };
+
+#============= gpg_agent_t ==============
+allow gpg_agent_t gpg_pinentry_t:process signal;
+
+#============= gpg_pinentry_t ==============
+allow gpg_pinentry_t gpg_t:dir search;
+allow gpg_pinentry_t gpg_t:file { getattr open read };
+
+#============= gpg_t ==============
+allow gpg_t etc_runtime_t:file { open read };
+allow gpg_t etc_t:file map;
+allow gpg_t evolution_orbit_tmp_t:file append;
+allow gpg_t lib_t:file execute_no_trans;
+allow gpg_t selinux_config_t:lnk_file read;
+allow gpg_t session_dbusd_runtime_t:sock_file write;
+allow gpg_t staff_dbusd_t:unix_stream_socket connectto;
+allow gpg_t staff_t:msg { receive send };
+allow gpg_t staff_t:msgq { associate read unix_read unix_write write };
+allow gpg_t staff_t:sem { associate read unix_read unix_write write };
+
+#============= ifconfig_t ==============
+allow ifconfig_t selinux_config_t:lnk_file read;
+
+#============= init_t ==============
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source level (s0-s15:c0.c1023) and target level (s15:c0.c1023) are different.
+allow init_t unlabeled_t:node sendto;
+
+#============= initrc_t ==============
+allow initrc_t node_t:tcp_socket name_connect;
+
+#!!!! This avc can be allowed using one of the these booleans:
+#     allow_execmem, allow_execstack
+allow initrc_t self:process execmem;
+
+#============= java_t ==============
+allow java_t bacnet_packet_t:packet send;
+allow java_t cgroup_t:dir search;
+allow java_t cgroup_t:file { getattr open read };
+allow java_t domain_packet_t:packet send;
+allow java_t febooti_aw_packet_t:packet recv;
+allow java_t https_packet_t:packet send;
+allow java_t imyx_packet_t:packet recv;
+allow java_t lo_netif_t:netif egress;
+allow java_t rt_sound_packet_t:packet recv;
+
+#!!!! This avc can be allowed using the boolean 'allow_java_execstack'
+allow java_t self:process execmem;
+allow java_t sysctl_t:netif egress;
+allow java_t systemd_machined_t:unix_stream_socket connectto;
+allow java_t unlabeled_t:node sendto;
+allow java_t unlabeled_t:packet { recv send };
+allow java_t unlabeled_t:peer recv;
+allow java_t unlabeled_t:tcp_socket node_bind;
+
+#============= logrotate_t ==============
+allow logrotate_t proc_t:filesystem getattr;
+allow logrotate_t selinux_config_t:lnk_file read;
+allow logrotate_t systemd_machined_t:unix_stream_socket connectto;
+allow logrotate_t unlabeled_t:file { create getattr lock open rename setattr unlink write };
+
+#============= mandb_t ==============
+allow mandb_t self:capability dac_read_search;
+allow mandb_t unlabeled_t:file { getattr ioctl open read };
+allow mandb_t var_lib_t:dir search;
+
+#============= mozilla_t ==============
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain dir { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow mozilla_t auditd_etc_t:dir getattr;
+allow mozilla_t unlabeled_t:file { execute getattr map open read };
+
+#============= ntpd_t ==============
+allow ntpd_t cgroup_t:file { getattr open read write };
+allow ntpd_t crestron_cip_packet_t:packet recv;
+allow ntpd_t cscp_packet_t:packet recv;
+allow ntpd_t ethercat_packet_t:packet recv;
+allow ntpd_t ntp_packet_t:packet send;
+allow ntpd_t sysctl_t:netif egress;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source level (s0-s15:c0.c1023) and target level (s15:c0.c1023) are different.
+allow ntpd_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source level (s0-s15:c0.c1023) and target level (s15:c0.c1023) are different.
+allow ntpd_t unlabeled_t:packet recv;
+allow ntpd_t unlabeled_t:packet send;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source level (s0-s15:c0.c1023) and target level (s15:c0.c1023) are different.
+allow ntpd_t unlabeled_t:peer recv;
+allow ntpd_t unlabeled_t:udp_socket node_bind;
+
+#============= pcscd_t ==============
+allow pcscd_t self:capability { net_admin sys_ptrace };
+allow pcscd_t selinux_config_t:lnk_file read;
+allow pcscd_t sysctl_vm_overcommit_t:file { open read };
+allow pcscd_t sysctl_vm_t:dir search;
+allow pcscd_t udev_runtime_t:dir search;
+allow pcscd_t udev_runtime_t:file { getattr open read };
+
+#============= policykit_auth_t ==============
+allow policykit_auth_t faillog_t:dir search;
+allow policykit_auth_t init_t:dir search;
+allow policykit_auth_t init_t:file { getattr ioctl open read };
+allow policykit_auth_t self:capability net_admin;
+allow policykit_auth_t selinux_config_t:lnk_file read;
+allow policykit_auth_t shell_exec_t:file { execute map open read };
+allow policykit_auth_t staff_systemd_t:fd use;
+allow policykit_auth_t staff_systemd_t:unix_stream_socket { getattr ioctl read write };
+allow policykit_auth_t sysctl_kernel_t:file { open read };
+allow policykit_auth_t sysctl_vm_t:dir search;
+allow policykit_auth_t sysctl_vm_t:file { getattr open read };
+allow policykit_auth_t systemd_homed_runtime_t:fifo_file write;
+allow policykit_auth_t systemd_homed_runtime_t:sock_file write;
+allow policykit_auth_t systemd_homed_t:fd use;
+allow policykit_auth_t systemd_homed_t:unix_stream_socket connectto;
+allow policykit_auth_t systemd_machined_t:unix_stream_socket connectto;
+allow policykit_auth_t v4l_device_t:chr_file { map write };
+allow policykit_auth_t xdg_data_t:dir { getattr open read search };
+allow policykit_auth_t xdg_data_t:file { getattr ioctl open read };
+
+#============= policykit_t ==============
+allow policykit_t init_t:system status;
+allow policykit_t systemd_user_manager_unit_t:service status;
+
+#============= spotify_t ==============
+allow spotify_t bin_t:file { execute execute_no_trans getattr map open read };
+allow spotify_t boolean_t:file { open read };
+allow spotify_t dbbrowse_packet_t:packet recv;
+allow spotify_t dns_port_t:tcp_socket name_connect;
+allow spotify_t dri_device_t:chr_file { getattr ioctl map open read write };
+allow spotify_t etc_runtime_t:file { getattr open read };
+allow spotify_t etc_t:file map;
+allow spotify_t howl_port_t:udp_socket name_bind;
+allow spotify_t init_runtime_t:dir search;
+allow spotify_t kernel_t:unix_stream_socket connectto;
+allow spotify_t locale_t:dir watch;
+allow spotify_t mdns_packet_t:packet { recv send };
+allow spotify_t mesa_shader_cache_t:dir { getattr search };
+allow spotify_t mesa_shader_cache_t:file { getattr map open read write };
+allow spotify_t proc_t:file getattr;
+allow spotify_t pulseaudio_tmp_t:dir { getattr open read search };
+allow spotify_t pulseaudio_tmp_t:sock_file write;
+allow spotify_t pulseaudio_xdg_config_t:dir search;
+allow spotify_t pulseaudio_xdg_config_t:file { lock open read };
+allow spotify_t self:netlink_kobject_uevent_socket getopt;
+allow spotify_t shell_exec_t:file { execute read };
+allow spotify_t ssdp_packet_t:packet { recv send };
+allow spotify_t ssdp_port_t:udp_socket name_bind;
+allow spotify_t staff_t:process signull;
+allow spotify_t staff_t:unix_stream_socket connectto;
+allow spotify_t sysctl_kernel_t:dir search;
+allow spotify_t sysctl_kernel_t:file { open read };
+allow spotify_t sysctl_vm_overcommit_t:file { open read };
+allow spotify_t sysctl_vm_t:dir search;
+allow spotify_t sysfs_t:dir read;
+allow spotify_t systemd_homed_runtime_t:sock_file write;
+allow spotify_t systemd_homed_t:unix_stream_socket connectto;
+allow spotify_t systemd_machined_runtime_t:dir search;
+allow spotify_t systemd_machined_t:unix_stream_socket connectto;
+allow spotify_t systemd_userdbd_runtime_t:dir { getattr open read search };
+allow spotify_t systemd_userdbd_runtime_t:lnk_file read;
+allow spotify_t systemd_userdbd_runtime_t:sock_file write;
+allow spotify_t systemd_userdbd_t:unix_stream_socket connectto;
+allow spotify_t tmp_t:dir { add_name remove_name write };
+allow spotify_t tmp_t:file { create open read unlink write };
+allow spotify_t tmpfs_t:dir { getattr open read };
+allow spotify_t tripe_packet_t:packet send;
+allow spotify_t unlabeled_t:file read;
+allow spotify_t unlabeled_t:udp_socket node_bind;
+allow spotify_t unreserved_port_t:tcp_socket name_connect;
+allow spotify_t user_cert_t:dir { getattr search };
+allow spotify_t user_cert_t:file { getattr lock open read write };
+allow spotify_t user_runtime_t:dir getattr;
+allow spotify_t var_lib_t:file { getattr map open read };
+allow spotify_t xdg_cache_t:file { execute ioctl };
+allow spotify_t xdg_cache_t:sock_file write;
+allow spotify_t xdg_config_t:dir watch;
+allow spotify_t xdg_downloads_t:dir getattr;
+
+#============= ssh_t ==============
+allow ssh_t devpts_t:chr_file append;
+allow ssh_t lo_netif_t:netif egress;
+allow ssh_t oa_system_packet_t:packet send;
+allow ssh_t systemd_user_runtime_t:dir search;
+allow ssh_t systemd_user_runtime_t:sock_file write;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow ssh_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow ssh_t unlabeled_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow ssh_t unlabeled_t:peer recv;
+
+#============= staff_dbusd_t ==============
+allow staff_dbusd_t systemd_machined_t:unix_stream_socket connectto;
+allow staff_dbusd_t systemd_user_tmpfs_t:file { read write };
+allow staff_dbusd_t telegram_t:fd use;
+allow staff_dbusd_t xdg_downloads_t:file { ioctl read };
+allow staff_dbusd_t xdg_pictures_t:file ioctl;
+
+#============= staff_git_t ==============
+allow staff_git_t etc_t:file map;
+allow staff_git_t gitd_exec_t:file getattr;
+allow staff_git_t lo_netif_t:netif egress;
+allow staff_git_t self:unix_dgram_socket { create ioctl };
+allow staff_git_t shell_exec_t:file getattr;
+allow staff_git_t staff_t:unix_stream_socket { getattr ioctl read write };
+allow staff_git_t sysctl_vm_overcommit_t:file { open read };
+allow staff_git_t sysctl_vm_t:dir search;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_git_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_git_t unlabeled_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_git_t unlabeled_t:peer recv;
+allow staff_git_t user_home_dir_t:file { getattr open read };
+
+#============= staff_ssh_agent_t ==============
+allow staff_ssh_agent_t systemd_user_runtime_t:dir { add_name remove_name search write };
+allow staff_ssh_agent_t systemd_user_runtime_t:sock_file { create unlink };
+allow staff_ssh_agent_t user_runtime_root_t:dir search;
+allow staff_ssh_agent_t user_runtime_t:dir search;
+
+#============= staff_sudo_t ==============
+allow staff_sudo_t etc_t:file map;
+allow staff_sudo_t security_t:file map;
+allow staff_sudo_t security_t:security compute_av;
+allow staff_sudo_t self:passwd rootok;
+
+#============= staff_systemd_t ==============
+allow staff_systemd_t NetworkManager_t:dir { open read search };
+allow staff_systemd_t NetworkManager_t:lnk_file read;
+allow staff_systemd_t agpolicy_packet_t:packet recv;
+allow staff_systemd_t alsa_etc_t:dir { getattr open read search };
+allow staff_systemd_t alsa_etc_t:file { getattr open read };
+allow staff_systemd_t alsa_etc_t:lnk_file read;
+allow staff_systemd_t ap_packet_t:packet recv;
+allow staff_systemd_t auditd_t:dir { open read search };
+allow staff_systemd_t auditd_t:lnk_file read;
+allow staff_systemd_t avahi_t:dir { open read search };
+allow staff_systemd_t avahi_t:lnk_file read;
+allow staff_systemd_t bluetooth_t:dir { open read search };
+allow staff_systemd_t bluetooth_t:lnk_file read;
+allow staff_systemd_t caerpc_packet_t:packet recv;
+allow staff_systemd_t chromium_xdg_config_t:dir { add_name create getattr remove_name search write };
+allow staff_systemd_t chromium_xdg_config_t:file { create execute getattr lock map open read rename write };
+allow staff_systemd_t chromium_xdg_config_t:lnk_file read;
+allow staff_systemd_t cloudcheck_ping_packet_t:packet recv;
+allow staff_systemd_t com_bardac_dw_packet_t:packet recv;
+allow staff_systemd_t csccredir_packet_t:packet recv;
+allow staff_systemd_t cupsd_t:dir { open read search };
+allow staff_systemd_t cupsd_t:lnk_file read;
+allow staff_systemd_t devicekit_disk_t:dir { open read search };
+allow staff_systemd_t devicekit_disk_t:lnk_file read;
+allow staff_systemd_t directplaysrvr_packet_t:packet recv;
+allow staff_systemd_t dns_port_t:tcp_socket name_connect;
+allow staff_systemd_t dnsmasq_t:dir { open read search };
+allow staff_systemd_t dnsmasq_t:lnk_file read;
+allow staff_systemd_t dockerd_t:dir { open read search };
+allow staff_systemd_t dockerd_t:lnk_file read;
+allow staff_systemd_t domiq_packet_t:packet recv;
+allow staff_systemd_t dri_device_t:chr_file open;
+allow staff_systemd_t etc_t:file map;
+allow staff_systemd_t ethercat_packet_t:packet recv;
+allow staff_systemd_t event_device_t:chr_file getattr;
+allow staff_systemd_t evolution_tmpfs_t:dir { open read search };
+allow staff_systemd_t evolution_tmpfs_t:file { getattr map open read };
+allow staff_systemd_t evolution_xdg_cache_t:file getattr;
+allow staff_systemd_t evolution_xdg_data_t:file { getattr open read unlink };
+allow staff_systemd_t fairview_packet_t:packet recv;
+allow staff_systemd_t getty_t:dir { open read search };
+allow staff_systemd_t getty_t:lnk_file read;
+allow staff_systemd_t gnome_home_t:dir getattr;
+allow staff_systemd_t gnome_xdg_config_t:dir watch;
+allow staff_systemd_t home_root_t:dir read;
+allow staff_systemd_t http_port_t:tcp_socket name_connect;
+allow staff_systemd_t https_packet_t:packet send;
+allow staff_systemd_t idmgratm_packet_t:packet recv;
+allow staff_systemd_t inedo_packet_t:packet recv;
+allow staff_systemd_t init_t:dir read;
+allow staff_systemd_t initrc_t:dir { open read search };
+allow staff_systemd_t initrc_t:file read;
+allow staff_systemd_t initrc_t:lnk_file read;
+allow staff_systemd_t inspider_packet_t:packet recv;
+allow staff_systemd_t isnetserv_packet_t:packet recv;
+allow staff_systemd_t java_home_t:dir getattr;
+allow staff_systemd_t jvl_mactalk_packet_t:packet recv;
+allow staff_systemd_t kernel_t:dir { open read search };
+allow staff_systemd_t kernel_t:lnk_file read;
+allow staff_systemd_t kitim_packet_t:packet recv;
+allow staff_systemd_t krb5_conf_t:file { getattr open read };
+allow staff_systemd_t microsoft_ds_packet_t:packet send;
+allow staff_systemd_t mnt_t:dir search;
+allow staff_systemd_t mozilla_home_t:dir getattr;
+allow staff_systemd_t mplayer_home_t:dir getattr;
+allow staff_systemd_t mysqlx_packet_t:packet recv;
+allow staff_systemd_t netbios_ssn_packet_t:packet send;
+allow staff_systemd_t nimbusdb_packet_t:packet recv;
+allow staff_systemd_t nimcontroller_packet_t:packet recv;
+allow staff_systemd_t nsfs_t:file getattr;
+allow staff_systemd_t ntpd_t:dir { open read search };
+allow staff_systemd_t ntpd_t:lnk_file read;
+allow staff_systemd_t nusdp_disc_packet_t:packet recv;
+allow staff_systemd_t pcscd_t:dir { open read search };
+allow staff_systemd_t pcscd_t:lnk_file read;
+allow staff_systemd_t pmcd_packet_t:packet recv;
+allow staff_systemd_t policykit_t:dir { open read search };
+allow staff_systemd_t policykit_t:lnk_file read;
+allow staff_systemd_t proc_psi_t:dir { open read };
+allow staff_systemd_t profinet_rt_packet_t:packet recv;
+allow staff_systemd_t psqlmws_packet_t:packet recv;
+allow staff_systemd_t restorecond_t:dir { open read search };
+allow staff_systemd_t restorecond_t:lnk_file read;
+allow staff_systemd_t samba_etc_t:dir search;
+allow staff_systemd_t samba_etc_t:file { getattr open read };
+allow staff_systemd_t samba_runtime_t:dir search;
+allow staff_systemd_t samba_var_t:dir { getattr search };
+allow staff_systemd_t self:capability { sys_admin sys_chroot };
+allow staff_systemd_t self:process signull;
+allow staff_systemd_t self:unix_stream_socket connectto;
+allow staff_systemd_t shaperai_disc_packet_t:packet recv;
+allow staff_systemd_t smbd_port_t:tcp_socket name_connect;
+allow staff_systemd_t snort_t:dir { open read search };
+allow staff_systemd_t snort_t:lnk_file read;
+allow staff_systemd_t ssh_home_t:dir { open read search };
+allow staff_systemd_t ssh_home_t:file { getattr open read };
+allow staff_systemd_t staff_sudo_t:dir { open read };
+allow staff_systemd_t staff_sudo_t:lnk_file read;
+allow staff_systemd_t staff_t:dir read;
+allow staff_systemd_t sysctl_irq_t:dir { open read search };
+allow staff_systemd_t sysctl_net_t:dir search;
+allow staff_systemd_t sysctl_net_t:file { getattr open read };
+allow staff_systemd_t sysctl_t:dir read;
+allow staff_systemd_t sysctl_t:netif egress;
+allow staff_systemd_t syslogd_t:dir { open read search };
+allow staff_systemd_t syslogd_t:lnk_file read;
+allow staff_systemd_t system_dbusd_t:dir { open read search };
+allow staff_systemd_t system_dbusd_t:lnk_file read;
+allow staff_systemd_t systemd_homed_t:dir { open read search };
+allow staff_systemd_t systemd_homed_t:lnk_file read;
+allow staff_systemd_t systemd_hostnamed_t:dir { open read search };
+allow staff_systemd_t systemd_hostnamed_t:lnk_file read;
+allow staff_systemd_t systemd_locale_t:dir { open read search };
+allow staff_systemd_t systemd_locale_t:lnk_file read;
+allow staff_systemd_t systemd_logind_t:dir { open read search };
+allow staff_systemd_t systemd_logind_t:lnk_file read;
+allow staff_systemd_t systemd_machined_t:dir { open read search };
+allow staff_systemd_t systemd_machined_t:lnk_file read;
+allow staff_systemd_t systemd_machined_t:unix_stream_socket connectto;
+allow staff_systemd_t systemd_user_runtime_t:dir watch;
+allow staff_systemd_t systemd_user_tmpfs_t:file execute;
+allow staff_systemd_t systemd_userdbd_t:dir { open read search };
+allow staff_systemd_t systemd_userdbd_t:lnk_file read;
+allow staff_systemd_t telegram_exec_t:file execute;
+allow staff_systemd_t telegram_t:fd use;
+allow staff_systemd_t telepathy_mission_control_exec_t:file { execute execute_no_trans map open read };
+allow staff_systemd_t telepathy_mission_control_xdg_data_t:dir search;
+allow staff_systemd_t telepathy_mission_control_xdg_data_t:file { getattr open read };
+allow staff_systemd_t telepathy_xdg_data_t:dir search;
+allow staff_systemd_t thunderbird_home_t:dir getattr;
+allow staff_systemd_t tmp_t:dir watch;
+allow staff_systemd_t traceroute_packet_t:packet recv;
+allow staff_systemd_t udev_t:dir { open read search };
+allow staff_systemd_t udev_t:lnk_file read;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_systemd_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_systemd_t unlabeled_t:packet recv;
+allow staff_systemd_t unlabeled_t:packet send;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_systemd_t unlabeled_t:peer recv;
+allow staff_systemd_t usb_device_t:chr_file { ioctl open read write };
+allow staff_systemd_t usbguard_t:dir { open read search };
+allow staff_systemd_t usbguard_t:lnk_file read;
+allow staff_systemd_t user_dbusd_t:dir { open read search };
+allow staff_systemd_t user_dbusd_t:lnk_file read;
+allow staff_systemd_t user_home_dir_t:file getattr;
+allow staff_systemd_t user_home_t:file write;
+allow staff_systemd_t user_systemd_t:dir { open read search };
+allow staff_systemd_t user_systemd_t:lnk_file read;
+allow staff_systemd_t user_t:dir { open read search };
+allow staff_systemd_t user_t:lnk_file read;
+allow staff_systemd_t user_tmpfs_t:dir { open read search };
+allow staff_systemd_t user_tmpfs_t:file { getattr map open read };
+allow staff_systemd_t usr_t:file execute;
+allow staff_systemd_t var_lib_t:file map;
+allow staff_systemd_t var_lib_t:lnk_file { getattr read };
+allow staff_systemd_t virtd_t:dir { open read search };
+allow staff_systemd_t virtd_t:lnk_file read;
+allow staff_systemd_t vmware_file_t:dir { getattr search };
+allow staff_systemd_t vmware_host_t:dir { open read search };
+allow staff_systemd_t vmware_host_t:lnk_file read;
+allow staff_systemd_t weandsf_packet_t:packet recv;
+allow staff_systemd_t winbind_helper_exec_t:file { execute execute_no_trans map open read };
+allow staff_systemd_t wm_tmp_t:dir search;
+allow staff_systemd_t wm_tmp_t:lnk_file read;
+allow staff_systemd_t wm_tmp_t:sock_file write;
+allow staff_systemd_t www_http_packet_t:packet send;
+allow staff_systemd_t xdg_config_t:file write;
+allow staff_systemd_t xdg_documents_private_t:dir search;
+allow staff_systemd_t xdg_documents_school_t:dir { getattr open read search write };
+allow staff_systemd_t xdg_documents_school_t:file { getattr open read write };
+allow staff_systemd_t xdg_documents_t:file { execute write };
+allow staff_systemd_t xdg_documents_work_t:dir { getattr open read search write };
+allow staff_systemd_t xdg_documents_work_t:file { execute getattr open read write };
+allow staff_systemd_t xdg_downloads_t:dir { ioctl search };
+allow staff_systemd_t xdg_downloads_t:file { getattr ioctl map open read write };
+allow staff_systemd_t xdg_music_t:dir search;
+allow staff_systemd_t xdg_music_t:file getattr;
+allow staff_systemd_t xdg_pictures_t:dir { ioctl search };
+allow staff_systemd_t xdg_pictures_t:file { getattr ioctl open read write };
+allow staff_systemd_t xdg_videos_t:dir { ioctl search };
+allow staff_systemd_t xdg_videos_t:file { getattr ioctl open read };
+allow staff_systemd_t xdm_t:dir { open read };
+allow staff_systemd_t xdm_t:lnk_file read;
+
+#============= staff_t ==============
+allow staff_t EtherNet_IP_2_packet_t:packet recv;
+allow staff_t ap_packet_t:packet recv;
+allow staff_t asihpi_packet_t:packet recv;
+allow staff_t asmp_packet_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain dir { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain dir { search } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain dir { write create setattr relabelfrom append unlink link rename mounton } ((l1 eq l2 -Fail-)  or (t1 == mlsfilewritetoclr -Fail-)  and (h1 dom l2 -Fail-)  and (l1 domby l2)  or (t2 == mlsfilewriteinrange -Fail-)  and (l1 dom l2 -Fail-)  and (h1 domby h2)  or (t1 == mlsfilewrite -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain dir { add_name remove_name reparent rmdir } ((l1 eq l2 -Fail-)  or (t1 == mlsfilewriteinrange -Fail-)  and (l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsfilewritetoclr -Fail-)  and (h1 dom l2 -Fail-)  and (l1 domby l2)  or (t1 == mlsfilewrite -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t auditd_etc_t:dir getattr;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain dir { search } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t auditd_log_t:dir search;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain file { write create setattr relabelfrom append unlink link rename mounton } ((l1 eq l2 -Fail-)  or (t1 == mlsfilewritetoclr -Fail-)  and (h1 dom l2 -Fail-)  and (l1 domby l2)  or (t2 == mlsfilewriteinrange -Fail-)  and (l1 dom l2 -Fail-)  and (h1 domby h2)  or (t1 == mlsfilewrite -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t auditd_log_t:file { getattr read };
+allow staff_t aurora_balaena_packet_t:packet recv;
+allow staff_t axio_disc_packet_t:packet recv;
+allow staff_t bin_t:dir remove_name;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t bin_t:file relabelto;
+allow staff_t blp5_packet_t:packet recv;
+allow staff_t boolean_t:file { open read };
+allow staff_t bpf_t:filesystem remount;
+allow staff_t caerpc_packet_t:packet recv;
+allow staff_t candrp_packet_t:packet recv;
+allow staff_t cgroup_t:filesystem remount;
+allow staff_t chromium_xdg_config_t:file execute;
+allow staff_t ciscocsdb_packet_t:packet recv;
+allow staff_t cloudcheck_ping_packet_t:packet recv;
+allow staff_t com_bardac_dw_packet_t:packet recv;
+allow staff_t configfs_t:filesystem remount;
+allow staff_t cresco_control_packet_t:packet recv;
+allow staff_t crescoctrl_disc_packet_t:packet recv;
+allow staff_t crestron_cip_packet_t:packet recv;
+allow staff_t device_t:dir mounton;
+allow staff_t device_t:filesystem { mount remount unmount };
+allow staff_t devpts_t:filesystem { mount remount unmount };
+allow staff_t dosfs_t:filesystem remount;
+allow staff_t efivarfs_t:filesystem { mount remount unmount };
+allow staff_t etc_runtime_t:file relabelfrom;
+allow staff_t etc_t:dir { add_name create remove_name setattr };
+allow staff_t etc_t:file { setattr unlink write };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t etc_t:file { create relabelto };
+allow staff_t etc_t:sock_file { create setattr };
+allow staff_t event_device_t:chr_file write;
+allow staff_t evolution_t:netlink_route_socket getattr;
+allow staff_t evolution_t:tcp_socket getattr;
+allow staff_t evolution_t:unix_dgram_socket getattr;
+allow staff_t evolution_t:unix_stream_socket getattr;
+allow staff_t fairview_packet_t:packet recv;
+allow staff_t filenet_rpc_packet_t:packet recv;
+allow staff_t fonts_t:dir mounton;
+allow staff_t fs_t:filesystem { remount unmount };
+allow staff_t fuse_device_t:chr_file { open read write };
+
+#!!!! This avc can be allowed using the boolean 'user_rw_noexattrfile'
+allow staff_t fusefs_t:dir { add_name create remove_name rmdir write };
+
+#!!!! This avc can be allowed using the boolean 'user_rw_noexattrfile'
+allow staff_t fusefs_t:file { create rename setattr unlink write };
+allow staff_t fusefs_t:filesystem { mount remount unmount };
+
+#!!!! This avc can be allowed using the boolean 'user_rw_noexattrfile'
+allow staff_t fusefs_t:lnk_file { create rename };
+allow staff_t gpg_agent_t:unix_stream_socket getattr;
+allow staff_t guttersnex_packet_t:packet recv;
+allow staff_t home_root_t:dir watch;
+allow staff_t hwdata_t:file { open read };
+allow staff_t idmgratm_packet_t:packet recv;
+allow staff_t init_t:process getsched;
+allow staff_t iqobject_packet_t:packet recv;
+allow staff_t isnetserv_packet_t:packet recv;
+allow staff_t italk_packet_t:packet { recv send };
+allow staff_t java_home_t:dir write;
+allow staff_t java_t:tcp_socket getattr;
+allow staff_t java_t:unix_stream_socket getattr;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t ld_so_cache_t:file relabelto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t ldconfig_cache_t:file relabelto;
+allow staff_t lib_t:dir { add_name create mounton relabelfrom relabelto setattr };
+allow staff_t lib_t:file { create execmod lock mounton relabelfrom setattr write };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t lib_t:file relabelto;
+allow staff_t lo_netif_t:netif egress;
+allow staff_t locale_t:dir watch;
+allow staff_t locale_t:file { mounton write };
+allow staff_t man_t:dir { add_name write };
+allow staff_t man_t:file { create relabelfrom relabelto setattr write };
+allow staff_t mdns_packet_t:packet { recv send };
+allow staff_t mediabox_packet_t:packet recv;
+allow staff_t mlsn_packet_t:packet recv;
+allow staff_t modules_dep_t:file { open read relabelto };
+allow staff_t modules_object_t:file { open read relabelfrom relabelto };
+allow staff_t mount_runtime_t:dir write;
+allow staff_t mouse_device_t:chr_file { read write };
+
+#!!!! This avc can be allowed using the boolean 'user_direct_mouse'
+allow staff_t mouse_device_t:chr_file { ioctl open };
+allow staff_t mtrace_packet_t:packet recv;
+allow staff_t nimcontroller_packet_t:packet recv;
+allow staff_t nimgtw_packet_t:packet recv;
+allow staff_t nimhub_packet_t:packet recv;
+allow staff_t nimspooler_packet_t:packet recv;
+allow staff_t nsfs_t:file getattr;
+allow staff_t nusdp_disc_packet_t:packet recv;
+allow staff_t oa_system_packet_t:packet send;
+allow staff_t pcscd_unit_t:file write;
+allow staff_t proc_psi_t:dir search;
+allow staff_t proc_psi_t:file { getattr open read };
+allow staff_t proc_t:filesystem { associate mount unmount };
+allow staff_t profinet_rt_packet_t:packet recv;
+allow staff_t pstore_t:filesystem remount;
+allow staff_t rbr_debug_packet_t:packet recv;
+allow staff_t reachout_packet_t:packet recv;
+allow staff_t recvr_rc_disc_packet_t:packet recv;
+allow staff_t root_t:dir mounton;
+allow staff_t rt_classmanager_packet_t:packet recv;
+allow staff_t rt_viewer_packet_t:packet recv;
+allow staff_t safetynetp_packet_t:packet recv;
+allow staff_t security_t:filesystem remount;
+allow staff_t security_t:security read_policy;
+allow staff_t self:bluetooth_socket getattr;
+allow staff_t self:cap_userns { net_admin setpcap setuid sys_admin };
+allow staff_t self:capability { kill setpcap sys_ptrace };
+allow staff_t self:process { execheap execstack };
+allow staff_t self:user_namespace create;
+allow staff_t shaperai_disc_packet_t:packet recv;
+allow staff_t snort_log_t:file { open read };
+allow staff_t speedtrace_packet_t:packet recv;
+allow staff_t spotify_t:process signull;
+allow staff_t sptx_packet_t:packet recv;
+allow staff_t sruth_packet_t:packet recv;
+allow staff_t ssh_home_t:dir { create rmdir setattr };
+allow staff_t sshd_unit_t:file write;
+allow staff_t ssr_servermgr_packet_t:packet recv;
+allow staff_t staff_dbusd_t:unix_dgram_socket getattr;
+allow staff_t staff_gkeyringd_t:unix_dgram_socket getattr;
+allow staff_t staff_gkeyringd_t:unix_stream_socket getattr;
+allow staff_t staff_ssh_agent_t:unix_stream_socket { read write };
+allow staff_t staff_systemd_t:netlink_kobject_uevent_socket getattr;
+allow staff_t staff_systemd_t:netlink_route_socket getattr;
+allow staff_t staff_systemd_t:tcp_socket getattr;
+allow staff_t staff_systemd_t:unix_dgram_socket getattr;
+allow staff_t staff_wm_t:netlink_kobject_uevent_socket getattr;
+allow staff_t staff_wm_t:netlink_route_socket { getattr read write };
+allow staff_t staff_wm_t:tcp_socket { getattr read write };
+allow staff_t staff_wm_t:udp_socket { getattr read write };
+allow staff_t staff_wm_t:unix_dgram_socket getattr;
+allow staff_t staff_wm_t:unix_stream_socket { append getattr };
+allow staff_t sysctl_t:file { open read };
+allow staff_t sysctl_t:netif egress;
+allow staff_t sysctl_vm_t:file { getattr open read };
+allow staff_t sysfs_t:dir mounton;
+allow staff_t sysfs_t:filesystem { mount remount unmount };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain file { relabelto } ((h1 dom h2 -Fail-)  or (t1 == mlsfilerelabeltoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfilerelabel -Fail-) ); Constraint DENIED
+mlsconstrain file { read getattr execute } ((l1 dom l2 -Fail-)  or (t1 == mlsfilereadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsfileread -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+mlsconstrain file { write create setattr relabelfrom append unlink link rename mounton } ((l1 eq l2 -Fail-)  or (t1 == mlsfilewritetoclr -Fail-)  and (h1 dom l2 -Fail-)  and (l1 domby l2)  or (t2 == mlsfilewriteinrange -Fail-)  and (l1 dom l2 -Fail-)  and (h1 domby h2)  or (t1 == mlsfilewrite -Fail-)  or (t2 == mlstrustedobject -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t systemd_journal_t:file read;
+allow staff_t systemd_networkd_unit_t:file write;
+allow staff_t systemd_unit_t:file write;
+allow staff_t systemd_unit_t:service { start status };
+allow staff_t systemd_user_runtime_t:dir mounton;
+allow staff_t systemd_user_tmpfs_t:file map;
+allow staff_t telegram_t:netlink_route_socket getattr;
+allow staff_t telegram_t:tcp_socket getattr;
+allow staff_t telegram_t:unix_stream_socket getattr;
+allow staff_t tmp_t:dir mounton;
+allow staff_t tmpfs_t:file { map read write };
+allow staff_t tmpfs_t:filesystem { mount remount unmount };
+allow staff_t tracefs_t:filesystem remount;
+allow staff_t unisys_eportal_packet_t:packet recv;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t unlabeled_t:packet recv;
+allow staff_t unlabeled_t:packet send;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_t unlabeled_t:peer recv;
+allow staff_t unlabeled_t:tcp_socket node_bind;
+allow staff_t unlabeled_t:udp_socket node_bind;
+
+#!!!! This avc can be allowed using the boolean 'usbguard_user_modify_rule_files'
+allow staff_t usbguard_t:unix_stream_socket connectto;
+allow staff_t usbguard_tmpfs_t:file { map open read write };
+allow staff_t user_home_dir_t:dir mounton;
+allow staff_t user_home_dir_t:file { open read write };
+allow staff_t user_home_t:dir mounton;
+allow staff_t user_tmp_t:dir mounton;
+allow staff_t user_tmp_t:file mounton;
+allow staff_t user_tmpfs_t:dir { mounton watch };
+allow staff_t user_tmpfs_t:file mounton;
+allow staff_t usr_t:dir { create mounton relabelfrom relabelto rmdir };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t usr_t:file relabelto;
+allow staff_t usr_t:lnk_file { create relabelfrom setattr unlink };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain lnk_file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t usr_t:lnk_file relabelto;
+allow staff_t v4l_device_t:chr_file map;
+allow staff_t var_lib_t:dir { create mounton rmdir write };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain dir { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t var_lib_t:dir relabelto;
+allow staff_t var_lib_t:file { append map rename write };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s0) are different.
+allow staff_t var_lib_t:file { relabelfrom relabelto };
+allow staff_t var_t:dir { add_name remove_name };
+allow staff_t var_t:file { append create relabelfrom relabelto rename setattr unlink write };
+allow staff_t wlcp_packet_t:packet recv;
+allow staff_t wm_tmp_t:file { open read };
+allow staff_t wm_tmp_t:lnk_file read;
+allow staff_t wm_tmp_t:sock_file write;
+allow staff_t xdg_cache_t:dir mounton;
+allow staff_t xdg_cache_t:file execute;
+allow staff_t xdg_config_t:dir mounton;
+allow staff_t xdg_config_t:file execute;
+allow staff_t xdg_data_t:dir mounton;
+allow staff_t xdg_data_t:file { execmod execute execute_no_trans mounton };
+allow staff_t xdg_documents_archive_t:dir watch;
+allow staff_t xdg_documents_archive_t:file execute;
+allow staff_t xdg_documents_school_t:dir watch;
+allow staff_t xdg_documents_t:file execute;
+allow staff_t xdg_documents_work_t:dir watch;
+allow staff_t xdg_documents_work_t:file { execute execute_no_trans relabelfrom relabelto };
+allow staff_t xdg_downloads_t:file { execute execute_no_trans };
+allow staff_t xdm_t:unix_stream_socket getattr;
+allow staff_t xdm_tmp_t:dir mounton;
+allow staff_t zoom_home_t:file { append read write };
+allow staff_t zoom_log_t:file { append getattr ioctl read };
+
+#============= staff_wm_t ==============
+allow staff_wm_t EtherNet_IP_2_packet_t:packet recv;
+allow staff_wm_t agpolicy_packet_t:packet recv;
+allow staff_wm_t allpeers_packet_t:packet recv;
+allow staff_wm_t altova_lm_disc_packet_t:packet recv;
+allow staff_wm_t amahi_anywhere_packet_t:packet send;
+allow staff_wm_t ap_packet_t:packet recv;
+allow staff_wm_t asihpi_packet_t:packet recv;
+allow staff_wm_t asmp_mon_packet_t:packet recv;
+allow staff_wm_t asmp_packet_t:packet recv;
+allow staff_wm_t aurora_balaena_packet_t:packet recv;
+allow staff_wm_t axio_disc_packet_t:packet recv;
+allow staff_wm_t bacnet_packet_t:packet recv;
+allow staff_wm_t blp5_packet_t:packet recv;
+allow staff_wm_t boolean_t:file { open read };
+allow staff_wm_t caerpc_packet_t:packet recv;
+allow staff_wm_t candp_packet_t:packet recv;
+allow staff_wm_t candrp_packet_t:packet recv;
+allow staff_wm_t chromium_xdg_config_t:dir { add_name create getattr open read remove_name rename reparent rmdir search write };
+allow staff_wm_t chromium_xdg_config_t:file { append create execute getattr ioctl lock map open read rename unlink write };
+allow staff_wm_t chromium_xdg_config_t:lnk_file { create read unlink };
+allow staff_wm_t ciscocsdb_packet_t:packet recv;
+allow staff_wm_t cloudcheck_packet_t:packet recv;
+allow staff_wm_t cloudcheck_ping_packet_t:packet recv;
+allow staff_wm_t cognex_dataman_packet_t:packet recv;
+allow staff_wm_t com_bardac_dw_packet_t:packet recv;
+allow staff_wm_t copy_disc_packet_t:packet send;
+allow staff_wm_t cresco_control_packet_t:packet recv;
+allow staff_wm_t crescoctrl_disc_packet_t:packet recv;
+allow staff_wm_t crestron_cip_packet_t:packet recv;
+allow staff_wm_t crestron_ctp_packet_t:packet recv;
+allow staff_wm_t csccfirewall_packet_t:packet recv;
+allow staff_wm_t csccredir_packet_t:packet recv;
+allow staff_wm_t cscp_packet_t:packet recv;
+allow staff_wm_t cypress_stat_packet_t:packet send;
+allow staff_wm_t dai_shell_packet_t:packet recv;
+allow staff_wm_t dbbrowse_packet_t:packet recv;
+allow staff_wm_t device_t:dir watch;
+allow staff_wm_t diamondport_packet_t:packet recv;
+allow staff_wm_t digilent_adept_packet_t:packet recv;
+allow staff_wm_t directplaysrvr_packet_t:packet recv;
+allow staff_wm_t domiq_packet_t:packet recv;
+allow staff_wm_t eba_packet_t:packet recv;
+allow staff_wm_t edi_service_packet_t:packet recv;
+allow staff_wm_t eq3_config_packet_t:packet recv;
+allow staff_wm_t etc_t:file map;
+allow staff_wm_t ethercat_packet_t:packet recv;
+allow staff_wm_t evolution_t:fd use;
+allow staff_wm_t evolution_t:fifo_file write;
+allow staff_wm_t evolution_tmpfs_t:file { getattr map read write };
+allow staff_wm_t ew_disc_cmd_packet_t:packet recv;
+allow staff_wm_t ew_mgmt_packet_t:packet recv;
+allow staff_wm_t fairview_packet_t:packet recv;
+allow staff_wm_t febooti_aw_packet_t:packet recv;
+allow staff_wm_t filenet_cm_packet_t:packet recv;
+allow staff_wm_t filenet_nch_packet_t:packet recv;
+allow staff_wm_t filenet_obrok_packet_t:packet recv;
+allow staff_wm_t filenet_pa_packet_t:packet recv;
+allow staff_wm_t filenet_peior_packet_t:packet recv;
+allow staff_wm_t filenet_re_packet_t:packet recv;
+allow staff_wm_t filenet_rmi_packet_t:packet recv;
+allow staff_wm_t filenet_rpc_packet_t:packet recv;
+allow staff_wm_t filenet_tms_packet_t:packet recv;
+allow staff_wm_t fs_qos_packet_t:packet recv;
+allow staff_wm_t galaxy7_data_packet_t:packet recv;
+allow staff_wm_t guttersnex_packet_t:packet recv;
+allow staff_wm_t heathview_packet_t:packet recv;
+allow staff_wm_t hmip_routing_packet_t:packet recv;
+allow staff_wm_t hpvroom_packet_t:packet send;
+allow staff_wm_t http_alt_packet_t:packet send;
+allow staff_wm_t https_packet_t:packet send;
+allow staff_wm_t hwdata_t:dir search;
+allow staff_wm_t hwdata_t:file { getattr open read };
+allow staff_wm_t idmgratm_packet_t:packet recv;
+allow staff_wm_t inedo_packet_t:packet recv;
+allow staff_wm_t inspider_packet_t:packet recv;
+allow staff_wm_t invision_ag_packet_t:packet recv;
+allow staff_wm_t ip_provision_packet_t:packet recv;
+allow staff_wm_t iqobject_packet_t:packet recv;
+allow staff_wm_t isnetserv_packet_t:packet recv;
+allow staff_wm_t juka_packet_t:packet recv;
+allow staff_wm_t jvl_mactalk_packet_t:packet recv;
+allow staff_wm_t k_patentssensor_packet_t:packet recv;
+allow staff_wm_t kernel_t:dir search;
+allow staff_wm_t kernel_t:lnk_file read;
+allow staff_wm_t kernel_t:system ipc_info;
+allow staff_wm_t kitim_packet_t:packet recv;
+allow staff_wm_t locale_t:dir watch;
+allow staff_wm_t lvision_lm_packet_t:packet send;
+allow staff_wm_t m3da_disc_packet_t:packet recv;
+allow staff_wm_t mapx_packet_t:packet recv;
+allow staff_wm_t matahari_packet_t:packet recv;
+allow staff_wm_t mdns_packet_t:packet { recv send };
+allow staff_wm_t mediabox_packet_t:packet recv;
+allow staff_wm_t mlsn_packet_t:packet recv;
+allow staff_wm_t mtrace_packet_t:packet recv;
+allow staff_wm_t mysqlx_packet_t:packet recv;
+allow staff_wm_t ndm_agent_port_packet_t:packet recv;
+allow staff_wm_t neckar_packet_t:packet recv;
+allow staff_wm_t nimbusdb_packet_t:packet recv;
+allow staff_wm_t nimcontroller_packet_t:packet recv;
+allow staff_wm_t nimgtw_packet_t:packet recv;
+allow staff_wm_t nimhub_packet_t:packet recv;
+allow staff_wm_t nimspooler_packet_t:packet recv;
+allow staff_wm_t node_t:tcp_socket name_connect;
+allow staff_wm_t nusdp_disc_packet_t:packet recv;
+allow staff_wm_t nvme_disc_packet_t:packet send;
+allow staff_wm_t observium_agent_packet_t:packet recv;
+allow staff_wm_t ortec_disc_packet_t:packet recv;
+allow staff_wm_t p_net_local_packet_t:packet recv;
+allow staff_wm_t p_net_remote_packet_t:packet recv;
+allow staff_wm_t pcsync_https_packet_t:packet send;
+allow staff_wm_t pmcd_packet_t:packet recv;
+allow staff_wm_t pmcdproxy_packet_t:packet recv;
+allow staff_wm_t proc_psi_t:dir search;
+allow staff_wm_t proc_psi_t:file { getattr open read };
+allow staff_wm_t profinet_cm_packet_t:packet recv;
+allow staff_wm_t profinet_rt_packet_t:packet recv;
+allow staff_wm_t profinet_rtm_packet_t:packet recv;
+allow staff_wm_t psqlmws_packet_t:packet recv;
+allow staff_wm_t qdb2service_packet_t:packet recv;
+allow staff_wm_t rbr_debug_packet_t:packet recv;
+allow staff_wm_t reachout_packet_t:packet recv;
+allow staff_wm_t recvr_rc_disc_packet_t:packet recv;
+allow staff_wm_t recvr_rc_packet_t:packet recv;
+allow staff_wm_t robotraconteur_packet_t:packet recv;
+allow staff_wm_t root_t:dir watch;
+allow staff_wm_t rs_status_packet_t:packet recv;
+allow staff_wm_t rt_classmanager_packet_t:packet recv;
+allow staff_wm_t rt_helper_packet_t:packet recv;
+allow staff_wm_t rt_sound_packet_t:packet recv;
+allow staff_wm_t rt_viewer_packet_t:packet recv;
+allow staff_wm_t safetynetp_packet_t:packet recv;
+allow staff_wm_t self:capability { dac_override sys_chroot };
+allow staff_wm_t self:process { execheap getcap };
+allow staff_wm_t shaperai_disc_packet_t:packet recv;
+allow staff_wm_t shaperai_packet_t:packet recv;
+allow staff_wm_t snip_slave_packet_t:packet recv;
+allow staff_wm_t speedtrace_packet_t:packet recv;
+allow staff_wm_t ssdp_packet_t:packet send;
+allow staff_wm_t ssr_servermgr_packet_t:packet recv;
+allow staff_wm_t staff_t:process2 nnp_transition;
+allow staff_wm_t stone_design_1_packet_t:packet send;
+allow staff_wm_t stun_behavior_packet_t:packet send;
+allow staff_wm_t sysctl_kernel_t:file { getattr lock };
+allow staff_wm_t sysctl_t:netif egress;
+allow staff_wm_t sysctl_vm_overcommit_t:file { open read };
+allow staff_wm_t sysctl_vm_t:dir search;
+allow staff_wm_t systemd_machined_t:unix_stream_socket connectto;
+allow staff_wm_t telegram_t:dir search;
+allow staff_wm_t telegram_t:fd use;
+allow staff_wm_t telegram_t:fifo_file write;
+allow staff_wm_t telegram_t:file { getattr ioctl open read };
+allow staff_wm_t telegram_t:lnk_file read;
+allow staff_wm_t telegram_t:process getattr;
+allow staff_wm_t tmp_t:dir watch;
+allow staff_wm_t traceroute_packet_t:packet recv;
+allow staff_wm_t turbonote_1_packet_t:packet recv;
+allow staff_wm_t turbonote_2_packet_t:packet recv;
+allow staff_wm_t unisys_eportal_packet_t:packet recv;
+allow staff_wm_t unlabeled_t:dir { getattr open read };
+allow staff_wm_t unlabeled_t:file { append execute_no_trans rename };
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain node { sendto } ((l1 dom l2 -Fail-)  and (l1 domby h2)  or (t1 == mlsnetoutbound -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_wm_t unlabeled_t:node sendto;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain packet { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_wm_t unlabeled_t:packet recv;
+allow staff_wm_t unlabeled_t:packet send;
+
+#!!!! This avc is a constraint violation.  You would need to modify the attributes of either the source or target types to allow this access.
+#Constraint rule: 
+#	mlsconstrain peer { recv } ((l1 dom l2 -Fail-)  or (t1 == mlsnetreadtoclr -Fail-)  and (h1 dom l2 -Fail-)  or (t1 == mlsnetread -Fail-) ); Constraint DENIED
+
+#	Possible cause is the source user (staff_u) and target user (system_u) are different.
+#	Possible cause is the source level (s0-s14:c0.c1023) and target level (s15:c0.c1023) are different.
+allow staff_wm_t unlabeled_t:peer recv;
+allow staff_wm_t unlabeled_t:udp_socket node_bind;
+allow staff_wm_t usb_device_t:chr_file { ioctl open read write };
+allow staff_wm_t user_cert_t:dir { getattr search };
+allow staff_wm_t user_cert_t:file { getattr lock open read write };
+allow staff_wm_t user_home_t:fifo_file { open read write };
+allow staff_wm_t user_runtime_t:sock_file write;
+allow staff_wm_t v4l_device_t:chr_file { getattr ioctl map open read write };
+allow staff_wm_t var_lib_t:file map;
+allow staff_wm_t weandsf_packet_t:packet recv;
+allow staff_wm_t wg_endpt_comms_packet_t:packet recv;
+allow staff_wm_t wlcp_packet_t:packet recv;
+allow staff_wm_t wm_tmp_t:sock_file { create getattr unlink write };
+allow staff_wm_t wm_tmpfs_t:file execmod;
+allow staff_wm_t www_http_packet_t:packet send;
+allow staff_wm_t xdg_config_t:file { link lock setattr watch };
+allow staff_wm_t xdg_data_t:dir { create rmdir };
+allow staff_wm_t xdg_documents_school_t:dir search;
+allow staff_wm_t xdg_documents_t:dir search;
+allow staff_wm_t xdg_documents_work_t:dir search;
+allow staff_wm_t xdg_documents_work_t:file { getattr open read };
+allow staff_wm_t xdg_downloads_t:dir { add_name getattr remove_name search write };
+allow staff_wm_t xdg_downloads_t:file { create getattr open read rename setattr unlink write };
+allow staff_wm_t xdg_pictures_t:dir { add_name search write };
+allow staff_wm_t xdg_pictures_t:file { create getattr open write };
+allow staff_wm_t xdg_videos_t:dir { add_name getattr remove_name search write };
+allow staff_wm_t xdg_videos_t:file { create getattr open unlink write };
+allow staff_wm_t z_wave_s_packet_t:packet recv;
+allow staff_wm_t zoom_home_t:file { append execute getattr lock map open read setattr unlink write };
+allow staff_wm_t zoom_log_t:file { append getattr open read };
+
+#============= system_dbusd_t ==============
+allow system_dbusd_t bluetooth_unit_t:service status;
+allow system_dbusd_t power_unit_t:service status;
+allow system_dbusd_t rtkit_daemon_unit_t:service status;
+
+#============= systemd_coredump_t ==============
+allow systemd_coredump_t user_tmpfs_t:dir getattr;
+
+#============= systemd_logind_t ==============
+allow systemd_logind_t self:cap_userns sys_ptrace;
+
+#============= systemd_machined_t ==============
+allow systemd_machined_t cgroup_t:file write;
+allow systemd_machined_t selinux_config_t:lnk_file read;
+
+#============= systemd_tmpfiles_t ==============
+allow systemd_tmpfiles_t auditd_etc_t:dir search;
+allow systemd_tmpfiles_t auditd_etc_t:file getattr;
+allow systemd_tmpfiles_t systemd_machined_t:unix_stream_socket connectto;
+
+#============= systemd_user_runtime_dir_t ==============
+allow systemd_user_runtime_dir_t systemd_machined_t:unix_stream_socket connectto;
+allow systemd_user_runtime_dir_t user_tmp_t:lnk_file unlink;
+
+#============= telegram_t ==============
+allow telegram_t EtherNet_IP_2_packet_t:packet recv;
+allow telegram_t agpolicy_packet_t:packet recv;
+allow telegram_t allpeers_packet_t:packet recv;
+allow telegram_t altova_lm_disc_packet_t:packet recv;
+allow telegram_t asihpi_packet_t:packet recv;
+allow telegram_t asmp_mon_packet_t:packet recv;
+allow telegram_t asmp_packet_t:packet recv;
+allow telegram_t axio_disc_packet_t:packet recv;
+allow telegram_t bacnet_packet_t:packet recv;
+allow telegram_t bin_t:file { execute execute_no_trans getattr map open read };
+allow telegram_t cadkey_tablet_packet_t:packet send;
+allow telegram_t caerpc_packet_t:packet recv;
+allow telegram_t candp_packet_t:packet recv;
+allow telegram_t cert_t:dir { getattr open read search };
+allow telegram_t cert_t:file { getattr open read };
+allow telegram_t cert_t:lnk_file read;
+allow telegram_t cloudcheck_packet_t:packet recv;
+allow telegram_t cognex_dataman_packet_t:packet recv;
+allow telegram_t com_bardac_dw_packet_t:packet recv;
+allow telegram_t cresco_control_packet_t:packet recv;
+allow telegram_t crestron_cip_packet_t:packet recv;
+allow telegram_t crestron_cips_packet_t:packet recv;
+allow telegram_t crestron_ctp_packet_t:packet recv;
+allow telegram_t csccredir_packet_t:packet recv;
+allow telegram_t cscp_packet_t:packet recv;
+allow telegram_t dai_shell_packet_t:packet recv;
+allow telegram_t dbbrowse_packet_t:packet recv;
+allow telegram_t diamondport_packet_t:packet recv;
+allow telegram_t digilent_adept_packet_t:packet recv;
+allow telegram_t directplaysrvr_packet_t:packet recv;
+allow telegram_t domain_packet_t:packet send;
+allow telegram_t dri_device_t:chr_file { getattr ioctl map open read write };
+allow telegram_t eba_packet_t:packet recv;
+allow telegram_t edi_service_packet_t:packet recv;
+allow telegram_t eq3_config_packet_t:packet recv;
+allow telegram_t etc_runtime_t:file { getattr open read };
+allow telegram_t etc_t:file { getattr open read };
+allow telegram_t etc_t:lnk_file read;
+allow telegram_t ethercat_packet_t:packet recv;
+allow telegram_t ew_disc_cmd_packet_t:packet recv;
+allow telegram_t ew_mgmt_packet_t:packet recv;
+allow telegram_t fairview_packet_t:packet recv;
+allow telegram_t filenet_cm_packet_t:packet recv;
+allow telegram_t filenet_nch_packet_t:packet recv;
+allow telegram_t filenet_pch_packet_t:packet recv;
+allow telegram_t filenet_peior_packet_t:packet recv;
+allow telegram_t filenet_rmi_packet_t:packet recv;
+allow telegram_t filenet_tms_packet_t:packet recv;
+allow telegram_t fonts_cache_t:dir search;
+allow telegram_t fonts_cache_t:file { getattr map open read };
+allow telegram_t fonts_t:dir { getattr open read search };
+allow telegram_t fonts_t:file { getattr map open read };
+allow telegram_t fs_qos_packet_t:packet recv;
+allow telegram_t fs_t:filesystem getattr;
+allow telegram_t gnome_xdg_config_t:dir search;
+allow telegram_t gnome_xdg_config_t:file { getattr map open read };
+allow telegram_t guttersnex_packet_t:packet recv;
+allow telegram_t heathview_packet_t:packet recv;
+allow telegram_t home_root_t:dir search;
+allow telegram_t http_port_t:tcp_socket name_connect;
+allow telegram_t https_packet_t:packet send;
+allow telegram_t idmgratm_packet_t:packet recv;
+allow telegram_t inedo_packet_t:packet recv;
+allow telegram_t init_runtime_t:dir search;
+allow telegram_t inspider_packet_t:packet recv;
+allow telegram_t invision_ag_packet_t:packet recv;
+allow telegram_t ip_provision_packet_t:packet recv;
+allow telegram_t iqobject_packet_t:packet recv;
+allow telegram_t isnetserv_packet_t:packet recv;
+allow telegram_t ivs_database_packet_t:packet recv;
+allow telegram_t juka_packet_t:packet recv;
+allow telegram_t kastenxpipe_packet_t:packet recv;
+allow telegram_t kernel_t:unix_stream_socket connectto;
+allow telegram_t kitim_packet_t:packet recv;
+allow telegram_t lo_netif_t:netif egress;
+allow telegram_t locale_t:dir search;
+allow telegram_t locale_t:file { getattr map open read };
+allow telegram_t m3da_packet_t:packet recv;
+allow telegram_t mapx_packet_t:packet recv;
+allow telegram_t matahari_packet_t:packet recv;
+allow telegram_t mbus_packet_t:packet recv;
+allow telegram_t mediabox_packet_t:packet recv;
+allow telegram_t mesa_shader_cache_t:dir { getattr search };
+allow telegram_t mesa_shader_cache_t:file { getattr map open read write };
+allow telegram_t mtrace_packet_t:packet recv;
+allow telegram_t mysqlx_packet_t:packet recv;
+allow telegram_t net_conf_t:file { getattr open read };
+allow telegram_t nimhub_packet_t:packet recv;
+allow telegram_t ortec_disc_packet_t:packet recv;
+allow telegram_t p_net_local_packet_t:packet recv;
+allow telegram_t pmcd_packet_t:packet recv;
+allow telegram_t pmcdproxy_packet_t:packet recv;
+allow telegram_t proc_t:file { getattr open read };
+allow telegram_t profinet_cm_packet_t:packet recv;
+allow telegram_t profinet_rt_packet_t:packet recv;
+allow telegram_t profinet_rtm_packet_t:packet recv;
+allow telegram_t psqlmws_packet_t:packet recv;
+allow telegram_t ptcnameservice_packet_t:packet send;
+allow telegram_t pulseaudio_tmp_t:dir { getattr open read search };
+allow telegram_t pulseaudio_tmp_t:sock_file write;
+allow telegram_t pulseaudio_xdg_config_t:dir search;
+allow telegram_t pulseaudio_xdg_config_t:file { lock open read };
+allow telegram_t qdb2service_packet_t:packet recv;
+allow telegram_t qip_msgd_packet_t:packet send;
+allow telegram_t reachout_packet_t:packet recv;
+allow telegram_t rs_status_packet_t:packet recv;
+allow telegram_t rt_classmanager_packet_t:packet recv;
+allow telegram_t rt_helper_packet_t:packet recv;
+allow telegram_t rt_sound_packet_t:packet recv;
+allow telegram_t safetynetp_packet_t:packet recv;
+allow telegram_t sco_websrvrmg3_packet_t:packet send;
+allow telegram_t self:process execmem;
+allow telegram_t self:tcp_socket { bind listen };
+allow telegram_t self:udp_socket { bind connect create getattr ioctl read setopt write };
+allow telegram_t self:unix_dgram_socket ioctl;
+allow telegram_t self:unix_stream_socket connectto;
+allow telegram_t selinux_config_t:lnk_file read;
+allow telegram_t session_dbusd_runtime_t:sock_file write;
+allow telegram_t shaperai_disc_packet_t:packet recv;
+allow telegram_t shaperai_packet_t:packet recv;
+allow telegram_t snip_slave_packet_t:packet recv;
+allow telegram_t speedtrace_disc_packet_t:packet recv;
+allow telegram_t speedtrace_packet_t:packet recv;
+allow telegram_t spremotetablet_packet_t:packet recv;
+allow telegram_t sptx_packet_t:packet recv;
+allow telegram_t sruth_packet_t:packet recv;
+allow telegram_t ssr_servermgr_packet_t:packet recv;
+allow telegram_t staff_dbusd_t:unix_stream_socket connectto;
+allow telegram_t staff_systemd_t:unix_stream_socket connectto;
+allow telegram_t staff_t:process signull;
+allow telegram_t staff_t:unix_stream_socket connectto;
+allow telegram_t staff_wm_t:unix_stream_socket { connectto getattr ioctl read write };
+allow telegram_t sysctl_kernel_t:dir search;
+allow telegram_t sysctl_kernel_t:file { open read };
+allow telegram_t sysctl_t:netif egress;
+allow telegram_t sysctl_vm_t:dir search;
+allow telegram_t sysctl_vm_t:file { getattr open read };
+allow telegram_t sysfs_t:dir read;
+allow telegram_t sysfs_t:file { getattr open read };
+allow telegram_t sysfs_t:lnk_file read;
+allow telegram_t syslogd_runtime_t:dir search;
+allow telegram_t system_dbusd_runtime_t:dir search;
+allow telegram_t system_dbusd_runtime_t:sock_file write;
+allow telegram_t system_dbusd_t:unix_stream_socket connectto;
+allow telegram_t system_dbusd_var_lib_t:dir search;
+allow telegram_t system_dbusd_var_lib_t:lnk_file read;
+allow telegram_t systemd_homed_runtime_t:sock_file write;
+allow telegram_t systemd_homed_t:unix_stream_socket connectto;
+allow telegram_t systemd_machined_runtime_t:dir search;
+allow telegram_t systemd_machined_t:unix_stream_socket connectto;
+allow telegram_t systemd_user_runtime_t:dir search;
+allow telegram_t systemd_user_runtime_t:sock_file write;
+allow telegram_t systemd_userdbd_runtime_t:dir { getattr open read search };
+allow telegram_t systemd_userdbd_runtime_t:lnk_file read;
+allow telegram_t systemd_userdbd_runtime_t:sock_file write;
+allow telegram_t systemd_userdbd_t:unix_stream_socket connectto;
+allow telegram_t tmp_t:dir { add_name remove_name write };
+allow telegram_t tmp_t:file { create getattr lock open read unlink write };
+allow telegram_t tmpfs_t:dir { getattr open read search };
+allow telegram_t tmpfs_t:file { getattr map read write };
+allow telegram_t traceroute_packet_t:packet recv;
+allow telegram_t turbonote_2_packet_t:packet recv;
+allow telegram_t unisys_eportal_packet_t:packet recv;
+allow telegram_t unlabeled_t:file { getattr open read unlink };
+allow telegram_t unlabeled_t:node sendto;
+allow telegram_t unlabeled_t:packet { recv send };
+allow telegram_t unlabeled_t:peer recv;
+allow telegram_t unlabeled_t:tcp_socket node_bind;
+allow telegram_t unlabeled_t:udp_socket node_bind;
+allow telegram_t unreserved_port_t:tcp_socket name_connect;
+allow telegram_t user_fonts_cache_t:dir search;
+allow telegram_t user_fonts_cache_t:file { getattr map open read };
+allow telegram_t user_fonts_config_t:file { getattr open read };
+allow telegram_t user_home_dir_t:dir { getattr search };
+allow telegram_t user_home_t:dir { getattr open read search };
+allow telegram_t user_home_t:file { getattr map open read };
+allow telegram_t user_home_t:lnk_file read;
+allow telegram_t user_runtime_root_t:dir search;
+allow telegram_t user_runtime_t:dir { getattr search };
+allow telegram_t user_runtime_t:file { getattr open read };
+allow telegram_t user_tmp_t:dir { getattr search };
+allow telegram_t user_tmp_t:file { map open read write };
+allow telegram_t user_tmp_t:sock_file write;
+allow telegram_t user_tmpfs_t:file { getattr map read write };
+allow telegram_t usr_t:dir read;
+allow telegram_t usr_t:file { getattr map open read };
+allow telegram_t usr_t:lnk_file read;
+allow telegram_t v4l_device_t:chr_file { ioctl map open read write };
+allow telegram_t var_lib_t:dir { getattr search };
+allow telegram_t var_lib_t:file { getattr map open read };
+allow telegram_t weandsf_packet_t:packet recv;
+allow telegram_t wlcp_packet_t:packet recv;
+allow telegram_t wm_tmpfs_t:file { map read write };
+allow telegram_t www_http_packet_t:packet send;
+allow telegram_t xdg_cache_t:dir { getattr search write };
+allow telegram_t xdg_cache_t:file { map open read };
+allow telegram_t xdg_cache_t:sock_file write;
+allow telegram_t xdg_config_t:dir search;
+allow telegram_t xdg_config_t:file { getattr open read watch };
+allow telegram_t xdg_data_t:dir { add_name create getattr open read remove_name search setattr write };
+allow telegram_t xdg_data_t:file { append create getattr ioctl link lock map open read rename setattr unlink write };
+allow telegram_t xdg_data_t:lnk_file read;
+allow telegram_t xdg_documents_school_t:dir search;
+allow telegram_t xdg_documents_school_t:file { getattr read };
+allow telegram_t xdg_documents_t:dir search;
+allow telegram_t xdg_documents_work_t:dir search;
+allow telegram_t xdg_documents_work_t:file { getattr read };
+allow telegram_t xdg_downloads_t:dir { add_name search write };
+allow telegram_t xdg_downloads_t:file { create getattr open read write };
+allow telegram_t xdg_music_t:dir search;
+allow telegram_t xdg_music_t:file { getattr read };
+allow telegram_t xdg_pictures_t:dir search;
+allow telegram_t xdg_pictures_t:file { getattr open read };
+allow telegram_t xkb_var_lib_t:dir { getattr read search };
+allow telegram_t xkb_var_lib_t:file { getattr map open read };
+allow telegram_t z_wave_s_packet_t:packet recv;
+allow telegram_t zero_device_t:chr_file { execute map };
+
+#============= udev_t ==============
+allow udev_t var_run_t:file { append rename setattr unlink };
+
+#============= usbguard_t ==============
+allow usbguard_t systemd_machined_t:unix_stream_socket connectto;
+
+#============= vmware_host_t ==============
+allow vmware_host_t unlabeled_t:packet recv;
+allow vmware_host_t unlabeled_t:peer recv;
+allow vmware_host_t unlabeled_t:rawip_socket node_bind;
+
+#============= xdm_t ==============
+allow xdm_t unlabeled_t:node sendto;
